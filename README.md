@@ -1,0 +1,65 @@
+# Interactive t-SNE
+
+Code used to generate interactive t-SNE plots using RNA-Seq counts data.
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+To get started, you'll want to have Python 3 and R 3.6.1.
+
+```
+conda create -n itsne -c conda-forge r-base=3.6.1 python=3.7 -y
+conda activate itsne
+```
+
+### Installing
+
+First, the author recommends you run the following command line script to ensure all R
+packages are loaded before your first run:
+
+```bash
+Rscript scripts/itsne-normalize-matrix.R
+```
+
+From here, you can install the python package:
+
+```bash
+python3 setup.py install
+```
+
+Download the relevant gene model:
+
+```bash
+curl ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gtf.gz | gunzip -c | sort -k1,1 -k4,4n -k5,5n | bgzip > gencode.v32.annotation.gtf.gz
+tabix -p gff gencode.v32.annotation.gtf.gz
+```
+
+And try out the script:
+
+```bash
+itsne-main counts/* \
+           -b reference/gene.blacklist.tsv \
+           -c reference/covariates.tsv \
+           -g gencode.v32.annotation.gtf.gz \
+           -o tsne.html
+```
+
+## Running the tests
+
+No tests currently exist. If and when tests are added, the authors will fill in this section.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
