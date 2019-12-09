@@ -1,0 +1,6 @@
+h5py==2.10.0
+logzero==1.5.0
+numpy==1.17.3
+pandas==0.25.3
+tables==3.6.1
+yapf==0.29.0
