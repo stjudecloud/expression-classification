@@ -1,19 +1,23 @@
 import gzip
 import re
 
+
 class GFF:
-  def __init__(self, filename, feature_type=None, filters=None, gene_blacklist=None):
+
+  def __init__(self,
+               filename,
+               feature_type=None,
+               filters=None,
+               gene_blacklist=None):
     self.gene_blacklist = None
     if gene_blacklist:
-      self.gene_blacklist = set([item.strip() for item in open(gene_blacklist, 'r').readlines()])
+      self.gene_blacklist = set(
+          [item.strip() for item in open(gene_blacklist, 'r').readlines()])
     self._handle = gzip.open(filename, "r")
     self.feature_type = feature_type
     self.filters = filters
     self.entries = []
-    self.attr_regexes = [
-      r"(\S+)=(\S+)",
-      r"(\S+) \"(\S+)\""
-    ]
+    self.attr_regexes = [r"(\S+)=(\S+)", r"(\S+) \"(\S+)\""]
 
     while True:
       line = self._handle.readline().decode("utf-8")
@@ -23,10 +27,8 @@ class GFF:
       if line.startswith("#"):
         continue
 
-      [
-          seqname, source, feature, start, end, score, strand, frame,
-          attribute
-      ] = line.split("\t")
+      [seqname, source, feature, start, end, score, strand, frame,
+       attribute] = line.split("\t")
 
       if self.feature_type and feature != self.feature_type:
         continue
@@ -42,14 +44,14 @@ class GFF:
         continue
 
       result = {
-        "seqname": seqname,
-        "source": source,
-        "feature": feature,
-        "start": int(start),
-        "end": int(end),
-        "score": score,
-        "strand": strand,
-        "frame": frame
+          "seqname": seqname,
+          "source": source,
+          "feature": feature,
+          "start": int(start),
+          "end": int(end),
+          "score": score,
+          "strand": strand,
+          "frame": frame
       }
 
       for attr_raw in [s.strip() for s in attribute.split(";")]:

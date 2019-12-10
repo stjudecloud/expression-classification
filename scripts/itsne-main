@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
-import glob
 import logging
 import logzero
 import numpy as np
-import os
 import pandas as pd
 import tempfile
 import time
-import sys
 
-from collections import defaultdict
 from logzero import logger
 from itsne.countfile import CountFile
 from itsne.covariates import CovariatesFile
@@ -20,95 +16,106 @@ from itsne.utils import sh
 
 NUMBER_OF_COUNT_FILES_READ = 0
 
+
 def get_args():
-    parser = argparse.ArgumentParser(description="Prepare a gene matrix")
-    parser.add_argument("counts", nargs="+")
-    parser.add_argument("-b", "--gene-blacklist", type=str, default=None)
-    parser.add_argument("-c", "--covariates-file", type=str, required=True)
-    parser.add_argument("-d", "--debug", default=False, action="store_true") 
-    parser.add_argument("--debug-rscript", default=False, action="store_true") 
-    parser.add_argument("-g", "--gene-model", type=str, required=True)
-    parser.add_argument("--gene-type-key", type=str, default="attr_gene_type") 
-    parser.add_argument("-o", "--out-filename", type=str, required=True)
-    parser.add_argument("--protein-coding-value", type=str, default="protein_coding") 
-    
-    args = parser.parse_args()
-    if args.debug_rscript:
-        args.debug = True
+  parser = argparse.ArgumentParser(description="Prepare a gene matrix")
+  parser.add_argument("counts", nargs="+")
+  parser.add_argument("-b", "--gene-blacklist", type=str, default=None)
+  parser.add_argument("-c", "--covariates-file", type=str, required=True)
+  parser.add_argument("-d", "--debug", default=False, action="store_true")
+  parser.add_argument("--debug-rscript", default=False, action="store_true")
+  parser.add_argument("-g", "--gene-model", type=str, required=True)
+  parser.add_argument("--gene-type-key", type=str, default="attr_gene_type")
+  parser.add_argument("-o", "--out-filename", type=str, required=True)
+  parser.add_argument(
+      "--protein-coding-value", type=str, default="protein_coding")
 
-    if args.debug:
-        logzero.loglevel(logging.DEBUG)
-    else:
-        logzero.loglevel(logging.INFO)
+  args = parser.parse_args()
+  if args.debug_rscript:
+    args.debug = True
 
-    return args
+  if args.debug:
+    logzero.loglevel(logging.DEBUG)
+  else:
+    logzero.loglevel(logging.INFO)
+
+  return args
 
 
 if __name__ == "__main__":
-    start_time = time.time()
-    args = get_args()
+  start_time = time.time()
+  args = get_args()
 
-    # Read in and process the gene model based on input params
-    logger.info("== Setting things up ==")
-    logger.info("  [+] Reading gene model.")
-    gene_model = GFF(
-        args.gene_model,
-        feature_type="gene",
-        filters={args.gene_type_key: args.protein_coding_value},
-        gene_blacklist=args.gene_blacklist
-    )
-    logger.info("  [+] Finished. {} features were processed.".format(len(gene_model.entries)))
-    logger.info("  [+] Reading covariates file.")
-    covariates = CovariatesFile(args.covariates_file)
+  # Read in and process the gene model based on input params
+  logger.info("== Setting things up ==")
+  logger.info("  [+] Reading gene model.")
+  gene_model = GFF(
+      args.gene_model,
+      feature_type="gene",
+      filters={args.gene_type_key: args.protein_coding_value},
+      gene_blacklist=args.gene_blacklist)
+  logger.info("  [+] Finished. {} features were processed.".format(
+      len(gene_model.entries)))
+  logger.info("  [+] Reading covariates file.")
+  covariates = CovariatesFile(args.covariates_file)
 
-    # Aggregate the counts files
-    logger.info("== Aggregating counts ==")
-    logger.info("  [+] Read counts files.")
-    df = pd.concat([CountFile(f, verbose=True).df for f in args.counts], axis=1, join="inner")
-    logger.info("  [+] Ensuring every sample is in the covariates file.")
-    samples_not_in_covariates = []
-    for sample in df.columns:
-        if sample not in covariates.df.columns:
-            samples_not_in_covariates.append(sample)
-    if len(samples_not_in_covariates) > 0:
-        raise RuntimeError("The following samples are not in the covariates file: {}!".format(", ".join(samples_not_in_covariates)))
-    logger.info("  [+] Matrix dimensions before filtering: {}.".format(df.shape))
+  # Aggregate the counts files
+  logger.info("== Aggregating counts ==")
+  logger.info("  [+] Read counts files.")
+  df = pd.concat([CountFile(f, verbose=True).df for f in args.counts],
+                 axis=1,
+                 join="inner")
+  logger.info("  [+] Ensuring every sample is in the covariates file.")
+  samples_not_in_covariates = []
+  for sample in df.columns:
+    if sample not in covariates.df.columns:
+      samples_not_in_covariates.append(sample)
+  if len(samples_not_in_covariates) > 0:
+    raise RuntimeError(
+        "The following samples are not in the covariates file: {}!".format(
+            ", ".join(samples_not_in_covariates)))
+  logger.info("  [+] Matrix dimensions before filtering: {}.".format(df.shape))
 
-    # Apply various filters
-    logger.info("== Applying filters ==")
-    logger.info("  [+] Filtering non-protein coding genes.")
-    if args.gene_blacklist:
-        logger.info("  [+] Applying gene blacklist.")
-    valid_gene_ids = set([e["attr_gene_id"].split(".")[0] for e in gene_model])
-    df = df[df.index.isin(valid_gene_ids)]
-    logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(df.shape))
-    logger.info("  [+] Filtering low expression genes.")
-    df = df[~df.apply(lambda row: np.all(np.abs(row) < 10), axis=1)]
-    logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(df.shape))
+  # Apply various filters
+  logger.info("== Applying filters ==")
+  logger.info("  [+] Filtering non-protein coding genes.")
+  if args.gene_blacklist:
+    logger.info("  [+] Applying gene blacklist.")
+  valid_gene_ids = set([e["attr_gene_id"].split(".")[0] for e in gene_model])
+  df = df[df.index.isin(valid_gene_ids)]
+  logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(
+      df.shape))
+  logger.info("  [+] Filtering low expression genes.")
+  df = df[~df.apply(lambda row: np.all(np.abs(row) < 10), axis=1)]
+  logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(
+      df.shape))
 
-    # Add covariates column
-    logger.info("== Adding covariates row ==")
-    df = pd.concat([df, covariates.df], axis=0, join="inner")
-    logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(df.shape))
+  # Add covariates column
+  logger.info("== Adding covariates row ==")
+  df = pd.concat([df, covariates.df], axis=0, join="inner")
+  logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(
+      df.shape))
 
-    # Processing the matrix
-    logger.info("== Matrix processing ==")
-    logger.info("  [+] Serializing matrix to be used in R.")
-    df = df.T
-    df.index.name = "Sample"
+  # Processing the matrix
+  logger.info("== Matrix processing ==")
+  logger.info("  [+] Serializing matrix to be used in R.")
+  df = df.T
+  df.index.name = "Sample"
 
-    with tempfile.NamedTemporaryFile(delete=not args.debug_rscript) as tmpfile:
-        df.to_csv(tmpfile.name)
-        if args.debug_rscript:
-            logger.info("  [+] CSV file: {}.".format(tmpfile.name))
-        normalize_matrix_script = "itsne-normalize-matrix.R"
-        logger.info("  [+] Running R script to normalize matrix and produce t-SNE.")
-        command = "Rscript --vanilla $(which {}) -f {} -o {}".format(normalize_matrix_script, tmpfile.name, args.out_filename)
-        logger.debug("  [+] '{}'".format(command))
-        result = sh(command, check=not args.debug_rscript)
-        logger.debug("STDOUT: {}".format(result.stdout.decode("utf-8")))
-        logger.debug("STDERR: {}".format(result.stderr.decode("utf-8")))
-        if args.debug_rscript:
-            print("Be sure to delete {} manually!".format(tmpfile.name))
+  with tempfile.NamedTemporaryFile(delete=not args.debug_rscript) as tmpfile:
+    df.to_csv(tmpfile.name)
+    if args.debug_rscript:
+      logger.info("  [+] CSV file: {}.".format(tmpfile.name))
+    normalize_matrix_script = "itsne-normalize-matrix.R"
+    logger.info("  [+] Running R script to normalize matrix and produce t-SNE.")
+    command = "Rscript --vanilla $(which {}) -f {} -o {}".format(
+        normalize_matrix_script, tmpfile.name, args.out_filename)
+    logger.debug("  [+] '{}'".format(command))
+    result = sh(command, check=not args.debug_rscript)
+    logger.debug("STDOUT: {}".format(result.stdout.decode("utf-8")))
+    logger.debug("STDERR: {}".format(result.stderr.decode("utf-8")))
+    if args.debug_rscript:
+      print("Be sure to delete {} manually!".format(tmpfile.name))
 
-    logger.info("  [+] Finished. Took {:.2f} seconds.".format(time.time() - start_time))
+  logger.info("  [+] Finished. Took {:.2f} seconds.".format(time.time() -
+                                                            start_time))
