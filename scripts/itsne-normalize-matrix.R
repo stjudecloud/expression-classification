@@ -41,8 +41,8 @@ rm(allData)
 colors        <- rainbow(length(unique(diagnosis)))
 names(colors) <- unique(diagnosis)
 
-dataMatrix <- vst(as.matrix(counts), blind=T)
-#dataMatrix <- varianceStabilizingTransformation(as.matrix(counts), blind=T)
+# dataMatrix <- vst(as.matrix(counts), blind=T)
+dataMatrix <- varianceStabilizingTransformation(as.matrix(counts), blind=T)
 dataMatrix <- ComBat(dataMatrix, covariates)
 
 topn          <- 1000
