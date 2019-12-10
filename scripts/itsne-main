@@ -44,11 +44,6 @@ def get_args():
     return args
 
 
-def get_script(scriptname):
-    this_script_dir = os.path.dirname(os.path.realpath(__file__))
-    return os.path.join(this_script_dir, scriptname)
-
-
 if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
@@ -106,9 +101,9 @@ if __name__ == "__main__":
         df.to_csv(tmpfile.name)
         if args.debug_rscript:
             logger.info("  [+] CSV file: {}.".format(tmpfile.name))
-        normalize_matrix_script = get_script("itsne-normalize-matrix.R")
+        normalize_matrix_script = "itsne-normalize-matrix.R"
         logger.info("  [+] Running R script to normalize matrix and produce t-SNE.")
-        command = "Rscript --vanilla {} -f {} -o {}".format(normalize_matrix_script, tmpfile.name, args.out_filename)
+        command = "Rscript --vanilla $(which {}) -f {} -o {}".format(normalize_matrix_script, tmpfile.name, args.out_filename)
         logger.debug("  [+] '{}'".format(command))
         result = sh(command, check=not args.debug_rscript)
         logger.debug("STDOUT: {}".format(result.stdout.decode("utf-8")))
