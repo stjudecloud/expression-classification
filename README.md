@@ -11,8 +11,14 @@ These instructions will get you a copy of the project up and running on your loc
 To get started, you'll want to have Python 3 and R 3.6.1.
 
 ```
-conda create -n itsne -c conda-forge r-base=3.6.1 python=3.7 -y
-conda activate itsne
+conda create -n itsne-dev -c conda-forge r-base=3.6.1 python=3.7 -y
+conda activate itsne-dev
+```
+
+Alternatively, you can install the anaconda dependencies directly from the `environment.yml` file.
+
+```bash
+conda env create -f environment.yml
 ```
 
 ### Installing
