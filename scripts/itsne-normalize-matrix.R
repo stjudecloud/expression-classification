@@ -1,9 +1,9 @@
 if(!require(optparse)) install.packages("optparse", repos = "http://cran.us.r-project.org")
 if(!require(plotly)) install.packages("plotly", repos = "http://cran.us.r-project.org")
+if(!require(Rtsne)) install.packages("Rtsne", repos = "http://cran.us.r-project.org")
 if(!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager", repos = "http://cran.us.r-project.org")
 if(!require(DESeq2)) BiocManager::install("DESeq2")
 if(!require(sva)) BiocManager::install("sva")
-if(!require(Rtsne)) BiocManager::install("Rtsne")
 
 library(optparse)
 library(DESeq2)
