@@ -18,17 +18,87 @@ NUMBER_OF_COUNT_FILES_READ = 0
 
 
 def get_args():
-  parser = argparse.ArgumentParser(description="Prepare a gene matrix")
-  parser.add_argument("counts", nargs="+")
-  parser.add_argument("-b", "--gene-blacklist", type=str, default=None)
-  parser.add_argument("-c", "--covariates-file", type=str, required=True)
-  parser.add_argument("-d", "--debug", default=False, action="store_true")
-  parser.add_argument("--debug-rscript", default=False, action="store_true")
-  parser.add_argument("-g", "--gene-model", type=str, required=True)
-  parser.add_argument("--gene-type-key", type=str, default="attr_gene_type")
+  parser = argparse.ArgumentParser(
+      description="Create a t-SNE plot from multiple RNA-seq count files.")
+  parser.add_argument(
+      "counts", type=str, nargs="+", help="List of RNA-seq count files.")
+  parser.add_argument(
+      "-b",
+      "--gene-blacklist",
+      type=str,
+      default=None,
+      help="Gene blacklist, if it exists.")
+  parser.add_argument(
+      "-c",
+      "--covariates-file",
+      type=str,
+      required=True,
+      help="Covariates file: see documentation on how to format this file.")
+  parser.add_argument(
+      "-d",
+      "--debug",
+      default=False,
+      action="store_true",
+      help="Enable the logging.DEBUG log level.")
+  parser.add_argument(
+      "--debug-rscript",
+      default=False,
+      action="store_true",
+      help="Debug the R normalization script.")
+  parser.add_argument(
+      "--disable-variance-stabilization",
+      default=False,
+      action="store_true",
+      help="Disable variance stabilization (not recommended, mostly for testing purposes)."
+  )
+  parser.add_argument(
+      "--disable-batch-correction",
+      default=False,
+      action="store_true",
+      help="Disable batch correction (not recommended, mostly for testing purposes)."
+  )
+  parser.add_argument(
+      "-g",
+      "--gene-model",
+      type=str,
+      required=True,
+      help="Gene model as a GFF or GTF file.")
+  parser.add_argument(
+      "--gene-type-key",
+      type=str,
+      default="attr_gene_type",
+      help="Key for protein coding genes in the gene model.")
+  parser.add_argument(
+      "-n",
+      "--keep-top-n-genes",
+      type=int,
+      default=1000,
+      help="Keep the top `n` differentially expressed genes for the t-SNE transformation."
+  )
   parser.add_argument("-o", "--out-filename", type=str, required=True)
   parser.add_argument(
-      "--protein-coding-value", type=str, default="protein_coding")
+      "--vst",
+      action="store_true",
+      default=False,
+      help="Use the vst() function instead of the varianceStabilizingTransform(). This runs much more quickly but is less robust."
+  )
+  parser.add_argument("--seed", type=int, default=0, help="Random seed.")
+  parser.add_argument(
+      "--protein-coding-value",
+      type=str,
+      default="protein_coding",
+      help="Value for protein coding genes in the gene model.")
+  parser.add_argument(
+      "--rscript-stdout-file",
+      default="rscript.stdout.txt",
+      help="File to write stdout to if rscript debugging is enabled.")
+  parser.add_argument(
+      "--rscript-stderr-file",
+      default="rscript.stderr.txt",
+      help="File to write stderr to if rscript debugging is enabled.")
+  parser.add_argument("--tsne-perplexity", default=30, help="t-SNE perplexity parameter.")
+  parser.add_argument("--tsne-theta", default=0, help="t-SNE theta parameter.")
+  parser.add_argument("--tsne-max-iterations", default=5000, help="t-SNE maximum iterations.")
 
   args = parser.parse_args()
   if args.debug_rscript:
@@ -104,17 +174,42 @@ if __name__ == "__main__":
 
   with tempfile.NamedTemporaryFile(delete=not args.debug_rscript) as tmpfile:
     df.to_csv(tmpfile.name)
+
     if args.debug_rscript:
       logger.info("  [+] CSV file: {}.".format(tmpfile.name))
+
     normalize_matrix_script = "itsne-normalize-matrix.R"
     logger.info("  [+] Running R script to normalize matrix and produce t-SNE.")
-    command = "Rscript --vanilla $(which {}) -f {} -o {}".format(
-        normalize_matrix_script, tmpfile.name, args.out_filename)
+    command = "Rscript --vanilla $(which {script}) -f {matrix} -o {outfile} --seed {seed} --keep-top-n-genes {topngenes} " \
+      "--tsne-perplexity {perplexity} --tsne-theta {theta} --tsne-max-iterations {maxiter}".format(**{
+        "script": normalize_matrix_script,
+        "matrix": tmpfile.name,
+        "outfile": args.out_filename,
+        "seed": args.seed,
+        "topngenes": args.keep_top_n_genes,
+        "perplexity": args.tsne_perplexity,
+        "theta": args.tsne_theta,
+        "maxiter": args.tsne_max_iterations
+      })
+
+    if (args.vst):
+      command += " --vst"
+
+    if (args.disable_batch_correction):
+      command += " --disable-batch-correction"
+
+    if (args.disable_variance_stabilization):
+      command += " --disable-variance-stabilization"
+
     logger.debug("  [+] '{}'".format(command))
     result = sh(command, check=not args.debug_rscript)
-    logger.debug("STDOUT: {}".format(result.stdout.decode("utf-8")))
-    logger.debug("STDERR: {}".format(result.stderr.decode("utf-8")))
     if args.debug_rscript:
+      with open(args.rscript_stdout_file,
+                "w") as stdout, open(args.rscript_stderr_file, "w") as stderr:
+        stdout.write(result.stdout.decode("utf-8"))
+        stdout.flush()
+        stderr.write(result.stderr.decode("utf-8"))
+        stderr.flush()
       print("Be sure to delete {} manually!".format(tmpfile.name))
 
   logger.info("  [+] Finished. Took {:.2f} seconds.".format(time.time() -

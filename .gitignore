@@ -8,6 +8,8 @@ reference/*
 .DS_Store
 
 *.temp
+*.stdout.txt
+*.stderr.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
