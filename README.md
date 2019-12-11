@@ -11,7 +11,15 @@ These instructions will get you a copy of the project up and running on your loc
 To get started, you'll want to have Python 3 and R 3.6.1.
 
 ```
-conda create -n itsne-dev -c conda-forge r-base=3.6.1 python=3.7 -y
+conda create -n itsne-dev \
+             -c conda-forge \
+             -c bioconda \
+             r-base=3.6.1 \
+             python=3.7 \
+             bioconductor-biocinstaller \
+             bioconductor-sva \
+             bioconductor-deseq2 \
+             r-tsne r-getopt r-plotly -y
 conda activate itsne-dev
 ```
 
