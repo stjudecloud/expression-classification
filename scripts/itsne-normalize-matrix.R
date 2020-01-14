@@ -1,9 +1,13 @@
-library(optparse, quietly = T)
-library(Rtsne, quietly = T)
-library(plotly, quietly = T)
-library(DESeq2, quietly = T)
-library(sva, quietly = T)
+suppressMessages(library(optparse, quietly = T))
+suppressMessages(library(Rtsne, quietly = T))
+suppressMessages(library(plotly, quietly = T))
+suppressMessages(library(DESeq2, quietly = T))
+suppressMessages(library(sva, quietly = T))
+suppressMessages(library("RColorBrewer", quietly = T))
+suppressMessages(library("viridis", quietly = T) )
+suppressMessages(library("stringr", quietly = T) )
  
+
 option_list = list(
   make_option(
    c("-f", "--filename"), 
@@ -67,6 +71,20 @@ option_list = list(
     type="integer",
     default=5000,
     help="t-SNE maximum iterations."
+  ),
+  make_option(
+    c("--input-sample"),
+    type="character",
+    default=NULL,
+    help="Sample to highlight in output graph",
+    metavar="character"
+  ),
+  make_option(
+    c("--tissue-type"),
+    type="character",
+    default="blood", 
+    help="Tissue type for the input sample(s) [blood,brain,solid]",
+    metavar="character"
   )
 ); 
  
@@ -117,20 +135,49 @@ dataMatrixTop <- dataMatrix[topGenes,]
 distMat <- dist(t(dataMatrixTop))
 
 set.seed(opt$seed)
-tsne_out <- Rtsne(distMat, dims = 2, perplexity = opt$`tsne-perplexity`, 
+tsne_out <- Rtsne(distMat, dims = 2, perplexity = opt$`tsne-perplexity`,
                   theta = opt$`tsne-theta`, max_iter = opt$`tsne-max-iterations`, check_duplicates = F )
 
 toPlot <- data.frame(tsne_out$Y)
-colnames(toPlot) <- c("xcoord", "ycoord")
+colnames(toPlot) <- c("t1", "t2")
 unknownX<-toPlot[nrow(toPlot),1]
 unknownY<-toPlot[nrow(toPlot),2]
 toPlot$classes   <- diagnosis
+toPlot$samples <- samples
 
-p <- plot_ly(type = "scatter" , mode = "markers" , data = toPlot[1:(nrow(toPlot)-1),], 
-             x = ~xcoord, y = ~ycoord , color = ~classes , colors = colors , text = ~classes , 
-             marker = list(size = 10, line = list(color = 'rgba(0,0,0)',width = 2)))%>%
-  add_trace(data = toPlot[nrow(toPlot),] , x = ~xcoord, y = ~ycoord , 
-            marker = list(color = 'rgb(0, 0, 0 , 0.25)', size = 20))
+ax <- list(
+  zeroline = FALSE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+title = paste(str_to_sentence(opt$`tissue-type`),"t-SNE")
 
+p <- plot_ly(type = "scatter" , mode = "markers" , data = toPlot[1:(nrow(toPlot)-1),],
+             x = ~t1, y = ~t2 , color = ~classes , colors = colors , text = ~classes )%>%
+     layout(title=title, xaxis=ax, yaxis=ax)
+
+if (length(opt$`input-sample`)){
+   inputs <- strsplit(opt$`input-sample`, ',')
+
+   L <- toPlot[toPlot$samples %in% unlist(inputs),]
+   L$classes <- L$samples
+   highlight      <- rainbow(length(unique(L$samples)))
+   names(highlight) <- unique(L$samples)
+   p <- add_trace(p, data = L , x = ~t1, y = ~t2 , color = ~classes, colors = highlight,
+            marker = list(size = 10,color = 'rgb(0, 0, 0 , 0.25)', symbol = "cross"))
+   a <- list(
+     x = L$t1,
+     y = L$t2,
+     text = L$samples,
+     xref = "x",
+     yref = "y",
+     showarrow = TRUE,
+     arrowhead = 7,
+     ax = 20,
+     ay = -40
+   )
+   p <- layout(p, annotations=a)
+}
 # Save scatterplot as interactive plotly html
 htmlwidgets::saveWidget(as_widget(p), opt$outname)
