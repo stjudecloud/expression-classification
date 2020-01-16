@@ -99,6 +99,7 @@ def get_args():
   parser.add_argument("--tsne-perplexity", default=30, help="t-SNE perplexity parameter.")
   parser.add_argument("--tsne-theta", default=0, help="t-SNE theta parameter.")
   parser.add_argument("--tsne-max-iterations", default=5000, help="t-SNE maximum iterations.")
+  parser.add_argument("--input-sample", help="Sample to highlight in plot", action='append')
 
   args = parser.parse_args()
   if args.debug_rscript:
@@ -191,6 +192,11 @@ if __name__ == "__main__":
         "theta": args.tsne_theta,
         "maxiter": args.tsne_max_iterations
       })
+
+    if (args.input_sample):
+       command += " --input-sample {input}".format(**{
+          "input": ','.join(args.input_sample)
+       })
 
     if (args.vst):
       command += " --vst"
