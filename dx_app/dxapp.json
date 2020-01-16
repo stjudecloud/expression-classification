@@ -17,7 +17,6 @@
       "label": "Tissue tumor type [blood, brain, solid]",
       "class": "string",
       "choices": ["blood", "brain", "solid"],
-      "default": "blood",
       "optional": false, 
       "help": ""
     }
