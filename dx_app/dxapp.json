@@ -48,7 +48,7 @@
     "azure:westus": {
       "systemRequirements": {
         "*": {
-          "instanceType": "azure:mem1_ssd1_x2"
+          "instanceType": "azure:mem2_ssd1_x4"
         }
       }
     }
