@@ -1,0 +1,61 @@
+{
+  "name": "t-SNE",
+  "title": "Interactive t-SNE",
+  "summary": "Produce a t-SNE plot that highlights input sample(s) against a cohort of existing samples.",
+  "dxapi": "1.0.0",
+  "version": "0.0.1",
+  "inputSpec": [
+    {
+      "name": "input_sample",
+      "label": "Input sample",
+      "class": "array:file",
+      "optional": false,
+      "help": ""
+    },
+    {
+      "name": "tissue_type",
+      "label": "Tissue tumor type [blood, brain, solid]",
+      "class": "string",
+      "choices": ["blood", "brain", "solid"],
+      "default": "blood",
+      "optional": false, 
+      "help": ""
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "graph",
+      "label": "HTML plot of t-SNE graph",
+      "class": "file",
+      "patterns": [
+        "*.html"
+      ],
+      "help": ""
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 48
+      }
+    },
+    "interpreter": "bash",
+    "release": "16.04",
+    "distribution": "Ubuntu",
+    "file": "src/t-SNE.sh"
+  },
+  "regionalOptions": {
+    "azure:westus": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "azure:mem1_ssd1_x2"
+        }
+      }
+    }
+  },
+  "access": {
+    "network": [
+      "*" 
+    ]  
+  } 
+}
