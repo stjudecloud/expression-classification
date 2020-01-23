@@ -19,6 +19,13 @@
       "choices": ["blood", "brain", "solid"],
       "optional": false, 
       "help": ""
+    },
+    {
+      "name": "covariates",
+      "label": "Sample information",
+      "class": "file",
+      "optional": false,
+      "help": "A list of samples, diagnoses, strandedness, library type, and read length. Tab delimited with column names: [Sample,Diagnosis,Strandedness,LibraryType,ReadLength]"
     }
   ],
   "outputSpec": [
