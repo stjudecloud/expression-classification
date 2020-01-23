@@ -80,7 +80,7 @@ main() {
        name=$(basename $name ".HTSeq")
        in_arg="$in_arg --input-sample $name"  
     done 
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir adthrasher/tsne bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v32.annotation.gtf.gz -c $container_reference_dir/covariates.tsv -o $container_output_dir/samples.html ${in_arg} $container_reference_dir/HTSeq/*.HTSeq $container_data_dir/input_sample/*/*" 
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:latest bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v32.annotation.gtf.gz -c $container_reference_dir/covariates.tsv -o $container_output_dir/samples.html ${in_arg} $container_reference_dir/HTSeq/*.HTSeq $container_data_dir/input_sample/*/*" 
 
     # Upload output  
     graph=$(dx upload $local_output_dir/samples.html --brief)
