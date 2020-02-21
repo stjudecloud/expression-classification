@@ -47,8 +47,7 @@ python3 setup.py install
 Download the relevant gene model:
 
 ```bash
-curl ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gtf.gz | gunzip -c | sort -k1,1 -k4,4n -k5,5n | bgzip > gencode.v32.annotation.gtf.gz
-tabix -p gff gencode.v32.annotation.gtf.gz
+curl ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gtf.gz -o gencode.v32.annotation.gtf.gz
 ```
 
 And try out the script:

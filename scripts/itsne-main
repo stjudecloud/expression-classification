@@ -162,7 +162,7 @@ if __name__ == "__main__":
       df.shape))
 
   # Add covariates column
-  logger.info("== Adding covariates row ==")
+  logger.info("== Adding covariates column ==")
   df = pd.concat([df, covariates.df], axis=0, join="inner")
   logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(
       df.shape))
