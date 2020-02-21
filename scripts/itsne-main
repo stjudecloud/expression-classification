@@ -69,6 +69,12 @@ def get_args():
       default="attr_gene_type",
       help="Key for protein coding genes in the gene model.")
   parser.add_argument(
+     "--feature-id",
+     type=str,
+     default="gene_name",
+     help="What attribute was used for count data as the identifier [gene_id, gene_name]"
+  )
+  parser.add_argument(
       "-n",
       "--keep-top-n-genes",
       type=int,
@@ -116,6 +122,12 @@ def get_args():
 if __name__ == "__main__":
   start_time = time.time()
   args = get_args()
+  
+  # Validate perplexity default value
+  # should not be bigger than 3 * perplexity < nrow(X)-1
+  if (len(args.counts) - 1) < (3 * args.tsne_perplexity):
+    args.tsne_perplexity = int( (len(args.counts) - 1) / 3 ) - 1
+    logger.info("  [+] Set new perplexity based on data size: {}.".format(args.tsne_perplexity))
 
   # Read in and process the gene model based on input params
   logger.info("== Setting things up ==")
@@ -152,7 +164,7 @@ if __name__ == "__main__":
   logger.info("  [+] Filtering non-protein coding genes.")
   if args.gene_blacklist:
     logger.info("  [+] Applying gene blacklist.")
-  valid_gene_ids = set([e["attr_gene_id"].split(".")[0] for e in gene_model])
+  valid_gene_ids = set([e["attr_"+args.feature_id].split(".")[0] for e in gene_model])
   df = df[df.index.isin(valid_gene_ids)]
   logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(
       df.shape))
