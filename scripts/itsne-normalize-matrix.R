@@ -153,10 +153,19 @@ ax <- list(
 )
 title = paste(str_to_sentence(opt$`tissue-type`),"t-SNE")
 
-p <- plot_ly(type = "scatter" , mode = "markers" , data = toPlot[1:(nrow(toPlot)-1),],
+plotData <- toPlot
+# If we have input samples, remove them from the initial plotting set and plot them separately later.
+if (length(opt$`input-sample`)){
+   inputs <- strsplit(opt$`input-sample`, ',')
+   '%!in%' <- function(x,y)!('%in%'(x,y))
+   plotData <- plotData[plotData$sample %!in% unlist(inputs),]
+}
+
+p <- plot_ly(type = "scatter" , mode = "markers" , data = plotData[1:(nrow(plotData)),],
              x = ~t1, y = ~t2 , color = ~classes , colors = colors , text = ~classes )%>%
      layout(title=title, xaxis=ax, yaxis=ax)
 
+# If we have input samples, add them to the existing plot.
 if (length(opt$`input-sample`)){
    inputs <- strsplit(opt$`input-sample`, ',')
 
