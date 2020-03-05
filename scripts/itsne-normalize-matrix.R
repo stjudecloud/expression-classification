@@ -162,7 +162,7 @@ if (length(opt$`input-sample`)){
 }
 
 p <- plot_ly(type = "scatter" , mode = "markers" , data = plotData[1:(nrow(plotData)),],
-             x = ~t1, y = ~t2 , color = ~classes , colors = colors , text = ~classes )%>%
+             x = ~t1, y = ~t2 , color = ~classes , colors = colors , text = ~samples )%>%
      layout(title=title, xaxis=ax, yaxis=ax)
 
 # If we have input samples, add them to the existing plot.
