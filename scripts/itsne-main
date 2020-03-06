@@ -106,6 +106,11 @@ def get_args():
   parser.add_argument("--tsne-theta", default=0, help="t-SNE theta parameter.")
   parser.add_argument("--tsne-max-iterations", default=5000, help="t-SNE maximum iterations.")
   parser.add_argument("--input-sample", help="Sample to highlight in plot", action='append')
+  parser.add_argument(
+      "--tissue-type",
+      type=str,
+      default="blood",
+      help="Tumor tissue type")
 
   args = parser.parse_args()
   if args.debug_rscript:
@@ -208,6 +213,11 @@ if __name__ == "__main__":
     if (args.input_sample):
        command += " --input-sample {input}".format(**{
           "input": ','.join(args.input_sample)
+       })
+
+    if (args.tissue_type):
+       command += " --tissue-type {type}".format(**{
+          "type": args.tissue_type
        })
 
     if (args.vst):
