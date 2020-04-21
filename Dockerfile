@@ -28,7 +28,7 @@ RUN conda update -n base -c defaults conda -y && \
              pandoc -y \
     && conda clean --all -y
 
-RUN Rscript -e 'install.packages(c("optparse", "Rtsne", "plotly", "sva", "stringr"), dependencies=TRUE, repos="http://cran.rstudio.com/")'
+RUN Rscript -e 'install.packages(c("optparse", "Rtsne", "plotly", "sva", "stringr", "pracma"), dependencies=TRUE, repos="http://cran.rstudio.com/")'
 
 RUN Rscript -e 'install.packages("BiocManager", dependencies=TRUE, repos="http://cran.rstudio.com/")' 
 RUN Rscript -e 'BiocManager::install(version = "3.10")'

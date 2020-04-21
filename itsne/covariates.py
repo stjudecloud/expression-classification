@@ -2,7 +2,8 @@ import os
 import pandas as pd
 
 REQUIRED_HEADERS = [
-    "Sample", "Diagnosis", "Strandedness", "LibraryType", "ReadLength"
+    "Sample", "Protocol", "Diagnosis"
+    #"Sample", "Diagnosis", "Strandedness", "LibraryType", "ReadLength"
 ]
 
 
@@ -22,7 +23,9 @@ class CovariatesFile:
           "Covariates file is missing headers: {}. Please see the documentation."
           .format(", ".join(missing_headers)))
     self.df.set_index('Sample', inplace=True)
-    self.df["Covariates"] = self.df["Strandedness"] + "_" + self.df[
-        "LibraryType"] + "_" + self.df["ReadLength"]
-    del self.df["Strandedness"], self.df["LibraryType"], self.df["ReadLength"]
+    #self.df["Covariates"] = self.df["Strandedness"] + "_" + self.df[
+        #"LibraryType"] + "_" + self.df["ReadLength"]
+    #del self.df["Strandedness"], self.df["LibraryType"], self.df["ReadLength"]
+    self.df["Covariates"] = self.df["Protocol"]
+    del self.df["Protocol"]
     self.df = self.df.T
