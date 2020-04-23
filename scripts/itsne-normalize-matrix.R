@@ -86,6 +86,13 @@ option_list = list(
     default="blood", 
     help="Tissue type for the input sample(s) [blood,brain,solid]",
     metavar="character"
+  ),
+  make_option(
+    c("--save-data"),
+    type="logical",
+    action="store_true",
+    default=F,
+    help="Save 2 dimensional distance matrix from t-SNE"
   )
 ); 
  
@@ -387,6 +394,11 @@ if(length(opt$`tissue-type`)){
 }
 
 plotData <- toPlot
+
+if (opt$`save-data`) {
+  write.table(plotData, file="tsne.txt", sep="\t",quote=FALSE,row.names=FALSE)
+}
+
 # If we have input samples, remove them from the initial plotting set and plot them separately later.
 if (length(opt$`input-sample`)){
    inputs <- strsplit(opt$`input-sample`, ',')

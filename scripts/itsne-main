@@ -58,6 +58,12 @@ def get_args():
       help="Disable batch correction (not recommended, mostly for testing purposes)."
   )
   parser.add_argument(
+    "--save-data",
+    default=False,
+    action="store_true",
+    help="Store t-SNE data matrix"
+  )
+  parser.add_argument(
       "-g",
       "--gene-model",
       type=str,
@@ -228,6 +234,9 @@ if __name__ == "__main__":
 
     if (args.disable_variance_stabilization):
       command += " --disable-variance-stabilization"
+
+    if (args.save_data):
+      command += " --save-data"
 
     logger.debug("  [+] '{}'".format(command))
     result = sh(command, check=not args.debug_rscript)
