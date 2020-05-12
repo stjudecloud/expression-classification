@@ -13,14 +13,23 @@ class GFF:
     if gene_blacklist:
       self.gene_blacklist = set(
           [item.strip() for item in open(gene_blacklist, 'r').readlines()])
-    self._handle = gzip.open(filename, "r")
+
+    if filename.lower().endswith((".gz", ".gzip")):
+      self._handle = gzip.open(filename, 'r')
+    else:
+      self._handle = open(filename)
+
     self.feature_type = feature_type
     self.filters = filters
     self.entries = []
     self.attr_regexes = [r"(\S+)=(\S+)", r"(\S+) \"(\S+)\""]
 
     while True:
-      line = self._handle.readline().decode("utf-8")
+      if filename.lower().endswith((".gz", ".gzip")):
+        line = self._handle.readline().decode("utf-8")
+      else:
+        line = self._handle.readline()
+
       if not line:
         break
 
