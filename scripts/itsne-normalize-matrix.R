@@ -408,7 +408,10 @@ if (length(opt$`input-sample`)){
 
 # Plot the reference samples
 p <- plot_ly(type = "scatter" , mode = "markers" , data = plotData[1:(nrow(plotData)),],
-             x = ~t1, y = ~t2 , color = ~classes , colors = popcolor_All , text = ~samples )%>%
+             x = ~t1, y = ~t2 , color = ~classes , colors = popcolor_All , 
+             hoverinfo = "text",
+             text = ~paste("Sample: ", samples, '<br>Diagnosis: ', classes) #~samples 
+             )%>%
      layout(title=title, xaxis=ax, yaxis=ax)
 
 # If we have input samples, add them to the existing plot.
