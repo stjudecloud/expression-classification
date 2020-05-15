@@ -403,7 +403,7 @@ if (opt$`save-data`) {
 if (length(opt$`input-sample`)){
    inputs <- strsplit(opt$`input-sample`, ',')
    '%!in%' <- function(x,y)!('%in%'(x,y))
-   plotData <- plotData[plotData$sample %!in% unlist(inputs),]
+   plotData <- plotData[plotData$sample %!in% unlist(inputs) | plotData$classes %!in% unlist(inputs),]
 }
 
 # Plot the reference samples
@@ -418,7 +418,7 @@ p <- plot_ly(type = "scatter" , mode = "markers" , data = plotData[1:(nrow(plotD
 if (length(opt$`input-sample`)){
    inputs <- strsplit(opt$`input-sample`, ',')
 
-   L <- toPlot[toPlot$samples %in% unlist(inputs),]
+   L <- toPlot[toPlot$samples %in% unlist(inputs) & toPlot$classes %in% unlist(inputs),]
    L$classes <- L$samples
    highlight      <- rainbow(length(unique(L$samples)))
    names(highlight) <- unique(L$samples)
