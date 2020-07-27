@@ -7,7 +7,7 @@ suppressMessages(library("RColorBrewer", quietly = T))
 suppressMessages(library("viridis", quietly = T) )
 suppressMessages(library("stringr", quietly = T) )
 suppressMessages(library("pracma", quietly = T) )
- 
+suppressMessages(library("data.table", quietly = T)) 
 
 option_list = list(
   make_option(
@@ -83,7 +83,7 @@ option_list = list(
   make_option(
     c("--tissue-type"),
     type="character",
-    default="blood", 
+    default="", 
     help="Tissue type for the input sample(s) [blood,brain,solid]",
     metavar="character"
   ),
@@ -119,8 +119,10 @@ names(colors) <- unique(diagnosis)
 dataMatrix <- as.matrix(counts)
 if (!opt$`disable-variance-stabilization`) {
   if (opt$vst) {
+    cat("Performing vst\n", file = stderr())
     dataMatrix <- vst(dataMatrix, blind=T)
   } else {
+    cat("Performing variance stabilization\n", file = stderr())
     dataMatrix <- varianceStabilizingTransformation(dataMatrix, blind=T)
   }
 } else {
@@ -128,6 +130,7 @@ if (!opt$`disable-variance-stabilization`) {
 }
 
 if (!opt$`disable-batch-correction`) {
+  cat("Performing batch correction\n", file = stderr())
   dataMatrix <- ComBat(dataMatrix, covariates)
 } else {
   cat("Batch correction disabled!\n", file = stderr())
@@ -143,6 +146,7 @@ dataMatrixTop <- dataMatrix[topGenes,]
 distMat <- dist(t(dataMatrixTop))
 
 set.seed(opt$seed)
+cat("Running Rtsne\n", file = stderr())
 tsne_out <- Rtsne(distMat, dims = 2, perplexity = opt$`tsne-perplexity`,
                   theta = opt$`tsne-theta`, max_iter = opt$`tsne-max-iterations`, check_duplicates = F )
 
@@ -362,8 +366,10 @@ popcolor_All =
     "PBL"="#696969",
     "XPA"="#d3d3d3"
   )
-
-
+color_lib <- as.data.frame(popcolor_All)
+setDT(color_lib, keep.rownames = TRUE)[]
+colnames(color_lib) <- c('classes', 'color')
+cat("Plotting...\n", file = stderr())
 # Create plot data objects
 toPlot <- data.frame(tsne_out$Y)
 colnames(toPlot) <- c("t1", "t2")
@@ -371,6 +377,8 @@ unknownX<-toPlot[nrow(toPlot),1]
 unknownY<-toPlot[nrow(toPlot),2]
 toPlot$classes   <- diagnosis
 toPlot$samples <- samples
+toPlot <- merge(toPlot, color_lib, by="classes")
+#toPlot$color <- popcolor_All[toPlot$classes]
 
 # Setup axis
 ax <- list(
@@ -396,6 +404,7 @@ if(length(opt$`tissue-type`)){
 plotData <- toPlot
 
 if (opt$`save-data`) {
+  cat("Saving plot data to file\n", file = stderr())
   write.table(plotData, file="tsne.txt", sep="\t",quote=FALSE,row.names=FALSE)
 }
 
