@@ -6,35 +6,44 @@
   "version": "0.0.1",
   "inputSpec": [
     {
-      "name": "input_sample",
-      "label": "Input sample",
+      "name": "reference_counts",
+      "label": "Reference counts to compare against",
       "class": "array:file",
-      "optional": false,
-      "help": ""
+      "optional": true,
+      "help": "Provide a cohort of samples to compare against",
+      "patterns": [ "*.txt" ]
     },
     {
-      "name": "tissue_type",
-      "label": "Tissue tumor type [blood, brain, solid]",
+      "name": "input_sample",
+      "label": "Input sample(s)",
+      "class": "array:file",
+      "optional": true,
+      "help": "Provide an optional set of input samples to compare to the existing cohort",
+      "patterns": [ "*.txt" ]
+    },
+    {
+      "name": "output_name",
+      "label": "Output file name", 
       "class": "string",
-      "choices": ["blood", "brain", "solid"],
-      "optional": false, 
-      "help": ""
-    },
-    {
-      "name": "covariates",
-      "label": "Sample information",
-      "class": "file",
-      "optional": false,
-      "help": "A list of samples, diagnoses, strandedness, library type, and read length. Tab delimited with column names: [Sample,Diagnosis,Strandedness,LibraryType,ReadLength]"
+      "default": "samples.html"
     }
   ],
   "outputSpec": [
     {
-      "name": "graph",
+      "name": "tsne_plot",
       "label": "HTML plot of t-SNE graph",
       "class": "file",
       "patterns": [
         "*.html"
+      ],
+      "help": ""
+    },
+    {
+      "name": "tsne_matrix",
+      "label": "Matrix of values for t-SNE graph",
+      "class": "file",
+      "patterns": [
+        "*.txt"
       ],
       "help": ""
     }
@@ -62,6 +71,7 @@
   "access": {
     "network": [
       "*" 
-    ]  
+    ],
+    "allProjects": "VIEW"
   } 
 }

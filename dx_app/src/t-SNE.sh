@@ -33,56 +33,67 @@ main() {
     echo ""
     echo "=== Setup ==="
     echo "  [*] Downloading input files ..."
-    dx-download-all-inputs
+    dx-download-all-inputs --parallel
 
-    # Fetch existing counts cohort
-    # Fetch covariates 
     echo ""
-    echo "  [*] Downloading count files ..."
-    if [ "$tissue_type" == "blood" ]
-    then 
-       #dx download -o $local_reference_dir/HTSeq -r project-FjFfvV89F80QvvxJ8131yzpB:/HTSeq
-       dx download -o $local_reference_dir -r project-FjFfvV89F80QvvxJ8131yzpB:file-FjPb6xQ9F80VYB9yGj3fkqj8
-       dx download -o $local_reference_dir/covariates.tsv -r project-FjFfvV89F80QvvxJ8131yzpB:/covariates.tsv
-       (cd $local_reference_dir && tar --no-same-owner -jxf HTSeq.tar.bz2)
-    elif [ "$tissue_type" == "brain" ]
-    then
-       echo "no cohort"
-       exit -1
-    elif [ "$tissue_type" == "solid" ]
-    then 
-       echo "no cohort"
-       exit -1
-    else 
-       exit -1
-    fi
+    echo "  [*] Retrieving covariates for reference data ..."
+    covariates_file=$local_data_dir/covariates.txt
+    echo -e "Sample\tProtocol\tDiagnosis" > ${covariates_file}
+    for ((i = 0; i < ${#reference_counts[@]}; i++)) 
+    do
+      file=${reference_counts[$i]}
+      echo $file
+      #id=$(echo $file | jq '.dnanexus_link') 
+      #echo $id
+      json=$(dx describe "$file" --json)
+      sample_name=$(echo $json | jq '.properties | .sample_name')
+      disease_code=$(echo $json | jq '.properties | .sj_diseases')
+      strandedness=$(head -c 10 /dev/random | tr -dc 'a-zA-Z0-9')
+      librarytype=
+      readlength=
+      protocol="${strandedness}_${library_type}_${readlength}"
+      echo -e "${sample_name}\t${protocol}\t${disease_code}" | sed 's/"//g' >> ${covariates_file}
+    done
     # Add input samples to covariates list
-    tail -n +2 $HOME/in/covariates/* >> $local_reference_dir/covariates.tsv
+    in_arg=
+    input_sample_arg=
+    if [ -z ${input_sample} ]
+    then
+      echo ""
+      echo "  [*] Retrieving covariates for input data ..."
+      for file in $input_sample
+      do
+        json=$(dx describe $file --json)
+        sample_name=$(echo $json | jq '.properties | .sample_name')
+        disease_code=$(echo $json | jq '.properties | .sj_diseases')
+        strandedness=
+        librarytype=
+        readlength=
+        protocol="${strandedness}_${library_type}_${readlength}"
+        echo -e "${sample_name}\t${protocol}\t${disease_code}" | sed 's/"//g' >> ${covariates_file}
+      done
+    fi
 
     # Fetch gene blacklist
     echo ""
     echo "  [*] Downloading gene blacklist ..."
-    dx download -o $local_reference_dir -r project-FjFfvV89F80QvvxJ8131yzpB:/gene.blacklist.tsv 
+    dx download -o $local_reference_dir/gene.blacklist.tsv project-F5444K89PZxXjBqVJ3Pp79B4:file-Fk84jFj97xxp1jxP9Zp6JJF4 
 
     # Fetch Gencode
     echo ""
     echo "  [*] Downloading gencode ..."
-    dx download -o $local_reference_dir/gencode.v32.annotation.gtf.gz -r project-FjFfvV89F80QvvxJ8131yzpB:/gencode.v32.annotation.gtf.gz 
-    dx download -o $local_reference_dir/gencode.v32.annotation.gtf.gz.tbi -r project-FjFfvV89F80QvvxJ8131yzpB:/gencode.v32.annotation.gtf.gz.tbi 
+    dx download -o $local_reference_dir/gencode.v31.annotation.gtf.gz -r project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/M2A/gencode.v31.annotation.gtf.gz 
+    #dx download -o $local_reference_dir/gencode.v31.annotation.gtf.gz.tbi -r project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/M2A/gencode.v31.annotation.gtf.gz.tbi 
 
     # Run interactive t-SNE
     echo ""
     echo "  [*] Running t-SNE ..."
-    in_arg=
-    for file in $HOME/in/input_sample/*/*
-    do
-       name=$(basename $file ".counts.txt")
-       name=$(basename $name ".HTSeq")
-       in_arg="$in_arg --input-sample $name"  
-    done 
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:latest bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v32.annotation.gtf.gz -c $container_reference_dir/covariates.tsv -o $container_output_dir/samples.html ${in_arg} $container_reference_dir/HTSeq/*.HTSeq $container_data_dir/input_sample/*/*" 
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:dx_native_app bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} $container_data_dir/reference_counts/*/*.txt $input_sample_arg --save-data" 
 
     # Upload output  
-    graph=$(dx upload $local_output_dir/samples.html --brief)
-    dx-jobutil-add-output graph "$graph" --class=file
+    tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)
+    dx-jobutil-add-output tsne_plot "$tsne_plot" --class=file
+    tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
+    dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
+
 }
