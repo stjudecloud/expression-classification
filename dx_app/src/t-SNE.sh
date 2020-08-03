@@ -39,16 +39,34 @@ main() {
     echo "  [*] Retrieving covariates for reference data ..."
     covariates_file=$local_data_dir/covariates.txt
     echo -e "Sample\tProtocol\tDiagnosis" > ${covariates_file}
+    ids=""
     for ((i = 0; i < ${#reference_counts[@]}; i++)) 
     do
-      file=${reference_counts[$i]}
-      echo $file
+        id=${reference_counts[$i]}
+        echo "id: $id"
+        clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
+        ids="$ids $clip"
+    done
+
+    #ids="${reference_counts[@]}"
+    echo "ids: $ids"
+    echo "python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids $ids"
+ 
+    json=$(python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids $ids)
+    #echo $json
+    #exit
+
+    #for ((i = 0; i < ${#reference_counts[@]}; i++)) 
+    for j in $(echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type}')
+    do
+      #file=${reference_counts[$i]}
+      #echo $file
       #id=$(echo $file | jq '.dnanexus_link') 
       #echo $id
-      json=$(dx describe "$file" --json)
-      sample_name=$(echo $json | jq '.properties | .sample_name')
-      disease_code=$(echo $json | jq '.properties | .sj_diseases')
-      strandedness=$(head -c 10 /dev/random | tr -dc 'a-zA-Z0-9')
+      #json=$(dx describe "$file" --json)
+      sample_name=$(echo $j | jq '.sample_name')
+      disease_code=$(echo $j | jq '.disease')
+      strandedness=$(echo $j | jq '.disease') #$(head -c 10 /dev/random | tr -dc 'a-zA-Z0-9')
       librarytype=
       readlength=
       protocol="${strandedness}_${library_type}_${readlength}"

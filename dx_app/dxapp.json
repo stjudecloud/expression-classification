@@ -56,6 +56,7 @@
     },
     "interpreter": "bash",
     "release": "16.04",
+    "version": "1",
     "distribution": "Ubuntu",
     "file": "src/t-SNE.sh"
   },
