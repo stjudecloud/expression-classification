@@ -233,6 +233,7 @@ popcolor_All =
     "CUP"="#d3d3d3",#"black",
     "Unknown Hematological"="#d3d3d3",
     "Unknown Solid Tumor"="#d3d3d3",
+    "ST"="#d3d3d3",
     "DLBCLNOS"="#d3d3d3",
     "LCH"="#d3d3d3",
     "MDS"="#d3d3d3",
@@ -240,6 +241,7 @@ popcolor_All =
     "Rare Hematological"="#d3d3d3",
     "TLL"="red",
     "T-ALL"="red",
+    "TALL"="red",
     "ACC"="#66C2A6",
 
 
@@ -264,7 +266,8 @@ popcolor_All =
     "BERMS"="#a3d7ff",#"#0006c2",
     "SCRMS"="#d3d3d3",#"#a3d7ff",
     "RMS"="#d3d3d3",#"#00c0ff",
-    
+    "RHB"="#d3d3d3",#"#00c0ff",   
+
     "ES"="#d277f3",
     "GIST"="#d3d3d3",
     
@@ -315,7 +318,8 @@ popcolor_All =
     "WTB"="#7cfc00",
     "WTL"="#29a20b",
     "WTR"="#29a20b",
-    
+    "WLM"="#29a20b",
+   
     #BRAIN Tumors
     
     "ACPG"="red",
