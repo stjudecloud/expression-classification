@@ -157,7 +157,10 @@ popcolor_All =
     "ALCL"="#f9779d",
     "AMKL"="#008cff",
     "AMLM7"="#008cff",
+    "AMLM"="#008cff",
     "AML"="#00c0ff",
+    "PML"="#00c0ff",
+    "CBF"="#00c0ff",#"#0000ff",
     "AMLCBFA2T3BCL7A"="#00c0ff",#"#0000ff",
     "AMLCBFA2T3GLIS2"="#00c0ff",#"#0000ff",
     "AMLCBFBMYH11"="#00c0ff",#"#0000ff",
@@ -181,8 +184,11 @@ popcolor_All =
     "APLPMLRARA"="#00c0ff",#"#ffa500",
     "BL"="#d3d3d3",
     "B-ALL"="grey",
+    "BALL"="grey",
+    "MLL"="grey",
     "BLLBCRABL1"="#ff00ff",
     "Ph"="#ff00ff",
+    "PHALL"="#ff00ff",
     "Ph-like"="#9759d5",
     "BLLBCRABL1JAK2"="#9759d5",
     "BLLBCRABL1L"="#9759d5",
@@ -191,13 +197,17 @@ popcolor_All =
     "BLLBCRABL1LEPOR"="#9759d5",
     "BLLDUX4"="#696969",
     "DUX4"="#696969",
+    "ERG"="#696969",
     "BLLETV6RUNX1"="#ffd700",
     "ETV6"="#ffd700",
+    "ETV"="#ffd700",
     "BLLETV6RUNX1L"="#c6af34",
     "BLLHYPER"="#3E9F32",
     "Hyperdiploid"="#3E9F32",
+    "HYPER"="#3E9F32",
     "BLLHYPO"="#483d8b",
     "Hypodiploid"="#483d8b",
+    "HYPO"="#483d8b",
     "BLLIAMP21"="#0000ff",
     "iAMP21"="#0000ff",
     "BLLIGHCEBPD"="#d3d3d3",
@@ -226,12 +236,15 @@ popcolor_All =
     "BLLTCF3HLF"="#daa520",
     "BLLTCF3PBX1"="#c8a2c8",
     "TCF3-PBX1"="#c8a2c8",
+    "E2A"="#c8a2c8",
     "BLLZNF384"="#A8DD00",
     "ZNF384"="#A8DD00",
     "BLLZNF384L"="#8fb90a",
     "CML"="#90ee90",
+    "PHCML"="#90ee90",
     "CUP"="#d3d3d3",#"black",
     "Unknown Hematological"="#d3d3d3",
+    "HM"="#d3d3d3",
     "Unknown Solid Tumor"="#d3d3d3",
     "ST"="#d3d3d3",
     "DLBCLNOS"="#d3d3d3",
@@ -243,14 +256,16 @@ popcolor_All =
     "T-ALL"="red",
     "TALL"="red",
     "ACC"="#66C2A6",
-
+    "ACT"="#66C2A6",
 
     "ASPS"="#d3d3d3",
 
     "CCRCC"="#d3d3d3",
     "DES"="#8b0000",
     "Rare Solid Tumor"="#8b0000",
-    
+    "INF"="#8b0000",
+    "SS"="#8b0000",
+
     "DSRCT"="#daa520",
     
     #solid germ cell tumors
@@ -269,6 +284,7 @@ popcolor_All =
     "RHB"="#d3d3d3",#"#00c0ff",   
 
     "ES"="#d277f3",
+    "EWS"="#d277f3",
     "GIST"="#d3d3d3",
     
     "HCC"="#e88c38",#"#ffa500",
@@ -304,12 +320,15 @@ popcolor_All =
     
 
     "Rare Brain Tumor"="#eb1414",
+    "BT"="#eb1414",
+
     "PRCC"="#eb1414",#"#ff130f", #renal, papillary
     "RCC"="#eb1414", #renal
     "MRT"="#c01111",
     "MRTL"="#c01111",
     
     "RBL"="#e76836",#"#ffd700", #retinoblastoma
+    "RB"="#e76836",
 
     "THFO"="#0ea05c",
     "THPA"="#11c598",
@@ -325,6 +344,7 @@ popcolor_All =
     "ACPG"="red",
     "APE"="#ffccff",
     "EPM"="#ffccff",
+    "EPD"="#ffccff",
     "EPMT"="#ffccff",
     "EPMTPF"="#ff00ff",#"#ff00ff",
     "APEPF"="#ff00ff",
@@ -357,6 +377,7 @@ popcolor_All =
     "HGNET"="#8fb90a",
     
     "MBL"="#7cfc00",
+    "MB"="#7cfc00",
     "MBLG3"="#7cfc00",#"#2fd090",
     "MBLG4"="#7cfc00",#"#2fd090",
     "MBLSHH"="#29a20b",
@@ -381,7 +402,7 @@ unknownX<-toPlot[nrow(toPlot),1]
 unknownY<-toPlot[nrow(toPlot),2]
 toPlot$classes   <- diagnosis
 toPlot$samples <- samples
-toPlot <- merge(toPlot, color_lib, by="classes")
+toPlot <- merge(toPlot, color_lib, by="classes", all.x = TRUE)
 #toPlot$color <- popcolor_All[toPlot$classes]
 
 # Setup axis

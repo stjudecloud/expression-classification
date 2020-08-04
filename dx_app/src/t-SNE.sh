@@ -38,7 +38,7 @@ main() {
     for ((i = 0; i < ${#reference_counts[@]}; i++)) 
     do
         id=${reference_counts[$i]}
-        echo "id: $id"
+        #echo "id: $id"
         clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
         ids="$ids $clip"
     done
@@ -52,21 +52,24 @@ main() {
     covariates_file=$local_data_dir/covariates.txt
     echo -e "Sample\tProtocol\tDiagnosis" > ${covariates_file}
     #ids="${reference_counts[@]}"
-    echo "ids: $ids"
-    echo "python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids $ids"
- 
-    json=$(python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids $ids)
-    #echo $json
+    #echo "ids: $ids"
+    #echo "python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids $ids"
+    
+    echo "Getting metadata for all samples" 
+    json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
+    echo $json > metadata.json
     #exit
 
+    echo "Parsing metadata for each sample"
     #for ((i = 0; i < ${#reference_counts[@]}; i++)) 
-    for j in $(echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type}')
+    echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type}' | while read j
     do
       #file=${reference_counts[$i]}
       #echo $file
       #id=$(echo $file | jq '.dnanexus_link') 
       #echo $id
       #json=$(dx describe "$file" --json)
+      #echo "$j"
       sample_name=$(echo $j | jq '.sample_name')
       disease_code=$(echo $j | jq '.disease')
       strandedness=$(echo $j | jq '.disease') #$(head -c 10 /dev/random | tr -dc 'a-zA-Z0-9')
@@ -109,7 +112,7 @@ main() {
     # Run interactive t-SNE
     echo ""
     echo "  [*] Running t-SNE ..."
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:dx_native_app bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} $container_data_dir/reference_counts/*.txt $input_sample_arg --save-data" 
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:dx_native_app bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} $input_sample_arg $container_data_dir/reference_counts/*.txt --save-data" 
 
     # Upload output  
     tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)
