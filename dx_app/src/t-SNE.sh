@@ -16,8 +16,8 @@
 # to modify this file.
 
 main() {
-    echo "Value of input_sample: '${input_sample[@]}'"
-    echo "Value of tissue_type: '${tissue_type}'"
+    #echo "Value of input_sample: '${input_sample[@]}'"
+    echo "Value of tissue_type: '${tumor_type}'"
 
     local_data_dir=$HOME/in
     local_reference_dir=$HOME/reference
@@ -25,7 +25,7 @@ main() {
     container_data_dir=/data
     container_reference_dir=/reference
     container_output_dir=/results
-
+    metadata_file=/stjude/metadata/combined.csv 
     mkdir $local_reference_dir
     mkdir $local_output_dir
 
@@ -51,52 +51,47 @@ main() {
     echo "  [*] Retrieving covariates for reference data ..."
     covariates_file=$local_data_dir/covariates.txt
     echo -e "Sample\tProtocol\tDiagnosis" > ${covariates_file}
-    #ids="${reference_counts[@]}"
-    #echo "ids: $ids"
-    #echo "python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids $ids"
     
     echo "Getting metadata for all samples" 
     json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
     echo $json > metadata.json
-    #exit
-
+#
     echo "Parsing metadata for each sample"
-    #for ((i = 0; i < ${#reference_counts[@]}; i++)) 
     echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type}' | while read j
     do
-      #file=${reference_counts[$i]}
-      #echo $file
-      #id=$(echo $file | jq '.dnanexus_link') 
-      #echo $id
-      #json=$(dx describe "$file" --json)
-      #echo "$j"
-      sample_name=$(echo $j | jq '.sample_name')
-      disease_code=$(echo $j | jq '.disease')
-      strandedness=$(echo $j | jq '.disease') #$(head -c 10 /dev/random | tr -dc 'a-zA-Z0-9')
-      librarytype=
-      readlength=
-      protocol="${strandedness}_${library_type}_${readlength}"
-      echo -e "${sample_name}\t${protocol}\t${disease_code}" | sed 's/"//g' >> ${covariates_file}
+#      sample_name=$(echo $j | jq '.sample_name')
+#      disease_code=$(echo $j | jq '.disease')
+#      strandedness=$(echo $j | jq '.disease') #$(head -c 10 /dev/random | tr -dc 'a-zA-Z0-9')
+#      librarytype=
+#      readlength=
+      sample_name=$(echo $j | jq '.sample_name' | sed 's/\"//g')
+      record=$(grep ${sample_name} ${metadata_file} | head -n 1)
+      echo ${sample_name}
+      echo "record: $record"
+      if [[ $record != '' ]]
+      then
+        strandedness=$(echo $record | csvcut  -c 7  -)
+        library_type=$(echo $record | csvcut  -c 4  -)
+        pairing=$(echo $record | csvcut -c 5 -)
+        readlength=$(echo $record | csvcut  -c 6  -)
+        protocol="${strandedness}_${library_type}_${pairing}_${readlength}"
+        disease_code=$(echo $record | csvcut -c 10 -)
+        category=$(echo $record | csvcut -c 9 -)
+        color=$(echo $record | csvcut -c 11 -) 
+        if [[ "$tumor_type" == "All" ]]  || [[ "$tumor_type" == "$category" ]]
+        then
+           echo -e "${sample_name}\t${protocol}\t${disease_code}" | sed 's/"//g' >> ${covariates_file}
+        else
+           echo "Rejecting sample: ${sample_name}"
+           file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+           rm $HOME/in/reference_counts/${file_name}
+        fi
+      else
+        echo "Rejecting sample: ${sample_name}"
+        file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+        rm $HOME/in/reference_counts/${file_name}
+      fi
     done
-    # Add input samples to covariates list
-    in_arg=
-    input_sample_arg=
-    if [ -z ${input_sample} ]
-    then
-      echo ""
-      echo "  [*] Retrieving covariates for input data ..."
-      for file in $input_sample
-      do
-        json=$(dx describe $file --json)
-        sample_name=$(echo $json | jq '.properties | .sample_name')
-        disease_code=$(echo $json | jq '.properties | .sj_diseases')
-        strandedness=
-        librarytype=
-        readlength=
-        protocol="${strandedness}_${library_type}_${readlength}"
-        echo -e "${sample_name}\t${protocol}\t${disease_code}" | sed 's/"//g' >> ${covariates_file}
-      done
-    fi
 
     # Fetch gene blacklist
     echo ""
@@ -112,7 +107,12 @@ main() {
     # Run interactive t-SNE
     echo ""
     echo "  [*] Running t-SNE ..."
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:dx_native_app bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} $input_sample_arg $container_data_dir/reference_counts/*.txt --save-data" 
+    tissue_arg=
+    if [[ "$tumor_type" != "All" ]]
+    then
+       tissue_arg="--tissue-type \"${tumor_type}\""
+    fi
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:dx_native_app bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} $input_sample_arg $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}" 
 
     # Upload output  
     tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)
