@@ -7,18 +7,10 @@
   "inputSpec": [
     {
       "name": "reference_counts",
-      "label": "Reference counts to compare against",
+      "label": "Reference counts to compare",
       "class": "array:file",
       "optional": true,
-      "help": "Provide a cohort of samples to compare against",
-      "patterns": [ "*.txt" ]
-    },
-    {
-      "name": "input_sample",
-      "label": "Input sample(s)",
-      "class": "array:file",
-      "optional": true,
-      "help": "Provide an optional set of input samples to compare to the existing cohort",
+      "help": "Provide a cohort of samples to compare",
       "patterns": [ "*.txt" ]
     },
     {
@@ -26,6 +18,13 @@
       "label": "Output file name", 
       "class": "string",
       "default": "samples.html"
+    },
+    { 
+      "name": "tumor_type",
+      "label": "Tumor type", 
+      "class": "string", 
+      "choices": ["All", "Brain Tumor", "Blood Cancer", "Solid Tumor"],
+      "default": "All"
     }
   ],
   "outputSpec": [
@@ -60,7 +59,8 @@
     "distribution": "Ubuntu",
     "file": "src/t-SNE.sh",
     "execDepends": [
-       { "name": "parallel"}
+       { "name": "parallel"},
+       { "name": "csvkit", "package_manager": "pip"}
     ]
   },
   "regionalOptions": {
