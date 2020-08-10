@@ -14,6 +14,14 @@
       "patterns": [ "*.txt" ]
     },
     {
+      "name": "input_counts",
+      "label": "Input counts to compare",
+      "class": "array:file",
+      "optional": true,
+      "help": "Provide sample(s) to compare",
+      "patterns": [ "*.txt" ]
+    },
+    {
       "name": "output_name",
       "label": "Output file name", 
       "class": "string",
