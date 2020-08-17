@@ -117,13 +117,19 @@ rm(allData)
 #names(colors) <- unique(diagnosis)
 
 dataMatrix <- as.matrix(counts)
+write.table(dataMatrix, file="original_matrix.txt", sep="\t",quote=FALSE,row.names=FALSE)
+
 if (!opt$`disable-variance-stabilization`) {
   if (opt$vst) {
     cat("Performing vst\n", file = stderr())
     dataMatrix <- vst(dataMatrix, blind=T)
+    write.table(dataMatrix, file="vst.txt", sep="\t",quote=FALSE,row.names=FALSE)
+
   } else {
     cat("Performing variance stabilization\n", file = stderr())
     dataMatrix <- varianceStabilizingTransformation(dataMatrix, blind=T)
+    write.table(dataMatrix, file="variance_stabilized.txt", sep="\t",quote=FALSE,row.names=FALSE)
+
   }
 } else {
   cat("Variance stabilization disabled!\n", file = stderr())
@@ -131,7 +137,9 @@ if (!opt$`disable-variance-stabilization`) {
 
 if (!opt$`disable-batch-correction`) {
   cat("Performing batch correction\n", file = stderr())
-  dataMatrix <- ComBat(dataMatrix, covariates)
+  dataMatrix <- ComBat(dataMatrix, covariates, mean.only = FALSE)
+  write.table(dataMatrix, file="batch_corrected.txt", sep="\t",quote=FALSE,row.names=FALSE)
+
 } else {
   cat("Batch correction disabled!\n", file = stderr())
 }
@@ -143,7 +151,11 @@ madCutoff     <- sortMads[(topn+1)]
 topGenes      <- mads > madCutoff
 dataMatrixTop <- dataMatrix[topGenes,]
 
+write.table(topGenes, file="genes.txt", sep="\t",quote=FALSE,row.names=FALSE)
+
 distMat <- dist(t(dataMatrixTop))
+#write.table(distMat, file="distance_matrix.txt", sep="\t",quote=FALSE,row.names=FALSE)
+
 
 set.seed(opt$seed)
 cat("Running Rtsne\n", file = stderr())
@@ -394,61 +406,110 @@ popcolor_All =
 #Additional for paper
 "ACPG"="red",
 "ACT"="#66C2A6",
+"AEPD"="#ffccff",
+"AEPDPF"="#ff00ff",
+"AFH"="#d3d3d3",
 "ALAL"="black",
 "ALCL"="#f9779d",
-"AMKL"="#008cff",
 "AML"="#00c0ff",
+"AMLM7"="#008cff",
 "APML"="#ffa500",
+"ARHB"="#00aeff",
+"ASPS"="#d3d3d3",
 "ATRT"="#f9779d",
-"Alveolar RMS"="#00aeff",
+"AUL"="#00c0ff",
+"BALLBCRABL1"="#ff00ff",
+"BALLBCRABL1L"="#9759d5",
+"BALLDUX4IGH"="#696969",
+"BALLDUX4IGHL"="#696969",
+"BALLETV6RUNX1"="#ffd700",
+"BALLETV6RUNX1L"="#ffd700",
+"BALLHYPER"="#3E9F32",
+"BALLHYPO"="#483d8b",
+"BALLIAMP21"="#0000ff",
+"BALLIGHCEBPD"="#d3d3d3",
+"BALLKMT2A"="#7cfc00",
+"BALLMEF2D"="#66C2A6",
+"BALLMYC"="#d3d3d3",
+"BALLNOS"="#d3d3d3",
+"BALLNUTM1"="#8b0000",
+"BALLPAX5"="#e88c38",
+"BALLPAX5P80R"="#ffa500",
+"BALLTCF3PBX1"="#c8a2c8",
+"BALLZNF384"="#A8DD00",
+"BALLZNF384L"="#A8DD00",
+"BCUP"="#d3d3d3",
+"BERHB"="#0006c2",
 "BL"="#d3d3d3",
-"Botryoid RMS"="#0006c2",
+"CBF"="#00c0ff",
+"CCRCC"="#d3d3d3",
+"CCSK"="#d3d3d3",
+"CHDM"="#d3d3d3",
+"CML"="#d3d3d3",
 "CPC"="#ffd700",
+"DES"="#8b0000",
+"DFSP"="#d3d3d3",
+"DLBCL"="#d3d3d3",
 "DSRCT"="#daa520",
-"DUX4"="#696969",
-"Desmoid"="#8b0000",
-"EPD (Posterior Fossa)"="#ff00ff",
-"EPD (Supratentorial)"="#c042ff",
-"EPD"="#ffccff",
-"ETV6"="#ffd700",
-"Embryonal RMS"="#0000ff",
-"Embryonal"="#ff7b29",
-"Ewing"="#d277f3",
+"EMBT"="#ff7b29",
+"EPMT"="#ffccff",
+"EPMTPF"="#ff00ff",
+"EPMTSU"="#c042ff",
+"ERHB"="#0000ff",
+"ETMR"="#ff7b29",
+"EWS"="#d277f3",
+"FIBS"="#d3d3d3",
+"FMS"="#d3d3d3",
+"GIST"="#d3d3d3",
+"GNG"="#d3d3d3",
+"HB"="#e76836",
+"HCC"="#ffa500",
+"HGGNOS"="#0006c2",
 "HGNET"="#8fb90a",
-"Hepatoblastoma"="#e76836",
-"High-grade glioma"="#0006c2",
-"Hyperdiploid"="#3E9F32",
-"Hypodiploid"="#483d8b",
-"KMT2A"="#7cfc00",
-"Kidney"="#eb1414",
-"Liver"="#ffa500",
-"Low-grade glioma"="#00c0ff",
-"MBL (G3/4)"="#2fd090",
-"MBL (SHH)"="#29a20b",
-"MBL (WNT)"="#287415",
-"MBL"="#7cfc00",
-"MEF2D"="#66C2A6",
-"Melanoma"="#9531ed",
-"Meningioma"="#8b0000",
-"NUTM1"="#8b0000",
-"Neuroblastoma"="#f9779d",
-"Osteosarcoma"="#ff00ff",
-"Other"="#d3d3d3",
-"PAX5 P80R"="#ffa500",
-"PAX5alt"="#e88c38",
-"Ph"="#ff00ff",
-"Ph-like"="#9759d5",
-"Retinoblastoma"="#ffd700",
-"Rhabdoid"="#c01111",
-"Rhabdomyosarcoma"="#00c0ff",
+"IFS"="#d3d3d3",
+"LGGNOS"="#00c0ff",
+"MB"="#7cfc00",
+"MBG3"="#2fd090",
+"MBG4"="#2fd090",
+"MBSHH"="#29a20b",
+"MBT"="#d3d3d3",
+"MBWNT"="#287415",
+"MDS"="#d3d3d3",
+"MEL"="#9531ed",
+"MEPMST"="#ffccff",
+"MFH"="#d3d3d3",
+"MNG"="#8b0000",
+"MPE"="#ffccff",
+"MPEPF"="#ff00ff",
+"MRT"="#c01111",
+"MRTL"="#c01111",
+"MUCC"="#d3d3d3",
+"NBL"="#f9779d",
+"NFIB"="#d3d3d3",
+"OS"="#ff00ff",
+"PANET"="#d3d3d3",
+"PBL"="#d3d3d3",
+"PRCC"="#eb1414",
+"RB"="#ffd700",
+"RCC"="#eb1414",
+"RCSNOS"="#d3d3d3",
+"RHB"="#00c0ff",
+"SCCNOS"="#d3d3d3",
+"SCRHB"="#d3d3d3",
+"SCSNOS"="#d3d3d3",
+"SCUP"="#d3d3d3",
+"SETTLE"="#d3d3d3",
+"SIPT"="#d3d3d3",
+"SS"="#d3d3d3",
 "TALL"="red",
-"TCF3-PBX1"="#c8a2c8",
-"Thyroid"="#11c598",
-"Wilms (bilateral)"="#7cfc00",
-"Wilms"="#29a20b",
-"ZNF384"="#A8DD00",
-"iAMP21"="#0000ff"
-  )
+"TALLKMT2A"="red",
+"THFO"="#11c598",
+"THPA"="#11c598",
+"UESL"="#ffa500",
+"WLM"="#29a20b",
+"WLMB"="#7cfc00"
+)
+
 color_lib <- as.data.frame(popcolor_All)
 setDT(color_lib, keep.rownames = TRUE)[]
 colnames(color_lib) <- c('classes', 'color')

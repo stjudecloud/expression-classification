@@ -4,6 +4,9 @@
 # Updated APED -> AEPD in SAMPLE_INFO_August2019_Working_V99_03_August_FREEZE_V4_slim.csv
 # Updated MSCERMS -> MSCERHB in SAMPLE_INFO_August2019_Working_V99_03_August_FREEZE_V4_slim.csv
 
-csvjoin -c 1  --left PCGP_RTCG_G4K_ClinGen_RNAseqInfo_Aug_28_2019_FREEZE_V4_project.csv SAMPLE_INFO_August2019_Working_V99_03_August_FREEZE_V4_slim.csv > combined1.csv
-csvjoin -c 30,2 --left combined1.csv SAMPLE_INFO_August2019_Working_V99_LOOKUP_V4_slim.csv > combined2.csv
-csvcut -c SampleID,Sample_Preparation,Sequencing_Machine,Library_Selection,Sequencing_Approach,ReadLength_bp,"Predicted Strandness via InferExperiment",Dataset,"TumorCategory NEW","Classification_tSNE_tag (Manuscript)","Classification_tSNE_color (Manuscript)",KeepOrExclude combined2.csv |grep -v "EXCLUDE" > combined.csv
+#csvjoin -c 1  --left PCGP_RTCG_G4K_ClinGen_RNAseqInfo_Aug_28_2019_FREEZE_V4_project.csv SAMPLE_INFO_August2019_Working_V99_03_August_FREEZE_V4_slim.csv > combined1.csv
+#csvjoin -c 30,2 --left combined1.csv SAMPLE_INFO_August2019_Working_V99_LOOKUP_V4_slim.csv > combined2.csv
+csvjoin -c 7,2 paper_vs_database_diagnosis_v4_normalized_AlexUpdatesV2.csv SAMPLE_INFO_August2019_Working_V99_LOOKUP_V4_slim.csv > combined1.csv  
+#csvcut -c SampleID,Sample_Preparation,Sequencing_Machine,Library_Selection,Sequencing_Approach,ReadLength_bp,"Predicted Strandness via InferExperiment",Dataset,"TumorCategory NEW","Classification_tSNE_tag (Manuscript)","Classification_tSNE_color (Manuscript)",KeepOrExclude combined2.csv |grep -v "EXCLUDE" > combined.csv
+#csvcut -c SampleID,Sample_Preparation,Sequencing_Machine,Library_Selection,Sequencing_Approach,ReadLength_bp,"Predicted Strandness via InferExperiment",Dataset,"TumorCategory NEW","St. Jude Diagnosis ID NEW","Classification_tSNE_color (Manuscript)",KeepOrExclude combined2.csv |grep -v "EXCLUDE" > combined.csv
+csvcut -c SampleID,Sample_Preparation,Sequencing_Machine,Library_Selection,Sequencing_Approach,ReadLength_bp,"Predicted Strandness via InferExperiment",Dataset,"TumorCategory NEW","St. Jude Diagnosis ID NEW","Classification_tSNE_color (Manuscript)",KeepOrExclude combined1.csv |grep -v "EXCLUDE" > combined.csv
