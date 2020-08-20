@@ -108,9 +108,11 @@ if(is.null(opt) || is.null(opt$outname) || is.null(opt$filename)) {
 
 allData    <- read.csv(file=opt$filename, header=T)
 diagnosis  <- allData["Diagnosis"][,1]
+diagnosisName <- allData["DiagnosisName"][,1]
+colors <- allData["Color"][,1]
 covariates <- allData["Covariates"][,1]
 samples    <- allData["Sample"][,1]
-counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample"))])
+counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample", "DiagnosisName", "Color"))])
 rm(allData)
 
 #colors        <- rainbow(length(unique(diagnosis)))
@@ -529,7 +531,9 @@ unknownX<-toPlot[nrow(toPlot),1]
 unknownY<-toPlot[nrow(toPlot),2]
 toPlot$classes   <- diagnosis
 toPlot$samples <- samples
-toPlot <- merge(toPlot, color_lib, by="classes", all.x = TRUE)
+toPlot$color <- colors
+toPlot$diagnosisNames <- diagnosisName
+#toPlot <- merge(toPlot, color_lib, by="classes", all.x = TRUE)
 #toPlot$color <- popcolor_All[toPlot$classes]
 
 # Setup axis
@@ -539,7 +543,7 @@ ax <- list(
   showticklabels = FALSE,
   showgrid = FALSE
 )
-title = "tSNE St. Jude Cloud"
+title = "St. Jude Cloud"
 
 if(length(opt$`tissue-type`)){
 #  if(opt$`tissue-type` == "solid"){
@@ -553,7 +557,7 @@ if(length(opt$`tissue-type`)){
 #  }
   title = paste(title, opt$`tissue-type`)
 }
-
+title = paste(title, "RNA-Seq Expression Landscape")
 plotData <- toPlot
 
 if (opt$`save-data`) {
@@ -572,7 +576,7 @@ if (length(opt$`input-sample`)){
 p <- plot_ly(type = "scatter" , mode = "markers" , data = plotData[1:(nrow(plotData)),],
              x = ~t1, y = ~t2 , color = ~classes , colors = popcolor_All , 
              hoverinfo = "text",
-             text = ~paste("Sample: ", samples, '<br>Diagnosis: ', classes) #~samples 
+             text = ~paste("Sample: ", samples, '<br>Diagnosis Code: ', classes, '<br>Diagnosis Name', diagnosisNames) #~samples 
              )%>%
      layout(title=title, xaxis=ax, yaxis=ax)
 
