@@ -40,7 +40,6 @@ main() {
     for ((i = 0; i < ${#reference_counts[@]}; i++)) 
     do
         id=${reference_counts[$i]}
-        #echo "id: $id"
         clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
         ids="$ids $clip"
     done
@@ -51,14 +50,13 @@ main() {
     echo $ids | xargs -n 100 | sed "s#^#dx download -o $HOME/in/reference_counts/ --no-progress #" > download_all.sh
     parallel --joblog download.log < download_all.sh
 
-    # Look over the inputs, if any, store IDs and download in parallel
+    # Loop over the inputs, if any, store IDs and download in parallel
     input_ids=""
     if [ ${#input_counts[@]} -gt 0 ]
     then 
        for ((i = 0; i < ${#input_counts[@]}; i++)) 
        do
            id=${input_counts[$i]}
-           #echo "id: $id"
            clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
            input_ids="$input_ids $clip"
        done
@@ -79,7 +77,7 @@ main() {
     echo $json > metadata.json
 
     echo "Parsing metadata for each sample"
-    echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.attr_library_selection_protocol, readlength: .properties.attr_read_length, strandedness: .properties.attr_strandedness, pairing: .properties.attr_read_type, category: .properties.attr_diagnosis_group}' | while read j
+    echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.attr_library_selection_protocol, readlength: .properties.attr_read_length, strandedness: .properties.attr_lab_strandedness, pairing: .properties.attr_read_type, category: .properties.attr_diagnosis_group}' | while read j
     do
       sample_name=$(echo $j | jq -r '.sample_name')
 
@@ -148,12 +146,8 @@ main() {
          id=${input_counts[$i]}
          id=$(echo $id | jq -r '.["$dnanexus_link"]')
 
-         echo "id: $id"
-         echo "dx describe --json $id"
          j=$(dx describe --json $id)
-	 echo "json: $j"
          sample_name=$(echo $j | jq -r '.properties.sample_name')
-         disease_code=$(echo $j | jq -r '.properties.disease')
          strandedness=$(echo $j | jq -r '.properties.strandedness')
          if [[ $strandedness == "Not Available" ]]
          then 
@@ -170,7 +164,6 @@ main() {
          protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
          echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t" | sed 's/"//g' >> ${covariates_file}
          in_arg="$in_arg --input-sample $sample_name"
-         echo "in_arg: $in_arg"
          echo "Adding input sample: $sample_name, $protocol, $disease_code"
        done
        echo ${in_arg}
