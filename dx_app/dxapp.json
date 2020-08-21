@@ -24,7 +24,7 @@
       "label": "Input counts to compare",
       "class": "array:file",
       "optional": true,
-      "help": "Provide sample(s) to compare",
+      "help": "Provide sample(s) to compare. File must have the following properties: sample_name, library_type, read_length, strandedness, and pairing.",
       "patterns": [ "*.txt" ]
     },
     {
