@@ -157,8 +157,8 @@ main() {
          then 
             strandedness="Stranded-Reverse"
          fi 
-         librarytype=$(echo $j | jq -r '.properties.library')
-         readlength=$(echo $j | jq -r '.properties.readlength')
+         librarytype=$(echo $j | jq -r '.properties.library_type')
+         readlength=$(echo $j | jq -r '.properties.read_length')
          pairing=$(echo $j | jq -r '.properties.pairing')
          disease_code=$sample_name
          protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
