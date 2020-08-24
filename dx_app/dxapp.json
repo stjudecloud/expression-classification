@@ -1,40 +1,62 @@
 {
-  "name": "t-SNE",
-  "title": "Interactive t-SNE",
+  "name": "stjude_tsne",
+  "title": "St. Jude Cloud Interactive t-SNE",
   "summary": "Produce a t-SNE plot that highlights input sample(s) against a cohort of existing samples.",
   "dxapi": "1.0.0",
   "version": "0.0.1",
+  "developers": [ "user-athrashe" ],
+  "authorizedUsers": [
+    "user-athrashe",
+    "org-stjude_cloud_app_runners",
+    "org-stjude_cloud"
+  ],
   "inputSpec": [
     {
-      "name": "input_sample",
-      "label": "Input sample",
+      "name": "reference_counts",
+      "label": "Reference counts to compare",
       "class": "array:file",
-      "optional": false,
-      "help": ""
+      "optional": true,
+      "help": "Provide a cohort of samples to compare",
+      "patterns": [ "*.txt" ]
     },
     {
-      "name": "tissue_type",
-      "label": "Tissue tumor type [blood, brain, solid]",
+      "name": "input_counts",
+      "label": "Input counts to compare",
+      "class": "array:file",
+      "optional": true,
+      "help": "Provide sample(s) to compare. File must have the following properties: sample_name, library_type, read_length, strandedness, and pairing.",
+      "patterns": [ "*.txt" ]
+    },
+    {
+      "name": "output_name",
+      "label": "Output file name", 
       "class": "string",
-      "choices": ["blood", "brain", "solid"],
-      "optional": false, 
-      "help": ""
+      "default": "samples.html"
     },
-    {
-      "name": "covariates",
-      "label": "Sample information",
-      "class": "file",
-      "optional": false,
-      "help": "A list of samples, diagnoses, strandedness, library type, and read length. Tab delimited with column names: [Sample,Diagnosis,Strandedness,LibraryType,ReadLength]"
+    { 
+      "name": "tumor_type",
+      "label": "Tumor type", 
+      "class": "string", 
+      "choices": ["All", "Brain Tumor", "Blood Cancer", "Solid Tumor"],
+      "default": "All"
     }
   ],
   "outputSpec": [
     {
-      "name": "graph",
+      "name": "tsne_plot",
       "label": "HTML plot of t-SNE graph",
       "class": "file",
       "patterns": [
         "*.html"
+      ],
+      "help": ""
+    },
+    {
+      "name": "tsne_matrix",
+      "label": "Matrix of values for t-SNE graph",
+      "class": "file",
+      "patterns": [
+        "*.txt"
       ],
       "help": ""
     }
@@ -47,8 +69,13 @@
     },
     "interpreter": "bash",
     "release": "16.04",
+    "version": "1",
     "distribution": "Ubuntu",
-    "file": "src/t-SNE.sh"
+    "file": "src/t-SNE.sh",
+    "execDepends": [
+       { "name": "parallel"},
+       { "name": "csvkit", "package_manager": "pip"}
+    ]
   },
   "regionalOptions": {
     "azure:westus": {
@@ -62,6 +89,7 @@
   "access": {
     "network": [
       "*" 
-    ]  
+    ],
+    "allProjects": "VIEW"
   } 
 }

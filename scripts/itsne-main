@@ -115,7 +115,6 @@ def get_args():
   parser.add_argument(
       "--tissue-type",
       type=str,
-      default="blood",
       help="Tumor tissue type")
 
   args = parser.parse_args()
@@ -222,7 +221,7 @@ if __name__ == "__main__":
        })
 
     if (args.tissue_type):
-       command += " --tissue-type {type}".format(**{
+       command += " --tissue-type \"{type}\"".format(**{
           "type": args.tissue_type
        })
 
