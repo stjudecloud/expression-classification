@@ -16,7 +16,7 @@
       "label": "Reference counts to compare",
       "class": "array:file",
       "optional": true,
-      "help": "Provide a cohort of samples to compare",
+      "help": "Provide a cohort of samples to use as reference data",
       "patterns": [ "*.txt" ]
     },
     {
