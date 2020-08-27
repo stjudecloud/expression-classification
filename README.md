@@ -47,7 +47,7 @@ python3 setup.py install
 Download the relevant gene model:
 
 ```bash
-curl ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gtf.gz -o gencode.v32.annotation.gtf.gz
+curl ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_31/gencode.v31.annotation.gtf.gz -o gencode.v31.annotation.gtf.gz
 ```
 
 And try out the script:
@@ -56,7 +56,7 @@ And try out the script:
 itsne-main counts/* \
            -b reference/gene.blacklist.tsv \
            -c reference/covariates.tsv \
-           -g gencode.v32.annotation.gtf.gz \
+           -g gencode.v31.annotation.gtf.gz \
            -o tsne.html
 ```
 
