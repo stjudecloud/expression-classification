@@ -18,6 +18,10 @@
 main() {
     #echo "Value of input_sample: '${input_sample[@]}'"
     echo "Value of tissue_type: '${tumor_type}'"
+    echo "Value of all_strandedness: '${all_strandedness}'"
+    echo "Value of all_library_type: '${all_library_type}'"
+    echo "Value of all_read_length: '${all_read_length}'"
+    echo "Value of all_pairing: '${all_pairing}'"
 
     local_data_dir=$HOME/in
     local_reference_dir=$HOME/reference
@@ -141,13 +145,16 @@ main() {
        shopt -s lastpipe
        for ((i = 0; i < ${#input_counts[@]}; i++)) 
        do
-       #echo $input_json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.library_type, readlength: .properties.read_length, strandedness: .properties.strandedness, pairing: .properties.pairing}' | while read j
-       #do
          id=${input_counts[$i]}
          id=$(echo $id | jq -r '.["$dnanexus_link"]')
 
          j=$(dx describe --json $id)
+         file_name=$(echo $j | jq -r '.name')
          sample_name=$(echo $j | jq -r '.properties.sample_name')
+         if [[ $sample_name == "null" ]]
+         then
+            sample_name=$(echo ${file_name} | cut -f 1 -d'.' )
+         fi
          strandedness=$(echo $j | jq -r '.properties.strandedness')
          if [[ $strandedness == "Not Available" ]]
          then 
@@ -157,11 +164,32 @@ main() {
          then 
             strandedness="Stranded-Reverse"
          fi 
+         if [[ $strandedness == "null" ]] && [[ ! -z $all_strandedness ]]
+         then
+            strandedness="${all_strandedness}"
+         fi
          librarytype=$(echo $j | jq -r '.properties.library_type')
+         if [[ $librarytype == "null" ]] && [[ ! -z $all_library_type ]]
+         then
+            librarytype="${all_library_type}"
+         fi
          readlength=$(echo $j | jq -r '.properties.read_length')
+         if [[ $readlength == "null" ]] && [[ ! -z $all_read_length ]]
+         then
+            readlength="${all_read_length}"
+         fi
          pairing=$(echo $j | jq -r '.properties.pairing')
+         if [[ $pairing == "null" ]] && [[ ! -z $all_pairing ]]
+         then
+            pairing="${all_pairing}"
+         fi
          disease_code=$sample_name
          protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
+         if [[ $protocol == "null_null_null_null" ]]
+         then
+            echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Input file missing properties: $file_name\"}}" > job_error.json
+            exit 1
+         fi
          echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t" | sed 's/"//g' >> ${covariates_file}
          in_arg="$in_arg --input-sample $sample_name"
          echo "Adding input sample: $sample_name, $protocol, $disease_code"
@@ -191,7 +219,7 @@ main() {
     echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.0.7 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}\"" 
 
 
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.0.7 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}" 
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.0.7 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}"
 
     # Upload output  
     tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)
