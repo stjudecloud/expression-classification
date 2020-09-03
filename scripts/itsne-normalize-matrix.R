@@ -154,6 +154,7 @@ topGenes      <- mads > madCutoff
 dataMatrixTop <- dataMatrix[topGenes,]
 
 write.table(topGenes, file="genes.txt", sep="\t",quote=FALSE,row.names=FALSE)
+write.table(dataMatrixTop, file="data_top_genes.txt", sep="\t", quote=FALSE, row.names=FALSE)
 
 distMat <- dist(t(dataMatrixTop))
 #write.table(distMat, file="distance_matrix.txt", sep="\t",quote=FALSE,row.names=FALSE)
@@ -162,7 +163,10 @@ distMat <- dist(t(dataMatrixTop))
 set.seed(opt$seed)
 cat("Running Rtsne\n", file = stderr())
 tsne_out <- Rtsne(distMat, dims = 2, perplexity = opt$`tsne-perplexity`,
-                  theta = opt$`tsne-theta`, max_iter = opt$`tsne-max-iterations`, check_duplicates = F )
+                  theta = opt$`tsne-theta`, max_iter = opt$`tsne-max-iterations`, check_duplicates = F,
+                  num_threads = 0 )
+cat("Saving Rtsne output\n", file = stderr())
+write.table(data.frame(tsne_out$Y), file="tsne_output.txt", sep="\t",quote=FALSE,row.names=FALSE)
 
 # Setup colors for diagnosis codes
 popcolor_All =

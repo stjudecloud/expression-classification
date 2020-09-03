@@ -24,6 +24,7 @@ RUN conda update -n base -c defaults conda -y && \
              bioconductor-biocinstaller \
              bioconductor-sva \
              bioconductor-deseq2 \
+             scikit-learn \
              r-tsne r-getopt r-plotly  \
              pandoc -y \
     && conda clean --all -y

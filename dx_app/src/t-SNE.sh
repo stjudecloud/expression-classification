@@ -185,11 +185,35 @@ main() {
          fi
          disease_code=$sample_name
          protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
+
+         # Check for missing properties on input file
          if [[ $protocol == "null_null_null_null" ]]
          then
             echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Input file missing properties: $file_name\"}}" > job_error.json
             exit 1
          fi
+         if [[ $strandedness == "null" ]]
+         then
+            echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Input file missing property (strandedness): $file_name\"}}" > job_error.json
+            exit 1
+         fi
+         if [[ $librarytype == "null" ]]
+         then
+            echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Input file missing property (library_type): $file_name\"}}" > job_error.json
+            exit 1
+         fi
+         if [[ $pairing == "null" ]]
+         then
+            echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Input file missing property (pairing): $file_name\"}}" > job_error.json
+            exit 1
+         fi
+         if [[ $readlength == "null" ]]
+         then
+            echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Input file missing property (read_length): $file_name\"}}" > job_error.json
+            exit 1
+         fi
+
+
          echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t" | sed 's/"//g' >> ${covariates_file}
          in_arg="$in_arg --input-sample $sample_name"
          echo "Adding input sample: $sample_name, $protocol, $disease_code"
@@ -219,7 +243,7 @@ main() {
     echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.0.7 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}\"" 
 
 
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.0.7 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}"
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:dx_native_app bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}"
 
     # Upload output  
     tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)

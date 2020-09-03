@@ -8,6 +8,7 @@ import pandas as pd
 import tempfile
 import time
 
+from sklearn.manifold import trustworthiness
 from logzero import logger
 from itsne.countfile import CountFile
 from itsne.covariates import CovariatesFile
@@ -246,7 +247,20 @@ if __name__ == "__main__":
         stdout.flush()
         stderr.write(result.stderr.decode("utf-8"))
         stderr.flush()
+      print("Rscript stdout: {}".format(result.stdout.decode("utf-8")))
+      print("Rscript stderr: {}".format(result.stderr.decode("utf-8")))
       print("Be sure to delete {} manually!".format(tmpfile.name))
+
+  # X = data_top_genes.txt
+  # X_prime = tsne_output.txt
+  X = pd.read_table("data_top_genes.txt").transpose()
+  X_prime = pd.read_table("tsne_output.txt")
+
+  trust_score = trustworthiness(X, X_prime)
+  print(f"Performed data embedding with trustworthiness: {trust_score:0.3f}.")
+  trust_file = open("trustworthiness.txt", "w")
+  trust_file.write(str(trust_score))
+  trust_file.close()
 
   logger.info("  [+] Finished. Took {:.2f} seconds.".format(time.time() -
                                                             start_time))
