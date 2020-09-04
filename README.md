@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 To get started, you'll want to have Python 3 and R 3.6.1.
 
-```
+```bash
 conda create -n itsne-dev \
              -c conda-forge \
              -c bioconda \
@@ -19,7 +19,7 @@ conda create -n itsne-dev \
              bioconductor-biocinstaller \
              bioconductor-sva \
              bioconductor-deseq2 \
-             r-tsne r-getopt r-plotly -y
+             r-tsne r-getopt r-plotly r-optparse r-rtsne r-pracma r-data.table -y
 conda activate itsne-dev
 ```
 
