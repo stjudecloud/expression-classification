@@ -39,6 +39,38 @@
       "class": "string", 
       "choices": ["All", "Brain Tumor", "Blood Cancer", "Solid Tumor"],
       "default": "All"
+    },
+    { 
+      "name": "all_strandedness",
+      "label": "Strandedness", 
+      "class": "string", 
+      "choices": ["Stranded-Forward", "Stranded-Reverse", "Unstranded"],
+      "optional": true,
+      "help": "Specify whether library was stranded. This option will apply to any input samples without a specification."
+    },
+    { 
+      "name": "all_library_type",
+      "label": "Library type", 
+      "class": "string", 
+      "choices": ["PolyA", "Total"],
+      "optional": true,
+      "help": "Specify library type. This option will apply to any input samples without a specification."
+    },
+    { 
+      "name": "all_read_length",
+      "label": "Read length", 
+      "class": "string", 
+      "choices": ["101", "126"],
+      "optional": true,
+      "help": "Specify read length. This option will apply to any input samples without a specification."
+    },
+    { 
+      "name": "all_pairing",
+      "label": "Read pairing", 
+      "class": "string", 
+      "choices": ["Paired-end", "Single-end"],
+      "optional": true,
+      "help": "Specify read pairing. This option will apply to any input samples without a specification."
     }
   ],
   "outputSpec": [
@@ -59,6 +91,12 @@
         "*.txt"
       ],
       "help": ""
+    },
+    {
+      "name": "trustworthiness_score",
+      "label": "scikit-learn trustworthiness metric",
+      "help": "Provides a metric of how well the low dimensional embedding reflects the high dimensionality relatedness of the data",
+      "class": "string"
     }
   ],
   "runSpec": {

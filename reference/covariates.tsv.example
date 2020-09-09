@@ -1,5 +1,5 @@
-Sample	Diagnosis	Strandedness	LibraryType	ReadLength
-BALL1	Diagnosis1	Stranded	TotalRNA	75
-BALL2	Diagnosis1	Stranded	TotalRNA	75
-BALL3	Diagnosis2	Unstranded	mRNA	75
-BALL4	Diagnosis3	Unstranded	mRNA	75
+Sample	Diagnosis	Protocol	DiagnosisName
+BALL1	Diagnosis1	Stranded_Total_Paired_End_75	FullDiagnosis1
+BALL2	Diagnosis1	Stranded_Total_Paired_End_75	FullDiagnosis1
+BALL3	Diagnosis2	Unstranded_PolyA_Paired_End_75	FullDiagnosis2
+BALL4	Diagnosis3	Unstranded_PolyA_Paired_End_75	FullDiagnosis3
