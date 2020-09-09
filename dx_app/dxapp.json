@@ -91,6 +91,12 @@
         "*.txt"
       ],
       "help": ""
+    },
+    {
+      "name": "trustworthiness_score",
+      "label": "scikit-learn trustworthiness metric",
+      "help": "Provides a metric of how well the low dimensional embedding reflects the high dimensionality relatedness of the data",
+      "class": "string"
     }
   ],
   "runSpec": {

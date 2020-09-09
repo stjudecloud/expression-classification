@@ -221,6 +221,19 @@ main() {
        echo ${in_arg}
     fi
 
+    # Check covariates for single sample batch
+    covariate_counts=$(cut -f 2 ${covariates_file} | sort |grep -v "Protocol" | awk '{a[$1]++}END{for (i in a) print i,a[i] | "sort"}' OFS="\t")
+    echo "Covariates:"
+    echo "$covariate_counts"
+    smallest=$(echo "${covariate_counts}" | sort -k 2,2n | head -n 1)
+    echo "smallest: ${smallest}"
+    if [[ $(echo "${smallest}" | cut -f 2  )  == "1" ]]
+    then
+            co=$(echo "${smallest}" | cut -f 1)
+            echo "{\"error\": {\"type\": \"AppError\", \"message\": \"A covariate batch has a single sample. This is unsupported for batch correction.: ${co}\"}}" > job_error.json
+            exit 1
+    fi
+
     # Fetch gene blacklist
     echo ""
     echo "  [*] Downloading gene blacklist ..."
@@ -230,7 +243,6 @@ main() {
     echo ""
     echo "  [*] Downloading gencode ..."
     dx download -o $local_reference_dir/gencode.v31.annotation.gtf.gz -r project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/M2A/gencode.v31.annotation.gtf.gz 
-    #dx download -o $local_reference_dir/gencode.v31.annotation.gtf.gz.tbi -r project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/M2A/gencode.v31.annotation.gtf.gz.tbi 
 
     # Run interactive t-SNE
     echo ""
@@ -242,7 +254,6 @@ main() {
     fi
     echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.0.7 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}\"" 
 
-
     docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:dx_native_app bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}"
 
     # Upload output  
@@ -250,5 +261,5 @@ main() {
     dx-jobutil-add-output tsne_plot "$tsne_plot" --class=file
     tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
     dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
-
+    dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
 }
