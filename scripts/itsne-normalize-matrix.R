@@ -3,9 +3,6 @@ suppressMessages(library(Rtsne, quietly = T))
 suppressMessages(library(plotly, quietly = T))
 suppressMessages(library(DESeq2, quietly = T))
 suppressMessages(library(sva, quietly = T))
-suppressMessages(library("RColorBrewer", quietly = T))
-suppressMessages(library("viridis", quietly = T) )
-suppressMessages(library("stringr", quietly = T) )
 suppressMessages(library("pracma", quietly = T) )
 suppressMessages(library("data.table", quietly = T)) 
 
@@ -115,9 +112,6 @@ samples    <- allData["Sample"][,1]
 counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample", "DiagnosisName", "Color"))])
 rm(allData)
 
-#colors        <- rainbow(length(unique(diagnosis)))
-#names(colors) <- unique(diagnosis)
-
 dataMatrix <- as.matrix(counts)
 write.table(dataMatrix, file="original_matrix.txt", sep="\t",quote=FALSE,row.names=FALSE)
 
@@ -157,8 +151,6 @@ write.table(topGenes, file="genes.txt", sep="\t",quote=FALSE,row.names=FALSE)
 write.table(dataMatrixTop, file="data_top_genes.txt", sep="\t", quote=FALSE, row.names=FALSE)
 
 distMat <- dist(t(dataMatrixTop))
-#write.table(distMat, file="distance_matrix.txt", sep="\t",quote=FALSE,row.names=FALSE)
-
 
 set.seed(opt$seed)
 cat("Running Rtsne\n", file = stderr())
@@ -302,9 +294,6 @@ popcolor_All =
 "YSTNOS"="yellow"
 )
 
-color_lib <- as.data.frame(popcolor_All)
-setDT(color_lib, keep.rownames = TRUE)[]
-colnames(color_lib) <- c('classes', 'color')
 cat("Plotting...\n", file = stderr())
 # Create plot data objects
 toPlot <- data.frame(tsne_out$Y)
@@ -315,8 +304,6 @@ toPlot$classes   <- diagnosis
 toPlot$samples <- samples
 toPlot$color <- colors
 toPlot$diagnosisNames <- diagnosisName
-#toPlot <- merge(toPlot, color_lib, by="classes", all.x = TRUE)
-#toPlot$color <- popcolor_All[toPlot$classes]
 
 # Setup axis
 ax <- list(
@@ -328,15 +315,6 @@ ax <- list(
 title = "St. Jude Cloud"
 
 if(length(opt$`tissue-type`)){
-#  if(opt$`tissue-type` == "solid"){
-#    title = paste(title, "Solid Tumors")
-#  }
-#  else if (opt$`tissue-type` == "blood"){
-#    title = paste(title, "Blood Cancers")
-#  }
-#  else if (opt$`tissue-type` == "brain"){
-#    title = paste(title, "Brain Cancers")
-#  }
   title = paste(title, opt$`tissue-type`)
 }
 title = paste(title, "RNA-Seq Expression Landscape")
@@ -354,13 +332,23 @@ if (length(opt$`input-sample`)){
    plotData <- plotData[plotData$sample %!in% unlist(inputs) | plotData$classes %!in% unlist(inputs),]
 }
 
-# Plot the reference samples
-p <- plot_ly(type = "scatter" , mode = "markers" , data = plotData[1:(nrow(plotData)),],
-             x = ~t1, y = ~t2 , color = ~classes , colors = popcolor_All , 
+p <- plot_ly()
+
+for (category in sort(unique(plotData$classes)))
+{
+    subdata <- plotData[ plotData$classes %in% c(category), ]
+    color <- subdata[1,5]
+
+    p <- add_trace(p, type = "scatter" , mode = "markers" , data = subdata,
+             x = ~t1, y = ~t2 , name = category,
+             marker = (list( color = ~color )),
              hoverinfo = "text",
-             text = ~paste("Sample: ", samples, '<br>Diagnosis Code: ', classes, '<br>Diagnosis Name', diagnosisNames) #~samples 
-             )%>%
-     layout(title=title, xaxis=ax, yaxis=ax)
+             text = ~paste("Sample: ", samples, '<br>Diagnosis Code: ', classes, '<br>Diagnosis Name', diagnosisNames),
+             showlegend = TRUE
+             )
+
+}
+p <- layout(p, title=title, xaxis=ax, yaxis=ax)
 
 # If we have input samples, add them to the existing plot.
 if (length(opt$`input-sample`)){
@@ -368,9 +356,7 @@ if (length(opt$`input-sample`)){
 
    L <- toPlot[toPlot$samples %in% unlist(inputs) & toPlot$classes %in% unlist(inputs),]
    L$classes <- L$samples
-   highlight      <- rainbow(length(unique(L$samples)))
-   names(highlight) <- unique(L$samples)
-   p <- add_trace(p, data = L , x = ~t1, y = ~t2 , color = ~classes, colors = highlight,
+   p <- add_trace(p, data = L , x = ~t1, y = ~t2 , name = ~classes,
             marker = list(size = 10,color = 'rgb(0, 0, 0 , 0.25)', symbol = "cross"))
    a <- list(
      x = L$t1,

@@ -16,6 +16,10 @@ conda create -n itsne-dev \
              -c bioconda \
              r-base=3.6.1 \
              python=3.7 \
+             logzero \
+             numpy \
+             pandas \
+             scikit-learn \
              bioconductor-biocinstaller \
              bioconductor-sva \
              bioconductor-deseq2 \
