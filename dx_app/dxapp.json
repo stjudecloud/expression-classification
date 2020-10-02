@@ -71,6 +71,14 @@
       "choices": ["Paired-end", "Single-end"],
       "optional": true,
       "help": "Specify read pairing. This option will apply to any input samples without a specification."
+    },
+    {
+      "name": "intermediate",
+      "label": "Return intermediate file",
+      "class": "string",
+      "optional": true,
+      "choices": ["original_matrix", "variance_stabilized", "batch_corrected", "tsne_output"],
+      "help": "If desired, return data from an intermediate point in the analysis. 'original_matrix' is the matrix of counts. 'variance_stabilized' is the matrix after running varianceStabilizingTransformation. 'batch_corrected' is the matrix after ComBat batch correction. 'tsne_output' is the matrix after Rtsne has been run."
     }
   ],
   "outputSpec": [
@@ -97,6 +105,12 @@
       "label": "scikit-learn trustworthiness metric",
       "help": "Provides a metric of how well the low dimensional embedding reflects the high dimensionality relatedness of the data",
       "class": "string"
+    },
+    {
+      "name": "intermediate_output",
+      "label": "Requested intermediate file",
+      "class": "file",
+      "optional": true
     }
   ],
   "runSpec": {
