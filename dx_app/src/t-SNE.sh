@@ -52,7 +52,7 @@ main() {
     # Download with GNU parallel
     mkdir -p $HOME/in/reference_counts/
     echo $ids | xargs -n 100 | sed "s#^#dx download -o $HOME/in/reference_counts/ --no-progress #" > download_all.sh
-    parallel --joblog download.log < download_all.sh
+    parallel --results download_outputs --joblog download.log < download_all.sh > download.stdout 
 
     # Loop over the inputs, if any, store IDs and download in parallel
     input_ids=""
