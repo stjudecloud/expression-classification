@@ -145,7 +145,7 @@ main() {
 
       # Check for sample type. Remove germline, cell line, xenograft
       type=$(echo $j | jq -r '.type')
-      if [ $(echo $type | grep -cE 'Xenograft|Germline|Cell line') -gt 0 ]
+      if [ $(echo $type | grep -cE 'xenograft|germline|cell line') -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [sample type]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
