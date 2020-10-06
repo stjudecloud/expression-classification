@@ -37,6 +37,27 @@ main() {
     # Fetch input counts data
     echo ""
     echo "=== Setup ==="
+    echo "  [*] Check for duplicate files ..."
+    file_names=()
+    for ((i = 0; i < ${#reference_counts_name[@]}; i++)) 
+    do
+        #id=${reference_counts[$i]}
+        #clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
+        #name=$(dx describe --json $clip | jq -r '.name')
+        name=${reference_counts_name[$i]}
+        file_names+=( $name )
+    done
+    echo "   Getting unique file count"
+    uniqueNum=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
+    duplicateFiles=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];next} 1' | xargs echo)
+    echo "   Checking unique file count"
+    (( $uniqueNum != ${#file_names[@]} )) && echo "Found duplicates" && \
+    echo $duplicateFiles && \
+    echo "Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py" && \
+    echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Duplicate file names found. $duplicateFiles. Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py.\"}}" > job_error.json && \
+    exit 1
+
+
     echo "  [*] Downloading input files ..."
     #dx-download-all-inputs --parallel
     # Get the file ids of the reference count data

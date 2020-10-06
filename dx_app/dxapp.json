@@ -17,7 +17,7 @@
       "class": "array:file",
       "optional": true,
       "help": "Provide a cohort of samples to use as reference data",
-      "patterns": [ "*.txt" ]
+      "patterns": [ "*.feature-counts.txt" ]
     },
     {
       "name": "input_counts",
@@ -25,7 +25,7 @@
       "class": "array:file",
       "optional": true,
       "help": "Provide sample(s) to compare. File must have the following properties: sample_name, library_type, read_length, strandedness, and pairing.",
-      "patterns": [ "*.txt" ]
+      "patterns": [ "*.feature-counts.txt" ]
     },
     {
       "name": "output_name",
