@@ -1,4 +1,4 @@
-﻿TumorCategory,SJDiagnosis,SJDiagnosis_ID,Oncotree,Classification_tSNE_group,Color
+TumorCategory,St. Jude Diagnosis,St. Jude Diagnosis ID,Oncotree Abbreviation,Classification_tSNE_group (Manuscript),Classification_tSNE_color (Manuscript)
 Solid Tumor,Acinar Cell Carcinoma,ACN,ACN,<NA>,<NA>
 Hematologic Malignancy,Acute Leukemias of Ambiguous Lineage,ALAL,ALAL,ALAL,black
 Hematologic Malignancy,"Acute Lymphoblastic Leukemia, NOS",ALL,LNM,<NA>,<NA>
@@ -40,14 +40,14 @@ Hematologic Malignancy,"B-cell Acute Lymphoblastic Leukemia, ZNF384 rearrangemen
 Hematologic Malignancy,"B-cell Acute Lymphoblastic Leukemia, ZNF384 rearrangement like",BALLZNF384L,BLLRGA,Other,#d3d3d3
 Solid Tumor,Basal Cell Carcinoma,BCC,BCC,<NA>,<NA>
 Hematologic Malignancy,Blood Cancer of Unknown Primary,BCUP,CUP,Other,#d3d3d3
-Solid Tumor,Botryoid Type Embryonal Rhabdomyosarcoma,BERMS,ERMS,BERMS,#9ce5f0
+Solid Tumor,Botryoid Type Embryonal Rhabdomyosarcoma,BERMS,ERMS,BERMS,#0006c2
 Hematologic Malignancy,Burkitt Lymphoma,BL,BL,BL,#d3d3d3
 Solid Tumor,"Carcinoma, NOS",CNOS,CUP,<NA>,<NA>
 Brain Tumor,Central Neurocytoma,CNC,CNC,<NA>,<NA>
 Solid Tumor,Chondroblastic Osteosarcoma,CHOS,CHOS,OS,#ff00ff
 Solid Tumor,Chondrosarcoma,CHS,CHS,<NA>,<NA>
 Solid Tumor,Chordoma,CHDM,CHDM,Other,#d3d3d3
-Germ Cell Tumor,Choriocarcinoma,CCA,<NA>,Germ Cell Tumor,yellow
+Germ Cell Tumor,Choriocarcinoma,CCA,<NA>,<NA>,<NA>
 Brain Tumor,Choroid Plexus Carcinoma,CPC,CPC,CPC,#ffd700
 Hematologic Malignancy,Chronic Myeloid Leukemia,CML,CML,Other,#d3d3d3
 Solid Tumor,Clear Cell Sarcoma of Kidney,CCSK,CCSK,Other,#d3d3d3
@@ -60,10 +60,10 @@ Solid Tumor,Desmoplastic Small Round Cell Tumor,DSRCT,DSRCT,DSRCT,#daa520
 Brain Tumor,Desmoplastic/Nodular Medulloblastoma,DMBL,DMBL,<NA>,<NA>
 Hematologic Malignancy,"Diffuse Large B-cell Lymphoma, NOS",DLBCLNOS,DLBCLNOS,Other,#d3d3d3
 Brain Tumor,Dysembryoplastic Neuroepithelial Tumor,DNT,DNT,<NA>,<NA>
-Germ Cell Tumor,Dysgerminoma,DYS,<NA>,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Dysgerminoma, Ovarian",ODYS,ODYS,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Dysgerminoma, Pelvis",PDYS,<NA>,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Embryonal Carcinoma, NOS",ECNOS,<NA>,Germ Cell Tumor,yellow
+Germ Cell Tumor,Dysgerminoma,DYS,<NA>,<NA>,<NA>
+Germ Cell Tumor,"Dysgerminoma, Ovarian",ODYS,ODYS,<NA>,<NA>
+Germ Cell Tumor,"Dysgerminoma, Pelvis",PDYS,<NA>,<NA>,<NA>
+Germ Cell Tumor,"Embryonal Carcinoma, NOS",ECNOS,<NA>,<NA>,<NA>
 Solid Tumor,Embryonal Rhabdomyosarcoma,ERMS,ERMS,ERMS,#0000ff
 Brain Tumor,"Embryonal Tumor with Multilayered Rosettes, Brain",ETMR,EMBT,EBMT,#ff7b29
 Brain Tumor,"Embryonal Tumor, Brain",EBMT,EMBT,EBMT,#ff7b29
@@ -80,15 +80,15 @@ Solid Tumor,Fibroblastic Osteosarcoma,FIOS,FIOS,<NA>,<NA>
 Solid Tumor,Fibromyxoid Sarcoma,FMS,<NA>,Other,#d3d3d3
 Solid Tumor,"Fibrosarcoma, NOS",FIBS,FIBS,Other,#d3d3d3
 Solid Tumor,Follicular Thyroid Cancer,THFO,THFO,Thyroid,#11c598
-Brain Tumor,Gangliocytoma,GNG,GNG,Other,#d3d3d3
+Brain Tumor,Gangliocytoma,GNG,GNG,<NA>,<NA>
 Solid Tumor,Ganglioneuroblastoma,GNBL,GNBL,<NA>,<NA>
 Solid Tumor,Ganglioneuroma,GN,GN,<NA>,<NA>
 Solid Tumor,Gastrointestinal Stromal Tumor,GIST,GIST,Other,#d3d3d3
 Solid Tumor,General Bone Tumor,SJGENBN,<NA>,<NA>,<NA>
 Hematologic Malignancy,General Leukemia,SJGENLK,<NA>,<NA>,<NA>
-Germ Cell Tumor,"Germ Cell Tumor, Brain",BGCT,BGCT,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Germ Cell Tumor, NOS",GCT,<NA>,Germ Cell Tumor,yellow
-Germ Cell Tumor,Germinoma,GMN,GMN,Germ Cell Tumor,yellow
+Germ Cell Tumor,"Germ Cell Tumor, Brain",BGCT,BGCT,<NA>,<NA>
+Germ Cell Tumor,"Germ Cell Tumor, NOS",GCT,<NA>,<NA>,<NA>
+Germ Cell Tumor,Germinoma,GMN,GMN,<NA>,<NA>
 Solid Tumor,"Giant Cell Tumor, NOS",GICT,GCTB,<NA>,<NA>
 Brain Tumor,Glioblastoma,GB,GB,<NA>,<NA>
 Brain Tumor,"Glioma, NOS",GNOS,GNOS,<NA>,<NA>
@@ -122,12 +122,12 @@ Brain Tumor,Meningioma,MNG,MNG,MNG,#8b0000
 Solid Tumor,Mesenchymal Chondrosarcoma,MCHS,MCHS,<NA>,<NA>
 Brain Tumor,Miscellaneous Brain Tumor,MBT,MBT,Other,#d3d3d3
 Hematologic Malignancy,Mixed Cellularity Classical Hodgkin Lymphoma,MCCHL,MCCHL,<NA>,<NA>
-Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain",BMGCT,BMGCT,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Mixed Germ Cell Tumor, NOS",MGCTNOS,<NA>,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Mixed Germ Cell Tumor, Ovary and Lymph Node",OMGCT,OMGCT,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Mixed Germ Cell Tumor, Testis",MGCT,MGCT,Germ Cell Tumor,yellow
+Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain",BMGCT,BMGCT,<NA>,<NA>
+Germ Cell Tumor,"Mixed Germ Cell Tumor, NOS",MGCTNOS,<NA>,<NA>,<NA>
+Germ Cell Tumor,"Mixed Germ Cell Tumor, Ovary and Lymph Node",OMGCT,OMGCT,<NA>,<NA>
+Germ Cell Tumor,"Mixed Germ Cell Tumor, Testis",MGCT,MGCT,<NA>,<NA>
 Brain Tumor,"Mixed Myxopapillary Anaplastic Ependymoma, Spinal Tumor",MEPMST,EPMT,EPMT,#ffccff
-Solid Tumor,Mixed Spindle Cell and Embryonal Rhabdomyosarcoma,MSCERMS,RMS,RMS,#00c0ff
+Solid Tumor,Mixed Spindle Cell and Embryonal Rhabdomyosarcoma,MSCERMS,RMS,<NA>,<NA>
 Solid Tumor,Mucinous Adenocarcinoma of the Colon and Rectum,MACR,MACR,<NA>,<NA>
 Solid Tumor,"Mucinous Adenocarcinoma, NOS",MACNOS,<NA>,<NA>,<NA>
 Solid Tumor,Mucoepidermoid Carcinoma,MUCC,MUCC,Other,#d3d3d3
@@ -185,10 +185,58 @@ Hematologic Malignancy,T-cell Acute Lymphoblastic Leukemia,TALL,TLL,TALL,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, KMT2A rearrangement",TALLKMT2A,TLL,TALL,red
 Hematologic Malignancy,T-cell Lymphoblastic Lymphoma,TLL,TLL,Other,#d3d3d3
 Solid Tumor,Telangiectatic Osteosarcoma,TEOS,TEOS,<NA>,<NA>
-Germ Cell Tumor,Teratocarcinoma,TTC,<NA>,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Teratoma, NOS",TTNOS,<NA>,Germ Cell Tumor,yellow
+Germ Cell Tumor,Teratocarcinoma,TTC,<NA>,<NA>,<NA>
+Germ Cell Tumor,"Teratoma, NOS",TTNOS,<NA>,<NA>,<NA>
 Solid Tumor,Undifferentiated Embryonal Sarcoma of the Liver,UESL,UESL,Liver,#ffa500
 Solid Tumor,Wilms,WT,WT,WT,#29a20b
 Solid Tumor,"Wilms, Bilateral",WTB,WT,WTB,#7cfc00
-Germ Cell Tumor,"Yolk Sac Tumor, Brain",BYST,BYST,Germ Cell Tumor,yellow
-Germ Cell Tumor,"Yolk Sac Tumor, NOS",YSTNOS,<NA>,Germ Cell Tumor,yellow
+Germ Cell Tumor,"Yolk Sac Tumor, Brain",BYST,BYST,<NA>,<NA>
+Germ Cell Tumor,"Yolk Sac Tumor, NOS",YSTNOS,<NA>,<NA>,<NA>
+Brain Tumor,Acoustic Neuroma,ANM,<NA>,ANM,#d3d3d3
+Hematologic Malignancy,Acute Myelomonocytic Leukemia,AMML,AMML,AMML,#00c0ff
+Hematologic Malignancy,Acute Undifferentiated Leukemia,AUL,AUL,AUL,#d3d3d3
+Solid Tumor,Adenoid Cystic Carcinoma of the Lacrimal Gland,ACLG,ACLG,ACLG,#d3d3d3
+Solid Tumor,Adenoid Cystic Carcinoma of the Salivary Gland,ACYC,ACYC,ACYC,#d3d3d3
+Hematologic Malignancy,Atypical Dendritic Cell Tumor,ADCT,<NA>,ADCT,#d3d3d3
+Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, BCR-ABL1 like",BLLBCRABL1L,BLLBCRABL1L,BLLBCRABL1L,#d3d3d3
+Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1",BLLTCF3PBX1,BLLTCF3PBX1,BLLTCF3PBX1,#d3d3d3
+Solid Tumor,Chondroblastoma,CHBL,CHBL,CHBL,#d3d3d3
+Brain Tumor,Choroid Plexus Papilloma,CPP,CPP,CPP,#d3d3d3
+Brain Tumor,Colloid Cyst,CCY,MBT,CCY,#d3d3d3
+Solid Tumor,Congenital Melanocytic Nevus,CMLN,SKCN,CMLN,#d3d3d3
+Brain Tumor,Desmoplastic Infantile Astrocytoma,DIA,DIA,DIA,#d3d3d3
+Brain Tumor,"Embryonal Tumor, Brain",EMBT,EMBT,EMBT,#ff7b29
+Solid Tumor,"Fibrosarcoma, Abdominal",AFIBS,FIBS,AFIBS,#d3d3d3
+Solid Tumor,Gastrointestinal Neuroendocrine Tumor,GINET,GINET,GINET,#d3d3d3
+Hematologic Malignancy,Hematopoietic Malignancies,HM,CUP,HM,#d3d3d3
+Brain Tumor,High-Grade Calvarium Sarcoma,HGCS,<NA>,HGCS,#d3d3d3
+Solid Tumor,Hurthle Cell Thyroid Cancer,THHC,THHC,THHC,#d3d3d3
+Solid Tumor,Inflammatory Myofibroblastic Lung Tumor,IMTL,IMTL,IMTL,#d3d3d3
+Solid Tumor,Inflammatory Myofibroblastic Stomach Tumor,IMTS,IMTL,IMTS,#d3d3d3
+Solid Tumor,Juvenile Xanthogranuloma,JXG,JXG,JXG,#d3d3d3
+Brain Tumor,Large Cell/Anaplastic Medulloblastoma,AMBL,AMBL,AMBL,#469133
+Solid Tumor,Lipoblastoma,LBL,CUP,LBL,#d3d3d3
+Solid Tumor,Lipofibromatosis,LFBR,CUP,LFBR,#d3d3d3
+Brain Tumor,Low-Grade Glioneuronal Tumor,LGGNT,MBT,LGGNT,#d3d3d3
+Brain Tumor,Low-Grade Neuroepithelial Tumor,LGNET,LGNET,LGNET,#d3d3d3
+Solid Tumor,Malignant Rhabdoid Tumor of the Bladder,MRTB,<NA>,MRTB,#d3d3d3
+Solid Tumor,Malignant Thymoma,MTHYM,THYM,MTHYM,#d3d3d3
+Solid Tumor,Melanocytic Nevus,MLN,MEL,MLN,#d3d3d3
+Solid Tumor,Myeloproliferative Neoplasms,MPN,MPN,MPN,#d3d3d3
+Solid Tumor,Myopericytoma,MPC,MPC,MPC,#d3d3d3
+Solid Tumor,Myositis Ossificans,MO,<NA>,MO,#d3d3d3
+Solid Tumor,Neurothekeoma,NTK,<NA>,NTK,#d3d3d3
+Solid Tumor,Osteoblastoma,OB,<NA>,OB,#d3d3d3
+Solid Tumor,Osteoid Osteoma,OO,<NA>,OO,#d3d3d3
+Solid Tumor,Pheochromocytoma,PHC,PHC,PHC,#d3d3d3
+Brain Tumor,Pilomyxoid Astrocytoma,PMA,PMA,PMA,#d3d3d3
+Brain Tumor,Pineal Anlage Tumor,PAT,PINT,PAT,#d3d3d3
+Brain Tumor,Pineal Parenchymal Tumor of Intermediate Differentiation,PPTID,PPTID,PPTID,#d3d3d3
+Brain Tumor,Pineocytoma,PINC,PINC,PINC,#d3d3d3
+Solid Tumor,Renal Epitheloid Angiomyolipoma,EAML,RAML,EAML,#d3d3d3
+Hematologic Malignancy,Rosai-Dorfman Disease,RDD,RDD,RDD,#d3d3d3
+Solid Tumor,Signet Ring Cell Carcinoma of the Stomach,SSRCC,SSRCC,SSRCC,#d3d3d3
+Solid Tumor,Soft Tissue Perineuroma,STP,<NA>,STP,#d3d3d3
+Solid Tumor,Spitzoid Melanoma,SPZM,SPZM,SPZM,#9531ed
+Germ Cell Tumor,"Yolk Sac Tumor, Ovary",OYST,OYST,Germ Cell Tumor,#d3d3d3
+Germ Cell Tumor,"Yolk Sac Tumor, Sacrococcygeal or Presacral",SPYST,SPYST,Germ Cell Tumor,#d3d3d3

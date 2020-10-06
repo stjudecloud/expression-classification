@@ -73,7 +73,7 @@ main() {
     # Download with GNU parallel
     mkdir -p $HOME/in/reference_counts/
     echo $ids | xargs -n 100 | sed "s#^#dx download -o $HOME/in/reference_counts/ --no-progress #" > download_all.sh
-    parallel --joblog download.log < download_all.sh
+    parallel --results download_outputs --joblog download.log < download_all.sh > download.stdout 
 
     # Loop over the inputs, if any, store IDs and download in parallel
     input_ids=""
@@ -102,7 +102,7 @@ main() {
     echo $json > metadata.json
 
     echo "Parsing metadata for each sample"
-    echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.attr_library_selection_protocol, readlength: .properties.attr_read_length, strandedness: .properties.attr_lab_strandedness, pairing: .properties.attr_read_type, category: .properties.attr_diagnosis_group}' | while read j
+    echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.attr_library_selection_protocol, readlength: .properties.attr_read_length, strandedness: .properties.attr_lab_strandedness, pairing: .properties.attr_read_type, category: .properties.attr_diagnosis_group, platform: .properties.attr_sequencing_platform, preservative: .properties.attr_tissue_preservative}' | while read j
     do
       sample_name=$(echo $j | jq -r '.sample_name')
 
@@ -125,8 +125,64 @@ main() {
       fi
 
       librarytype=$(echo $j | jq -r '.library')
+
+      if [[ "$librarytype" == "Not Available" ]]
+      then
+         echo "Rejecting sample: ${sample_name} [library type]"
+         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+         rm $HOME/in/reference_counts/${file_name}
+         continue
+      fi
+
       readlength=$(echo $j | jq -r '.readlength')
+
+      if [[ "$readlength" == "Not Available" ]] || [ $(echo $readlength | grep -c "and") -gt 0 ]
+      then
+         echo "Rejecting sample: ${sample_name} [read length]"
+         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+         rm $HOME/in/reference_counts/${file_name}
+         continue
+      fi
+
       pairing=$(echo $j | jq -r '.pairing')
+
+      if [[ "$pairing" == "Not Available" ]]
+      then
+         echo "Rejecting sample: ${sample_name} [read pairing]"
+         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+         rm $HOME/in/reference_counts/${file_name}
+         continue
+      fi
+
+      # Remove machines: MiSeq, SOLEXA, mixed machines, or unknown
+      platform=$(echo $j | jq -r '.platform')
+      if [ $(echo $platform | grep -cE 'MiSeq|SOLEXA|Not Available|,') -gt 0 ]
+      then
+         echo "Rejecting sample: ${sample_name} [platform]"
+         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+         rm $HOME/in/reference_counts/${file_name}
+         continue
+      fi
+
+      # Check for sample type. Remove germline, cell line, xenograft
+      type=$(echo $j | jq -r '.type')
+      if [ $(echo $type | grep -cE 'xenograft|germline|cell line') -gt 0 ]
+      then
+         echo "Rejecting sample: ${sample_name} [sample type]"
+         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+         rm $HOME/in/reference_counts/${file_name}
+         continue
+      fi
+
+      # Remove FFPE and unknown
+      preservative=$(echo $j | jq -r '.preservative')
+      if [ $(echo $preservative | grep -cE 'FFPE|Not Available') -gt 0 ]
+      then
+         echo "Rejecting sample: ${sample_name} [preservative]"
+         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
+         rm $HOME/in/reference_counts/${file_name}
+         continue
+      fi
 
       color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -) 
       if [[ "$color" == "Color" ]] || [[ "$color" == "<NA>" ]]
@@ -283,4 +339,9 @@ main() {
     tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
     dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
     dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
+    if [ ${intermediate} ]
+    then
+      intermediate_file=$(dx upload $local_output_dir/${intermediate}.txt --brief)
+      dx-jobutil-add-output intermediate_output "$intermediate_file" --class=file
+    fi
 }

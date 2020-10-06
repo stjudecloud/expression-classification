@@ -13,6 +13,8 @@ This app assumes you have a reference dataset of counts files that are annotated
 
 ---
 
+## Parameters
+
 Reference HTSeq count files should be provided using the `reference_counts` parameter. These can be obtained by requesting data through St. Jude Cloud Genomics Platform.
 
 This app optionally takes input samples(s) and a tissue type. It then plots the t-Distributed Stochastic Neighbor Embedding (t-SNE) for the input samples relative to a cohort of samples.  
@@ -28,6 +30,22 @@ Input samples must have the following properties: "sample_name", "sj_diseases", 
 * pairing: Paired-end or Single-end
 
 ---
+
+## WARNING
+
+The RNA-Seq Expression Classification pipeline reference data is based on GRCh38 aligned, Gencode v31 annotated samples from fresh, frozen tissue samples. It has not been evaluated for samples that do not meet this criteria.
+
+The RNA-Seq Expression Classification pipeline reference data uses sequencing data from fresh, frozen tissue samples. It has not been evaluated for use with sequencing data generated from formalin-fixed paraffin-embedded (FFPE) specimens.
+
+If running the count-based RNA-Seq Expression Classification pipeline, alignment must be done against the GRCh38_no_alt reference. It should use parameters as specified in our RNA-seq workflow to minimize any discrepancies caused by differing alignment specification.
+
+If running the count-based RNA-Seq Expression Classification pipeline, feature counts should be generated with htseq-count as described in our RNA-seq workflow. This pipeline uses Gencode v31 annotations.
+
+Batch correction requires a minimum of two samples per batch to run properly. Introducing a single sample batch by adding an input sample with a unique protocol will cause unexpected results.
+
+---
+
+## Additional Information
 
 Full documentation for running can be found in the [St. Jude Cloud docs](https://www.stjude.cloud/docs/guides/genomics-platform/analyzing-data/rnaseq-expression-classification/).
 

@@ -343,7 +343,7 @@ for (category in sort(unique(plotData$classes)))
              x = ~t1, y = ~t2 , name = category,
              marker = (list( color = ~color )),
              hoverinfo = "text",
-             text = ~paste("Sample: ", samples, '<br>Diagnosis Code: ', classes, '<br>Diagnosis Name', diagnosisNames),
+             text = ~paste("Sample: ", samples, '<br>Diagnosis Code: ', classes, '<br>Diagnosis Name: ', diagnosisNames),
              showlegend = TRUE
              )
 
