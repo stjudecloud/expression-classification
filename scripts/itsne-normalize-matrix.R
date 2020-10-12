@@ -356,8 +356,14 @@ if (length(opt$`input-sample`)){
 
    L <- toPlot[toPlot$samples %in% unlist(inputs) & toPlot$classes %in% unlist(inputs),]
    L$classes <- L$samples
-   p <- add_trace(p, data = L , x = ~t1, y = ~t2 , name = ~classes,
-            marker = list(size = 10,color = 'rgb(0, 0, 0 , 0.25)', symbol = "cross"))
+
+   # Add input markers
+   p <- add_trace(p, type = "scatter" , mode = "markers", data = L , x = ~t1, y = ~t2 , name = ~classes,
+            text = ~classes, textposition = "bottom center", hoverinfo = "text", hovertext= ~classes,
+            marker = list(symbol = "circle-cross",
+            line = list(color="white", width=2), color="black", size=15))
+
+   # Add input labels
    a <- list(
      x = L$t1,
      y = L$t2,
@@ -365,9 +371,16 @@ if (length(opt$`input-sample`)){
      xref = "x",
      yref = "y",
      showarrow = TRUE,
-     arrowhead = 7,
+     arrowhead = 0,
+     standoff = 9,
+     clicktoshow = "onoff",
      ax = 20,
-     ay = -40
+     ay = -40,
+     bgcolor="white",
+     bordercolor="black",
+     borderpad=4,
+     borderwidth=2,
+     arrowwidth=2
    )
    p <- layout(p, annotations=a)
 }
