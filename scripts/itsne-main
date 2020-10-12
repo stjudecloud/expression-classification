@@ -196,7 +196,8 @@ if __name__ == "__main__":
   df = df.T
   df.index.name = "Sample"
 
-  with tempfile.NamedTemporaryFile(delete=not args.debug_rscript) as tmpfile:
+  with open("matrix.txt", 'w') as tmpfile:
+  #with tempfile.NamedTemporaryFile(delete=not args.debug_rscript) as tmpfile:
     df.to_csv(tmpfile.name)
 
     if args.debug_rscript:
