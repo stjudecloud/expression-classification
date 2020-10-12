@@ -382,6 +382,7 @@ if (length(opt$`input-sample`)){
      borderwidth=2,
      arrowwidth=2
    )
+   p <- layout(p, annotations=a)
 }
 # Save scatterplot as interactive plotly html
 htmlwidgets::saveWidget(as_widget(p), opt$outname)
