@@ -240,3 +240,6 @@ Solid Tumor,Soft Tissue Perineuroma,STP,<NA>,STP,#d3d3d3
 Solid Tumor,Spitzoid Melanoma,SPZM,SPZM,SPZM,#9531ed
 Germ Cell Tumor,"Yolk Sac Tumor, Ovary",OYST,OYST,Germ Cell Tumor,#d3d3d3
 Germ Cell Tumor,"Yolk Sac Tumor, Sacrococcygeal or Presacral",SPYST,SPYST,Germ Cell Tumor,#d3d3d3
+Brain Tumor,Anaplastic Ganglioglioma,AGNG,AGNG,,#d3d3d3
+Solid Tumor,Clear Cell Sarcoma,CCS,CCS,,#d3d3d3
+Solid Tumor,Aneurysmal Bone Cyst,ABC,ABC,,#d3d3d3
