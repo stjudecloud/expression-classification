@@ -27,8 +27,8 @@ BGCT,"Germ Cell Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Germ Cell Tumor, 
 BMGCT,"Mixed Germ Cell Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain"
 OMGCT,"Mixed Germ Cell Tumor, Ovary and Lymph Node",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Ovary and Lymph Node"
 MGCT,"Mixed Germ Cell Tumor, Testis",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Testis"
-BYST,"Yolk Sac Tumor, Brain",Germ Cell Tumor,Yolk Sac Tumor,Brain
-YSTNOS,"Yolk Sac Tumor, NOS",Germ Cell Tumor,Yolk Sac Tumor,Other
+BYST,"Yolk Sac Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Yolk Sac Tumor, Brain"
+YSTNOS,"Yolk Sac Tumor, NOS",Germ Cell Tumor,Germ Cell Tumor,"Yolk Sac Tumor, NOS"
 ALAL,Acute Leukemias of Ambiguous Lineage,Hematologic Malignancy,Acute Leukemias of Ambiguous Lineage,Acute Leukemias of Ambiguous Lineage
 AMKL,Acute Megakaryoblastic Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Megakaryoblastic Leukemia
 AML,Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Other
