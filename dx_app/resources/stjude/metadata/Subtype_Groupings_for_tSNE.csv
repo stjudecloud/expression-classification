@@ -1,0 +1,122 @@
+﻿sj_disease,sj_long_disease_name,diagnosis_group,t_SNE group,t_SNE_label
+ATRT,Atypical Teratoid/Rhabdoid Tumor,Brain Tumor,Rare Brain Tumor,Atypical Teratoid/Rhabdoid Tumor
+CPC,Choroid Plexus Carcinoma,Brain Tumor,Rare Brain Tumor,Choroid Plexus Carcinoma
+ACPG,"Craniopharyngioma, Adamantinomatous Type",Brain Tumor,Rare Brain Tumor,"Craniopharyngioma, Adamantinomatous Type"
+ETMR,"Embryonal Tumor with Multilayered Rosettes, Brain",Brain Tumor,Rare Brain Tumor,"Embryonal Tumor with Multilayered Rosettes, Brain"
+EBMT,"Embryonal Tumor, Brain",Brain Tumor,Rare Brain Tumor,"Embryonal Tumor, Brain"
+EPMT,Ependymomal Tumor,Brain Tumor,Ependymomal Tumor,Other
+EPMTPF,"Ependymomal Tumor, Posterior Fossa",Brain Tumor,Ependymomal Tumor,Posterior Fossa
+EPMTSU,"Ependymomal Tumor, Supratentorial",Brain Tumor,Ependymomal Tumor,Supratentorial
+MEPMST,"Mixed Myxopapillary Anaplastic Ependymoma, Spinal Tumor",Brain Tumor,Ependymomal Tumor,"Mixed Myxopapillary Anaplastic, Spinal Tumor"
+MPE,Myxopapillary Ependymoma,Brain Tumor,Ependymomal Tumor,Myxopapillary
+MPEPF,"Myxopapillary Ependymoma, Posterior Fossa",Brain Tumor,Ependymomal Tumor,"Myxopapillary, Posterior Fossa"
+GNG,Gangliocytoma,Brain Tumor,Rare Brain Tumor,Gangliocytoma
+HGGNOS,"High-Grade Glioma, NOS",Brain Tumor,High-Grade Glioma,High-Grade Glioma
+HGNET,High-Grade Neuroepithelial Tumor,Brain Tumor,Rare Brain Tumor,High-Grade Neuroepithelial Tumor
+LGGNOS,"Low-Grade Glioma, NOS",Brain Tumor,Low-Grade Glioma,Low-Grade Glioma
+MBL,Medulloblastoma,Brain Tumor,Medulloblastoma,Other
+MBLG3,"Medulloblastoma, Group 3",Brain Tumor,Medulloblastoma,Group 3
+MBLG4,"Medulloblastoma, Group 4",Brain Tumor,Medulloblastoma,Group 4
+MBLSHH,"Medulloblastoma, SHH subtype",Brain Tumor,Medulloblastoma,SHH-activated
+MBLWNT,"Medulloblastoma, WNT subtype",Brain Tumor,Medulloblastoma,WNT-activated
+MNG,Meningioma,Brain Tumor,Rare Brain Tumor,Meningioma
+MBT,Miscellaneous Brain Tumor,Brain Tumor,Rare Brain Tumor,Miscellaneous Brain Tumor
+PBL,Pineoblastoma,Brain Tumor,Rare Brain Tumor,Pineoblastoma
+ODYS,"Dysgerminoma, Ovarian",Germ Cell Tumor,Germ Cell Tumor,"Dysgerminoma, Ovarian"
+BGCT,"Germ Cell Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Germ Cell Tumor, Brain"
+BMGCT,"Mixed Germ Cell Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain"
+OMGCT,"Mixed Germ Cell Tumor, Ovary and Lymph Node",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Ovary and Lymph Node"
+MGCT,"Mixed Germ Cell Tumor, Testis",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Testis"
+BYST,"Yolk Sac Tumor, Brain",Germ Cell Tumor,Yolk Sac Tumor,Brain
+YSTNOS,"Yolk Sac Tumor, NOS",Germ Cell Tumor,Yolk Sac Tumor,Other
+ALAL,Acute Leukemias of Ambiguous Lineage,Hematologic Malignancy,Acute Leukemias of Ambiguous Lineage,Acute Leukemias of Ambiguous Lineage
+AMKL,Acute Megakaryoblastic Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Megakaryoblastic Leukemia
+AML,Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Other
+CBF,"Acute Myeloid Leukemia, Core Binding Factor",Hematologic Malignancy,Acute Myeloid Leukemia,Core Binding Factor
+APLPMLRARA,Acute Promyelocytic Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Promyelocytic Leukemia
+AULKMT2A,"Acute Undifferentiated Leukemia, KMT2A rearrangement",Hematologic Malignancy,Acute Undifferentiated Leukemia,KMT2A rearrangement
+ALCL,Anaplastic Large Cell Lymphoma,Hematologic Malignancy,Rare Hematologic Malignancy,Anaplastic Large Cell Lymphoma
+BALLBCRABL1,"B-cell Acute Lymphoblastic Leukemia, BCR-ABL1",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,BCR-ABL1
+BALLBCRABL1L,"B-cell Acute Lymphoblastic Leukemia, BCR-ABL1 like",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,BCR-ABL1 like
+BALLDUX4IGH,"B-cell Acute Lymphoblastic Leukemia, DUX4-IGH",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,DUX4-IGH
+BALLDUX4IGHL,"B-cell Acute Lymphoblastic Leukemia, DUX4-IGH like",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,DUX4-IGH like
+BALLETV6RUNX1,"B-cell Acute Lymphoblastic Leukemia, ETV6-RUNX1",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,ETV6-RUNX1
+BALLETV6RUNX1L,"B-cell Acute Lymphoblastic Leukemia, ETV6-RUNX1 like",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,ETV6-RUNX1 like
+BALLHYPER,"B-cell Acute Lymphoblastic Leukemia, Hyperdiploidy",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,Hyperdiploidy
+BALLHYPO,"B-cell Acute Lymphoblastic Leukemia, Hypodiploidy",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,Hypodiploidy
+BALLIAMP21,"B-cell Acute Lymphoblastic Leukemia, iAMP21",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,iAMP21
+BALLIGHCEBPD,"B-cell Acute Lymphoblastic Leukemia, IGH-CEBPD",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,IGH-CEBPD
+BALLKMT2A,"B-cell Acute Lymphoblastic Leukemia, KMT2A rearrangement",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,KMT2A rearrangement
+BALLMEF2D,"B-cell Acute Lymphoblastic Leukemia, MEF2D rearrangement",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,MEF2D rearrangement
+BALLMYC,"B-cell Acute Lymphoblastic Leukemia, MYC rearrangement",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,MYC rearrangement
+BALLNOS,"B-cell Acute Lymphoblastic Leukemia, NOS",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,NOS
+BALLNUTM1,"B-cell Acute Lymphoblastic Leukemia, NUTM1 rearrangement",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,NUTM1 rearrangement
+BALLPAX5,"B-cell Acute Lymphoblastic Leukemia, PAX5 Alteration",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,PAX5 Alteration
+BALLPAX5P80R,"B-cell Acute Lymphoblastic Leukemia, PAX5 P80R",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,PAX5 P80R
+BALLTCF3PBX1,"B-cell Acute Lymphoblastic Leukemia, TCF3-PBX1",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,TCF3-PBX1
+BALLZNF384,"B-cell Acute Lymphoblastic Leukemia, ZNF384 rearrangement",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,ZNF384 rearrangement
+BALLZNF384L,"B-cell Acute Lymphoblastic Leukemia, ZNF384 rearrangement like",Hematologic Malignancy,B-cell Acute Lymphoblastic Leukemia,ZNF384 rearrangement like
+BL,Burkitt Lymphoma,Hematologic Malignancy,Rare Hematologic Malignancy,Burkitt Lymphoma
+CML,Chronic Myeloid Leukemia,Hematologic Malignancy,Rare Hematologic Malignancy,Chronic Myeloid Leukemia
+DLBCLNOS,"Diffuse Large B-cell Lymphoma, NOS",Hematologic Malignancy,Rare Hematologic Malignancy,Diffuse Large B-cell Lymphoma
+BCUP,Blood Cancer of Unknown Primary,Hematologic Malignancy,Rare Hematologic Malignancy,Miscelaneous Blood Cancer
+MDS,Myelodysplastic Syndromes,Hematologic Malignancy,Rare Hematologic Malignancy,Myelodysplastic Syndromes
+MS,Myeloid Sarcoma,Hematologic Malignancy,Rare Hematologic Malignancy,Myeloid Sarcoma
+TALL,T-cell Acute Lymphoblastic Leukemia,Hematologic Malignancy,T-cell Acute Lymphoblastic Leukemia,Other
+TALLKMT2A,"T-cell Acute Lymphoblastic Leukemia, KMT2A rearrangement",Hematologic Malignancy,T-cell Acute Lymphoblastic Leukemia,KMT2A rearrangement
+TLL,T-cell Lymphoblastic Lymphoma,Hematologic Malignancy,T-cell Lymphoblastic Lymphoma,T-cell Lymphoblastic Lymphoma
+BALL,Old - B-ALL,NA,NA,NA
+BT,Old - Brain Tumor,NA,NA,NA
+HM,Old - Haem Malignancy,NA,NA,NA
+HGG,Old - High Grade Glioma,NA,NA,NA
+MB,Old - Medulloblastoma,NA,NA,NA
+RHB,Old - Rhabdomyosarcoma,NA,NA,NA
+ST,Old - Solid Tumor,NA,NA,NA
+WLM,Old - Wilms,NA,NA,NA
+ACC,Adrenocortical Carcinoma,Solid Tumor,Endocrine,Adrenocortical Carcinoma
+ASPS,Alveolar Soft Part Sarcoma,Solid Tumor,Rare Solid Tumor,Alveolar Soft Part Sarcoma
+AFH,Angiomatoid Fibrous Histiocytoma,Solid Tumor,Rare Solid Tumor,Angiomatoid Fibrous Histiocytoma
+CHOS,Chondroblastic Osteosarcoma,Solid Tumor,Bone,Chondroblastic Osteosarcoma
+CCSK,Clear Cell Sarcoma of Kidney,Solid Tumor,Kidney,Clear Cell Sarcoma of Kidney
+DFSP,Dermatofibrosarcoma Protuberans,Solid Tumor,Skin,Dermatofibrosarcoma Protuberans
+DES,Desmoid/Aggressive Fibromatosis,Solid Tumor,Rare Solid Tumor,Desmoid/Aggressive Fibromatosis
+DSRCT,Desmoplastic Small Round Cell Tumor,Solid Tumor,Rare Solid Tumor,Desmoplastic Small Round Cell Tumor
+EWS,Ewing Sarcoma,Solid Tumor,Bone,Ewing Sarcoma
+FMS,Fibromyxoid Sarcoma,Solid Tumor,Rare Solid Tumor,Fibromyxoid Sarcoma
+FIBS,"Fibrosarcoma, NOS",Solid Tumor,Rare Solid Tumor,Fibrosarcoma
+THFO,Follicular Thyroid Cancer,Solid Tumor,Endocrine,Follicular Thyroid Cancer
+GIST,Gastrointestinal Stromal Tumor,Solid Tumor,Rare Solid Tumor,Gastrointestinal Stromal Tumor
+HB,Hepatoblastoma,Solid Tumor,Liver,Hepatoblastoma
+HCC,Hepatocellular Carcinoma,Solid Tumor,Liver,Hepatocellular Carcinoma
+IFS,Infantile Fibrosarcoma,Solid Tumor,Rare Solid Tumor,Infantile Fibrosarcoma
+MPNST,Malignant Peripheral Nerve Sheath Tumor,Solid Tumor,Rare Solid Tumor,Malignant Peripheral Nerve Sheath Tumor
+MRTL,Malignant Rhabdoid Tumor of the Liver,Solid Tumor,Liver,Malignant Rhabdoid Tumor of the Liver
+MEL,Melanoma,Solid Tumor,Skin,Melanoma
+SCUP,Solid Cancer of Unknown Primary,Solid Tumor,Rare Solid Tumor,Miscelaneous Solid Tumor
+MUCC,Mucoepidermoid Carcinoma,Solid Tumor,Rare Solid Tumor,Mucoepidermoid Carcinoma
+NBL,Neuroblastoma,Solid Tumor,Neuroblastoma,Neuroblastoma
+NFIB,Neurofibroma,Solid Tumor,Rare Solid Tumor,Neurofibroma
+OS,Osteosarcoma,Solid Tumor,Bone,Osteosarcoma
+PANET,Pancreatic Neuroendocrine Tumor,Solid Tumor,Endocrine,Pancreatic Neuroendocrine Tumor
+PRCC,Papillary Renal Cell Carcinoma,Solid Tumor,Kidney,Papillary Renal Cell Carcinoma
+THPA,Papillary Thyroid Cancer,Solid Tumor,Endocrine,Papillary Thyroid Cancer
+RCC,Renal Cell Carcinoma,Solid Tumor,Kidney,Renal Cell Carcinoma
+CCRCC,Renal Clear Cell Carcinoma,Solid Tumor,Kidney,Renal Clear Cell Carcinoma
+RBL,Retinoblastoma,Solid Tumor,Retinoblastoma,Retinoblastoma
+MRT,"Rhabdoid Cancer, Kidney",Solid Tumor,Kidney,"Rhabdoid Cancer, Kidney"
+ARMS,Alveolar Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Alveolar
+BERMS,Botryoid Type Embryonal Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Botryoid Type Embryonal
+ERMS,Embryonal Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Embryonal
+MSCERMS,Mixed Spindle Cell and Embryonal Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Mixed Spindle Cell and Embryonal
+RMS,Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Other
+SCRMS,Spindle Cell Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Spindle Cell
+RCSNOS,"Round Cell Sarcoma, NOS",Solid Tumor,Rare Solid Tumor,Round Cell Sarcoma
+SCSNOS,"Spindle Cell Sarcoma, NOS",Solid Tumor,Rare Solid Tumor,Spindle Cell Sarcoma
+SETTLE,Spindle Epithelial Tumor with Thymus-Like Differentiation,Solid Tumor,Rare Solid Tumor,Spindle Epithelial Tumor with Thymus-Like Differentiation
+SCCNOS,"Squamous Cell Carcinoma, NOS",Solid Tumor,Rare Solid Tumor,Squamous Cell Carcinoma
+SIPT,Stomach Inflammatory Pseudotumor,Solid Tumor,Rare Solid Tumor,Stomach Inflammatory Pseudotumor
+SYNS,Synovial Sarcoma,Solid Tumor,Rare Solid Tumor,Synovial Sarcoma
+UESL,Undifferentiated Embryonal Sarcoma of the Liver,Solid Tumor,Liver,Undifferentiated Embryonal Sarcoma of the Liver
+CNOS,"Carcinoma, NOS",Solid Tumor,Rare Solid Tumor,Unknown Carcinoma
+WT,Wilms,Solid Tumor,Kidney,"Wilms, Other"
+WTB,"Wilms, Bilateral",Solid Tumor,Kidney,"Wilms, Bilateral"
