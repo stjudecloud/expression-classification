@@ -20,7 +20,8 @@ RUN conda update -n base -c defaults conda -y && \
     -c conda-forge \
     -c bioconda \
              r-base=3.6.1 \
-             python=3.7 \
+             python=3.8 \
+             pandas=1.1.0 \
              bioconductor-biocinstaller \
              bioconductor-sva \
              bioconductor-deseq2 \
