@@ -347,6 +347,8 @@ main() {
     tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
     dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
     dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
+    gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
+    dx-jobutil-add-output gene_list "$gene_list" --class=file
     if [ ${intermediate} ]
     then
       intermediate_file=$(dx upload $local_output_dir/${intermediate}.txt --brief)

@@ -111,6 +111,11 @@
       "label": "Requested intermediate file",
       "class": "file",
       "optional": true
+    },
+    {
+      "name": "gene_list",
+      "label": "Genes used for analysis",
+      "class": "file"
     }
   ],
   "runSpec": {

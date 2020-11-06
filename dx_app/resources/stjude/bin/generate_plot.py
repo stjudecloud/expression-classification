@@ -191,6 +191,9 @@ runproteinpaint({
         },
         attr_race:{
           label: 'Race'
+        },
+        attr_subtype_biomarkers:{
+          label: 'Subtype Biomarkers'
         }
 			}"""
 
