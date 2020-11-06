@@ -14,10 +14,10 @@ Hematologic Malignancy,Acute Leukemias of Ambiguous Lineage,ALAL,ALAL,ALAL,black
 Hematologic Malignancy,Anaplastic Large Cell Lymphoma,ALCL,ALCL,ALCL,#f9779d
 Hematologic Malignancy,"Acute Lymphoblastic Leukemia, NOS",ALL,LNM,<NA>,#aba9a9
 Brain Tumor,Large Cell/Anaplastic Medulloblastoma,AMBL,AMBL,AMBL,#469133
-Hematologic Malignancy,Acute Megakaryoblastic Leukemia,AMKL,AMKL,AMKL,#008cff
-Hematologic Malignancy,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement",AMKLKMT2A,AMKL,AMKLKMT2A,#008cff
-Hematologic Malignancy,Acute Myeloid Leukemia,AML,AML,AML,#00c0ff
-Hematologic Malignancy,"Acute Myeloid Leukemia, KMT2A rearrangement",AMLKMT2A,AMLRGA,AML,#00c0ff
+Hematologic Malignancy,Acute Megakaryoblastic Leukemia,AMKL,AMKL,AMKL,#00c0ff
+Hematologic Malignancy,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement",AMKLKMT2A,AMKL,AMKLKMT2A,#00c0ff
+Hematologic Malignancy,Acute Myeloid Leukemia,AML,AML,AML,#008cff
+Hematologic Malignancy,"Acute Myeloid Leukemia, KMT2A rearrangement",AMLKMT2A,AMLRGA,AML,#008cff
 Hematologic Malignancy,Acute Myelomonocytic Leukemia,AMML,AMML,AMML,#00c0ff
 Hematologic Malignancy,"Acute Myelomonocytic Leukemia, KMT2A rearrangement",AMMLKMT2A,AMML,,#00c0ff
 Hematologic Malignancy,Acute Monoblastic Leukemia,AMNL,AMOL,,#00c0ff
@@ -61,7 +61,7 @@ Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, BCR-ABL1 like",BLLBCRABL1
 Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1",BLLTCF3PBX1,BLLTCF3PBX1,BLLTCF3PBX1,#aba9a9
 Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain",BMGCT,BMGCT,<NA>,#aba9a9
 Germ Cell Tumor,"Yolk Sac Tumor, Brain",BYST,BYST,<NA>,#aba9a9
-Hematologic Malignancy,"Acute Myeloid Leukemia, Core Binding Factor",CBF,AMLRGA,AML,#00c0ff
+Hematologic Malignancy,"Acute Myeloid Leukemia, Core Binding Factor",CBF,AMLRGA,AML,#008cff
 Germ Cell Tumor,Choriocarcinoma,CCA,<NA>,<NA>,#aba9a9
 Solid Tumor,Renal Clear Cell Carcinoma,CCRCC,CCRCC,Other,#aba9a9
 Solid Tumor,Clear Cell Sarcoma,CCS,CCS,,#aba9a9
