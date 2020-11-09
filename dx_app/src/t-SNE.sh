@@ -157,9 +157,10 @@ main() {
          continue
       fi
 
-      # Remove machines: MiSeq, SOLEXA, mixed machines, or unknown
+      # Remove machines: MiSeq, SOLEXA, or unknown
+      # 2020-11-09: AG - keep mixed machines
       platform=$(echo $j | jq -r '.platform')
-      if [ $(echo $platform | grep -cE 'MiSeq|SOLEXA|Not Available|,') -gt 0 ]
+      if [ $(echo $platform | grep -cE 'MiSeq|SOLEXA|Not Available') -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [platform]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
