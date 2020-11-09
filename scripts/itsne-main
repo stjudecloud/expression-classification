@@ -252,8 +252,7 @@ if __name__ == "__main__":
       print("Rscript stderr: {}".format(result.stderr.decode("utf-8")))
       print("Be sure to delete {} manually!".format(tmpfile.name))
 
-  # X = data_top_genes.txt
-  # X_prime = tsne_output.txt
+  # Compute trustworthiness
   X = pd.read_table("data_top_genes.txt").transpose()
   X_prime = pd.read_table("tsne_output.txt")
 
@@ -262,6 +261,17 @@ if __name__ == "__main__":
   trust_file = open("trustworthiness.txt", "w")
   trust_file.write(str(trust_score))
   trust_file.close()
+
+  # Write gene list
+  matrix = pd.read_csv("matrix.txt")
+  genes = pd.read_table("genes.txt")
+  matrix.drop(columns=['Sample', 'Diagnosis','DiagnosisName','Color','Projects','Covariates'], inplace=True)
+  df2 = (genes.iloc[:,0])
+
+  gene_list = list(matrix[matrix.columns[df2]].columns)
+  with open('gene_list.txt', 'w') as filehandle:
+    for listitem in gene_list:
+      filehandle.write('%s\n' % listitem)
 
   logger.info("  [+] Finished. Took {:.2f} seconds.".format(time.time() -
                                                             start_time))

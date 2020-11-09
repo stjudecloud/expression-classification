@@ -107,11 +107,13 @@ allData    <- read.csv(file=opt$filename, header=T)
 diagnosis  <- allData["Diagnosis"][,1]
 diagnosisName <- allData["DiagnosisName"][,1]
 colors <- allData["Color"][,1]
+projects <- allData["Projects"][,1]
 covariates <- allData["Covariates"][,1]
 samples    <- allData["Sample"][,1]
-counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample", "DiagnosisName", "Color"))])
+counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample", "DiagnosisName", "Color", "Projects"))])
 rm(allData)
 
+# Converts to a matrix (each sample is now a column)
 dataMatrix <- as.matrix(counts)
 write.table(dataMatrix, file="original_matrix.txt", sep="\t",quote=FALSE,row.names=FALSE)
 
@@ -304,6 +306,7 @@ toPlot$classes   <- diagnosis
 toPlot$samples <- samples
 toPlot$color <- colors
 toPlot$diagnosisNames <- diagnosisName
+toPlot$projects <- projects
 
 # Setup axis
 ax <- list(

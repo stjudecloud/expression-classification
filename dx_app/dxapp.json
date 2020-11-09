@@ -111,6 +111,11 @@
       "label": "Requested intermediate file",
       "class": "file",
       "optional": true
+    },
+    {
+      "name": "gene_list",
+      "label": "Genes used for analysis",
+      "class": "file"
     }
   ],
   "runSpec": {
@@ -126,7 +131,9 @@
     "file": "src/t-SNE.sh",
     "execDepends": [
        { "name": "parallel"},
-       { "name": "csvkit", "package_manager": "pip"}
+       { "name": "csvkit", "package_manager": "pip"},
+       { "name": "pandas", "package_manager": "pip"},
+       { "name": "logzero", "package_manager": "pip"}
     ]
   },
   "regionalOptions": {
