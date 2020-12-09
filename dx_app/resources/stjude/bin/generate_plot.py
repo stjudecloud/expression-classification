@@ -135,6 +135,7 @@ if __name__ == "__main__":
 <script>
 runproteinpaint({
 	holder:document.getElementById('aaa'),
+	host:'https://proteinpaint.stjude.org',
 	parseurl:true,
 	nobox:1,
 	//block:1,
