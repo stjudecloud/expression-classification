@@ -91,15 +91,26 @@ main() {
        parallel --joblog download.log < download_inputs.sh
     fi
 
+    #ag# write the covariate column names (that will be parsed to the R script
     echo ""
     echo "  [*] Retrieving covariates for reference data ..."
     covariates_file=$local_data_dir/covariates.txt
-    echo -e "Sample\tProtocol\tDiagnosis\tDiagnosisName\tColor\tProjects" > ${covariates_file}
+    echo -e "Sample\tProtocol\tDiagnosis\tDiagnosisName\tColor\tProjects\tPreservative" > ${covariates_file}
     
     # Get metadata in parallel for reference data
     echo "Getting metadata for all samples" 
     json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
     echo $json > metadata.json
+
+    # retrieve and set exluded_preservatives varaible (from preservative selected in dxapp.json file
+    excluded_preservatives="Not Available"
+    if [ "$preservatives" == "Fresh/Frozen" ]
+    then
+      excluded_preservatives="${excluded_preservatives}|FFPE"
+    elif [ "$preservatives" == "FFPE" ]
+    then
+      excluded_preservatives="${excluded_preservatives}|Fresh/Fozen"
+    fi 
 
     echo "Parsing metadata for each sample"
     echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.attr_library_selection_protocol, readlength: .properties.attr_read_length, strandedness: .properties.attr_lab_strandedness, pairing: .properties.attr_read_type, category: .properties.attr_diagnosis_group, platform: .properties.attr_sequencing_platform, preservative: .properties.attr_tissue_preservative, projects: .properties.sj_datasets}' | while read j
@@ -178,9 +189,9 @@ main() {
          continue
       fi
 
-      # Remove FFPE and unknown
+      # Remove user defined samples with selected preservatives
       preservative=$(echo $j | jq -r '.preservative')
-      if [ $(echo $preservative | grep -cE 'FFPE|Not Available') -gt 0 ]
+      if [ $(echo $preservative | grep -cE "${excluded_preservatives}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [preservative]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
@@ -205,7 +216,7 @@ main() {
 
       if [[ "$tumor_type" == "All" ]]  || [[ "$tumor_type" == "$category" ]]
       then
-         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}" | sed 's/"//g' >> ${covariates_file}
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}\t${preservative}" | sed 's/"//g' >> ${covariates_file}
       else
          echo "Rejecting sample: ${sample_name} [category]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
@@ -335,11 +346,11 @@ main() {
     fi
     echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.3.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}\"" 
 
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.3.0 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}"
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir alexgout3/interactive-tsne:dev bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}"
 
     cp metadata.json $local_output_dir
     cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
-    docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin stjudecloud/interactive-tsne:0.3.0 bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+    docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin alexgout3/interactive-tsne:dev bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
 
     # Upload output  
     mv $local_output_dir/tsne_pp.html $local_output_dir/${output_name}

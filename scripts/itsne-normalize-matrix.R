@@ -110,7 +110,9 @@ colors <- allData["Color"][,1]
 projects <- allData["Projects"][,1]
 covariates <- allData["Covariates"][,1]
 samples    <- allData["Sample"][,1]
-counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample", "DiagnosisName", "Color", "Projects"))])
+preservative <- allData["Preservative"][,1]
+counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample", "DiagnosisName", "Color", "Projects", "Preservative"))])
+
 rm(allData)
 
 # Converts to a matrix (each sample is now a column)
