@@ -109,7 +109,7 @@ main() {
       excluded_preservatives="${excluded_preservatives}|FFPE"
     elif [ "$preservatives" == "FFPE" ]
     then
-      excluded_preservatives="${excluded_preservatives}|Fresh/Fozen"
+      excluded_preservatives="${excluded_preservatives}|Fresh/Frozen"
     fi 
 
     echo "Parsing metadata for each sample"
