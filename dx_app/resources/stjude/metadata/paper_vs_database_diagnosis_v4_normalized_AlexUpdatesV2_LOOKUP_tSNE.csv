@@ -244,6 +244,7 @@ Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, NKX2",TALLNKX2,TLL,
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TAL1",TALLTAL1,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TLX1",TALLTLX1,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TLX3",TALLTLX3,TLL,,red
+Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, NOS",TALLNOS,TLL,TALL,red
 Solid Tumor,Telangiectatic Osteosarcoma,TEOS,TEOS,<NA>,#aba9a9
 Solid Tumor,Follicular Thyroid Cancer,THFO,THFO,Thyroid,#11c598
 Solid Tumor,Hurthle Cell Thyroid Cancer,THHC,THHC,THHC,#aba9a9
