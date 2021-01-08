@@ -10,6 +10,7 @@ Solid Tumor,"Adenocarcinoma, NOS",ADNOS,ADNOS,<NA>,#aba9a9
 Solid Tumor,Angiomatoid Fibrous Histiocytoma,AFH,AFH,Other,#aba9a9
 Solid Tumor,"Fibrosarcoma, Abdominal",AFIBS,FIBS,AFIBS,#aba9a9
 Brain Tumor,Anaplastic Ganglioglioma,AGNG,AGNG,,#aba9a9
+Hematologic Malignancy,Angioimmunoblastic T-cell lymphoma,AITL,AITL,<NA>,#aba9a9
 Hematologic Malignancy,Acute Leukemias of Ambiguous Lineage,ALAL,ALAL,ALAL,black
 Hematologic Malignancy,Anaplastic Large Cell Lymphoma,ALCL,ALCL,ALCL,#f9779d
 Hematologic Malignancy,"Acute Lymphoblastic Leukemia, NOS",ALL,LNM,<NA>,#aba9a9
@@ -58,8 +59,10 @@ Solid Tumor,Botryoid Type Embryonal Rhabdomyosarcoma,BERMS,ERMS,BERMS,#9ce5f0
 Germ Cell Tumor,"Germ Cell Tumor, Brain",BGCT,BGCT,<NA>,#aba9a9
 Hematologic Malignancy,Burkitt Lymphoma,BL,BL,BL,#aba9a9
 Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, BCR-ABL1 like",BLLBCRABL1L,BLLBCRABL1L,BLLBCRABL1L,#aba9a9
+Hematologic Malignancy,"B-cell lymphoblastic lymphoma, NOS",BLLNOS,<NA>,<NA>,#aba9a9
 Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1",BLLTCF3PBX1,BLLTCF3PBX1,BLLTCF3PBX1,#aba9a9
 Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain",BMGCT,BMGCT,<NA>,#aba9a9
+Hematologic Malignancy,Blastic Plasmacytoid Dendritic Cell Neoplasm,BPDCN,BPDCN,<NA>,#aba9a9
 Germ Cell Tumor,"Yolk Sac Tumor, Brain",BYST,BYST,<NA>,#aba9a9
 Hematologic Malignancy,"Acute Myeloid Leukemia, Core Binding Factor",CBF,AMLRGA,AML,#008cff
 Germ Cell Tumor,Choriocarcinoma,CCA,<NA>,<NA>,#aba9a9
@@ -92,7 +95,9 @@ Solid Tumor,Renal Epitheloid Angiomyolipoma,EAML,RAML,EAML,#aba9a9
 Brain Tumor,"Embryonal Tumor, Brain",EBMT,EMBT,EBMT,#ff7b29
 Germ Cell Tumor,"Embryonal Carcinoma, NOS",ECNOS,<NA>,<NA>,#aba9a9
 Solid Tumor,Epithelioid Hemangioendothelioma,EHAE,EHAE,<NA>,#aba9a9
+Hematologic Malignancy,Extranodal Marginal Zone Lymphoma of Mucosa-Associated Lymphoid Tissue (MALT lymphoma),EMALT,EMALT,<NA>,#aba9a9
 Brain Tumor,"Embryonal Tumor, Brain",EMBT,EMBT,EMBT,#ff7b29
+Hematologic Malignancy,Extranodal NK-/T-Cell Lymphoma ,ENKTL,ENKL,<NA>,#aba9a9
 Solid Tumor,Epithelioid Sarcoma,EPIS,EPIS,<NA>,#aba9a9
 Brain Tumor,Ependymomal Tumor,EPMT,EPMT,EPMT,#ffccff
 Brain Tumor,"Ependymomal Tumor, Anaplastic",EPMTA,EPMT,,#c894e3
@@ -105,6 +110,7 @@ Solid Tumor,Ewing Sarcoma,EWS,ES,EWS,#d277f3
 Brain Tumor,Fibrillary Astrocytoma,FASTR,DASTR,<NA>,#aba9a9
 Solid Tumor,"Fibrosarcoma, NOS",FIBS,FIBS,Other,#aba9a9
 Solid Tumor,Fibroblastic Osteosarcoma,FIOS,FIOS,<NA>,#aba9a9
+Hematologic Malignancy,Follicular Lymphoma,FL,FL,<NA>,#aba9a9
 Solid Tumor,Fibromyxoid Sarcoma,FMS,<NA>,Other,#aba9a9
 Brain Tumor,Glioblastoma,GB,GB,<NA>,#aba9a9
 Germ Cell Tumor,"Germ Cell Tumor, NOS",GCT,<NA>,<NA>,#aba9a9
@@ -147,8 +153,10 @@ Brain Tumor,"Medulloblastoma, Group 4",MBLG4,MBL,MBLG4,#2fd090
 Brain Tumor,"Medulloblastoma, SHH subtype",MBLSHH,MBL,MBLSHH,#29a20b
 Brain Tumor,"Medulloblastoma, WNT subtype",MBLWNT,MBL,MBLWNT,#287415
 Brain Tumor,Miscellaneous Brain Tumor,MBT,MBT,Other,#aba9a9
+Solid Tumor,Merkel Cell Carcinoma,MCC,MCC,<NA>,#aba9a9
 Hematologic Malignancy,Mixed Cellularity Classical Hodgkin Lymphoma,MCCHL,MCCHL,<NA>,#aba9a9
 Solid Tumor,Mesenchymal Chondrosarcoma,MCHS,MCHS,<NA>,#aba9a9
+Hematologic Malignancy,Mantle Cell Lymphoma,MCL,MCL,<NA>,#aba9a9
 Brain Tumor,Medulloepithelioma,MDEP,MDEP,<NA>,#aba9a9
 Hematologic Malignancy,Myelodysplastic Syndromes,MDS,MDS,Other,#aba9a9
 Solid Tumor,Melanoma,MEL,MEL,Melanoma,#9531ed
@@ -195,6 +203,7 @@ Solid Tumor,Parosteal Osteosarcoma,PAOS,PAOS,<NA>,#aba9a9
 Brain Tumor,Pilocytic Astrocytoma,PAST,PAST,<NA>,#aba9a9
 Brain Tumor,Pineal Anlage Tumor,PAT,PINT,PAT,#aba9a9
 Brain Tumor,Pineoblastoma,PBL,PBL,Other,#aba9a9
+Hematologic Malignancy,Primary Cutaneous CD30 Positive T-Cell Lymphoproliferative Disorders,PCLPD,PCLPD,<NA>,#aba9a9
 Germ Cell Tumor,"Dysgerminoma, Pelvis",PDYS,<NA>,<NA>,#aba9a9
 Solid Tumor,Periosteal Osteosarcoma,PEOS,PEOS,<NA>,#aba9a9
 Brain Tumor,"Papillary Ependymoma, NOS",PEPNOS,EPMT,<NA>,#aba9a9
@@ -241,10 +250,10 @@ Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, KMT2A rearrangement
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, LMO1",TALLLMO1,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, LMO2",TALLLMO2,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, NKX2",TALLNKX2,TLL,,red
+Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, NOS",TALLNOS,TLL,TALL,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TAL1",TALLTAL1,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TLX1",TALLTLX1,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TLX3",TALLTLX3,TLL,,red
-Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, NOS",TALLNOS,TLL,TALL,red
 Solid Tumor,Telangiectatic Osteosarcoma,TEOS,TEOS,<NA>,#aba9a9
 Solid Tumor,Follicular Thyroid Cancer,THFO,THFO,Thyroid,#11c598
 Solid Tumor,Hurthle Cell Thyroid Cancer,THHC,THHC,THHC,#aba9a9
@@ -252,6 +261,7 @@ Solid Tumor,Papillary Thyroid Cancer,THPA,THPA,Thyroid,#11c598
 Hematologic Malignancy,T-cell Lymphoblastic Lymphoma,TLL,TLL,Other,#aba9a9
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, LMO1",TLLLMO1,TLL,,red
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, NKX2",TLLNKX2,TLL,,red
+Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, NOS",TLLNOS,TLL,Other,#aba9a9
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, TAL1",TLLTAL1,TLL,,red
 Germ Cell Tumor,Teratocarcinoma,TTC,<NA>,<NA>,#aba9a9
 Germ Cell Tumor,"Teratoma, NOS",TTNOS,<NA>,<NA>,#aba9a9
