@@ -101,6 +101,12 @@ main() {
     json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
     echo $json > metadata.json
 
+    excluded_sample_types="germline|cell line"
+    if [ ! ${include_xenografts} ]
+    then
+      excluded_sample_types="${excluded_sample_types}|xenograft"
+    fi
+
     echo "Parsing metadata for each sample"
     echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.attr_library_selection_protocol, readlength: .properties.attr_read_length, strandedness: .properties.attr_lab_strandedness, pairing: .properties.attr_read_type, category: .properties.attr_diagnosis_group, platform: .properties.attr_sequencing_platform, preservative: .properties.attr_tissue_preservative, projects: .properties.sj_datasets}' | while read j
     do
@@ -170,7 +176,7 @@ main() {
 
       # Check for sample type. Remove germline, cell line, xenograft
       type=$(echo $j | jq -r '.type')
-      if [ $(echo $type | grep -cE 'xenograft|germline|cell line') -gt 0 ]
+      if [ $(echo $type | grep -cE "${excluded_sample_types}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [sample type]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')

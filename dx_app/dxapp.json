@@ -79,6 +79,13 @@
       "optional": true,
       "choices": ["original_matrix", "variance_stabilized", "batch_corrected", "tsne_output", "matrix"],
       "help": "If desired, return data from an intermediate point in the analysis. 'original_matrix' is the matrix of counts. 'variance_stabilized' is the matrix after running varianceStabilizingTransformation. 'batch_corrected' is the matrix after ComBat batch correction. 'tsne_output' is the matrix after Rtsne has been run. 'matrix' is the file input to the R script for plotting."
+    },
+    {
+      "name": "include_xenografts",
+      "label": "Include xenograft samples",
+      "class": "boolean",
+      "default": true,
+      "help": "Include xenograft samples or exclude"
     }
   ],
   "outputSpec": [
