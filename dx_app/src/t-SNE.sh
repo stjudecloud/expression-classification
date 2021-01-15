@@ -22,6 +22,7 @@ main() {
     echo "Value of all_library_type: '${all_library_type}'"
     echo "Value of all_read_length: '${all_read_length}'"
     echo "Value of all_pairing: '${all_pairing}'"
+    echo "Include xenografts: '${include_xenografts}'"
 
     local_data_dir=$HOME/in
     local_reference_dir=$HOME/reference
