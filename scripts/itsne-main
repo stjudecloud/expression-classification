@@ -265,7 +265,7 @@ if __name__ == "__main__":
   # Write gene list
   matrix = pd.read_csv("matrix.txt")
   genes = pd.read_table("genes.txt")
-  matrix.drop(columns=['Sample', 'Diagnosis','DiagnosisName','Color','Projects','Covariates'], inplace=True)
+  matrix.drop(columns=['Sample', 'Diagnosis','DiagnosisName','Color','Projects','Covariates','Preservative'], inplace=True)
   df2 = (genes.iloc[:,0])
 
   gene_list = list(matrix[matrix.columns[df2]].columns)
