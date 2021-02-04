@@ -86,6 +86,13 @@
       "class": "file",
       "optional": true,
       "help": "Provide gene list to use in comparison. If not specified, genes will be automatically selected."
+    },
+    {
+      "name": "include_pdx",
+      "label": "Include PDX samples",
+      "class": "boolean",
+      "default": true,
+      "help": "If true, PDX samples will be included in the t-SNE to facilitate model selection"
     }
   ],
   "outputSpec": [
