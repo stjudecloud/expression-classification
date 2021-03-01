@@ -131,6 +131,13 @@
       "label": "Genes used for analysis",
       "class": "file",
       "optional": true
+    },
+    {
+      "name": "neighbors",
+      "label": "Neighbor report for input samples",
+      "class": "file",
+      "optional": true,
+      "help": "A report of the 5 and 10 nearest neighbors for each input sample in the t-SNE 2-dimensional space"
     }
   ],
   "runSpec": {

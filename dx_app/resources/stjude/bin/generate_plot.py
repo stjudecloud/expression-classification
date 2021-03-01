@@ -46,7 +46,7 @@ def get_args():
   return args
 
 def label_samples (row):
-  if pd.isna(row['projects']):
+  if pd.isna(row['projects']) or row['projects'] == 'input':
       return 'user'
   else:
       return None

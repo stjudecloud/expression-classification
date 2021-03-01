@@ -387,7 +387,7 @@ main() {
             exit 1
          fi
 
-         echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t\t" | sed 's/"//g' >> ${covariates_file}
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t\tinput" | sed 's/"//g' >> ${covariates_file}
          in_arg="$in_arg --input-sample $sample_name"
          echo "Adding input sample: $sample_name, $protocol, $disease_code"
       done
@@ -442,6 +442,13 @@ main() {
    cp combined_metadata.json $local_output_dir
    cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
    docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin stjudecloud/interactive-tsne:0.4.0 bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+
+   if [ ${#input_counts[@]} -gt 0 ]
+   then
+      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin adthrasher/interactive-tsne:0.3.0 bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
+      neighbors_file=$(dx upload $local_output_dir/neighbors.tsv --brief)
+      dx-jobutil-add-output neighbors "$neighbors_file" --class=file
+   fi
 
    # Upload output
    mv $local_output_dir/tsne_pp.html $local_output_dir/${output_name}
