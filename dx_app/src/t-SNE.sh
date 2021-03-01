@@ -158,7 +158,6 @@ main() {
 
       # Strandedness: [Unstranded, Stranded-Forward, Stranded-Reverse]
       strandedness=$(get_strandedness "$j")
->>>>>>> Refactor metadata queries. Add DFCI data option.
       if [[ "$strandedness" == "Not Available" ]]
       then 
          strandedness="Stranded-Reverse"
