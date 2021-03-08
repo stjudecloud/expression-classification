@@ -91,6 +91,8 @@ if __name__ == "__main__":
   # Drop unneeded columns
   combined = combined.drop(columns=["samples", "classes", "diagnosisNames"])
 
+  combined = combined.fillna("unknown")
+
   # Split user samples from reference samples
   user_samples = combined.loc[combined.highlight=='user']
   samples = combined.loc[combined.highlight!='user']
