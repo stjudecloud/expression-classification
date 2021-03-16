@@ -22,6 +22,9 @@ main() {
     echo "Value of all_library_type: '${all_library_type}'"
     echo "Value of all_read_length: '${all_read_length}'"
     echo "Value of all_pairing: '${all_pairing}'"
+    echo "Value of output_name: '${output_name}'"
+    echo "Value of intermediate file: '${intermediate}'"
+    echo "Value of gene list: '${gene_list}'"
 
     local_data_dir=$HOME/in
     local_reference_dir=$HOME/reference
@@ -336,6 +339,14 @@ main() {
     echo "  [*] Downloading gencode ..."
     dx download -o $local_reference_dir/gencode.v31.annotation.gtf.gz -r project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/M2A/gencode.v31.annotation.gtf.gz 
 
+   # Fetch Gene List
+   gene_list_arg=
+   if [[ ! -z $gene_list ]]
+   then
+      dx download -o $local_reference_dir/gene_list.txt "${gene_list}"
+      gene_list_arg="--gene-list ${container_reference_dir}/gene_list.txt"
+   fi
+
     # Run interactive t-SNE
     echo ""
     echo "  [*] Running t-SNE ..."
@@ -344,13 +355,13 @@ main() {
     then
        tissue_arg="--tissue-type \"${tumor_type}\""
     fi
-    echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.3.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}\"" 
+    echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.5.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
 
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir alexgout3/interactive-tsne:dev bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}"
+    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.5.0 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg}  ${gene_list_arg}"
 
     cp metadata.json $local_output_dir
     cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
-    docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin alexgout3/interactive-tsne:dev bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+    docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin stjudecloud/interactive-tsne:0.5.0 bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
 
     # Upload output  
     mv $local_output_dir/tsne_pp.html $local_output_dir/${output_name}
@@ -359,8 +370,11 @@ main() {
     tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
     dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
     dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
-    gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
-    dx-jobutil-add-output gene_list "$gene_list" --class=file
+    if [ -e $local_output_dir/gene_list.txt ]
+    then
+       gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
+       dx-jobutil-add-output gene_list "$gene_list" --class=file
+    fi
     if [ ${intermediate} ]
     then
       intermediate_file=$(dx upload $local_output_dir/${intermediate}.txt --brief)

@@ -90,6 +90,13 @@ option_list = list(
     action="store_true",
     default=F,
     help="Save 2 dimensional distance matrix from t-SNE"
+  ),
+  make_option(
+    c("--gene-list"),
+    type="character",
+    default=NULL,
+    help="File containing gene list for selection. See the documentation for how to format this file.",
+    metavar="character"
   )
 ); 
  
@@ -103,7 +110,9 @@ if(is.null(opt) || is.null(opt$outname) || is.null(opt$filename)) {
   q(status=1)
 }
 
+# Read full data matrix
 allData    <- read.csv(file=opt$filename, header=T)
+# Split metadata out into separate data structures
 diagnosis  <- allData["Diagnosis"][,1]
 diagnosisName <- allData["DiagnosisName"][,1]
 colors <- allData["Color"][,1]
@@ -111,6 +120,7 @@ projects <- allData["Projects"][,1]
 covariates <- allData["Covariates"][,1]
 samples    <- allData["Sample"][,1]
 preservative <- allData["Preservative"][,1]
+# Remove metadata from data matrix
 counts     <- t(allData[!(names(allData) %in% c("Diagnosis", "Covariates", "Sample", "DiagnosisName", "Color", "Projects", "Preservative"))])
 
 rm(allData)
@@ -144,12 +154,23 @@ if (!opt$`disable-batch-correction`) {
   cat("Batch correction disabled!\n", file = stderr())
 }
 
-topn          <- opt$`keep-top-n-genes`
-mads          <- apply(dataMatrix, 1, mad)
-sortMads      <- as.numeric(sort(mads, decreasing=TRUE))
-madCutoff     <- sortMads[(topn+1)]
-topGenes      <- mads > madCutoff
-dataMatrixTop <- dataMatrix[topGenes,]
+if (is.null(opt$`gene-list`)){
+  cat("Selecting gene list\n", file=stderr())
+  topn          <- opt$`keep-top-n-genes`
+  mads          <- apply(dataMatrix, 1, mad)
+  sortMads      <- as.numeric(sort(mads, decreasing=TRUE))
+  madCutoff     <- sortMads[(topn+1)]
+  topGenes      <- mads > madCutoff
+  dataMatrixTop <- dataMatrix[topGenes,]
+} else {
+  cat("Using specified gene list\n", file=stderr())
+  # Read the specified gene list
+  gene_list <- read.csv(file=opt$`gene-list`, header=F)
+  # genes are the rows in sorted order
+  genes <- row.names(counts)
+  topGenes <- genes %in% gene_list$V1
+  dataMatrixTop <- dataMatrix[topGenes,]
+}
 
 write.table(topGenes, file="genes.txt", sep="\t",quote=FALSE,row.names=FALSE)
 write.table(dataMatrixTop, file="data_top_genes.txt", sep="\t", quote=FALSE, row.names=FALSE)
@@ -163,140 +184,6 @@ tsne_out <- Rtsne(distMat, dims = 2, perplexity = opt$`tsne-perplexity`,
                   num_threads = 0 )
 cat("Saving Rtsne output\n", file = stderr())
 write.table(data.frame(tsne_out$Y), file="tsne_output.txt", sep="\t",quote=FALSE,row.names=FALSE)
-
-# Setup colors for diagnosis codes
-popcolor_All =
-  c(
-# Paper colors
-"ACC"="#66C2A6",
-"ACPG"="red",
-"AFH"="#d3d3d3",
-"ALAL"="black",
-"ALCL"="#f9779d",
-"AMKL"="#008cff",
-"AML"="#00c0ff",
-"AML"="#00c0ff",
-"APLPMLRARA"="#ffa500",
-"ARMS"="#00aeff",
-"ASPS"="#d3d3d3",
-"ATRT"="#f9779d",
-"AULKMT2A"="#d3d3d3",
-"BALLBCRABL1"="#ff00ff",
-"BALLBCRABL1L"="#9759d5",
-"BALLDUX4IGH"="#696969",
-"BALLDUX4IGHL"="#d3d3d3",
-"BALLETV6RUNX1"="#ffd700",
-"BALLETV6RUNX1L"="#d3d3d3",
-"BALLHLF"="#d3d3d3",
-"BALLHYPER"="#3E9F32",
-"BALLHYPO"="#483d8b",
-"BALLIAMP21"="#0000ff",
-"BALLIGHCEBPD"="#d3d3d3",
-"BALLKMT2A"="#7cfc00",
-"BALLMEF2D"="#66C2A6",
-"BALLMYC"="#d3d3d3",
-"BALLNOS"="#d3d3d3",
-"BALLNUTM1"="#8b0000",
-"BALLPAX5"="#e88c38",
-"BALLPAX5P80R"="#ffa500",
-"BALLTCF3PBX1"="#c8a2c8",
-"BALLZNF384"="#A8DD00",
-"BALLZNF384L"="#d3d3d3",
-"BCUP"="#d3d3d3",
-"BERMS"="#9ce5f0",
-"BGCT"="yellow",
-"BL"="#d3d3d3",
-"BMGCT"="yellow",
-"BYST"="yellow",
-"CBF"="#00c0ff",
-"CCA"="yellow",
-"CCRCC"="#d3d3d3",
-"CCSK"="#d3d3d3",
-"CHDM"="#d3d3d3",
-"CHOS"="#ff00ff",
-"CML"="#d3d3d3",
-"CPC"="#ffd700",
-"DES"="#8b0000",
-"DFSP"="#d3d3d3",
-"DLBCLNOS"="#d3d3d3",
-"DSRCT"="#daa520",
-"DYS"="yellow",
-"EBMT"="#ff7b29",
-"ECNOS"="yellow",
-"EPMT"="#ffccff",
-"EPMTPF"="#ff00ff",
-"EPMTST"="#ffccff",
-"EPMTSU"="#c042ff",
-"ERMS"="#0000ff",
-"ETMR"="#ff7b29",
-"EWS"="#d277f3",
-"FIBS"="#d3d3d3",
-"FMS"="#d3d3d3",
-"GCT"="yellow",
-"GIST"="#d3d3d3",
-"GMN"="yellow",
-"GNG"="#d3d3d3",
-"HB"="#e76836",
-"HCC"="#ffa500",
-"HGGNOS"="#0006c2",
-"HGNET"="#8fb90a",
-"IFS"="#d3d3d3",
-"LGGNOS"="#00c0ff",
-"MBL"="#7cfc00",
-"MBLG3"="#2fd090",
-"MBLG4"="#2fd090",
-"MBLSHH"="#29a20b",
-"MBLWNT"="#287415",
-"MBT"="#d3d3d3",
-"MDS"="#d3d3d3",
-"MEL"="#9531ed",
-"MEPMST"="#ffccff",
-"MFH"="#d3d3d3",
-"MGCT"="yellow",
-"MGCTNOS"="yellow",
-"MNG"="#8b0000",
-"MPE"="#ffccff",
-"MPEFV"="#ffccff",
-"MPEPF"="#ff00ff",
-"MPNST"="#d3d3d3",
-"MRT"="#c01111",
-"MRTL"="#c01111",
-"MS"="#d3d3d3",
-"MSCERMS"="#00c0ff",
-"MUCC"="#d3d3d3",
-"NBL"="#f9779d",
-"NFIB"="#d3d3d3",
-"ODYS"="yellow",
-"OMGCT"="yellow",
-"OS"="#ff00ff",
-"PANET"="#d3d3d3",
-"PBL"="#d3d3d3",
-"PDYS"="yellow",
-"PRCC"="#eb1414",
-"RBL"="#ffd700",
-"RCC"="#eb1414",
-"RCSNOS"="#d3d3d3",
-"RMS"="#00c0ff",
-"SCCNOS"="#d3d3d3",
-"SCRMS"="#d3d3d3",
-"SCSNOS"="#d3d3d3",
-"SCSRMS"="#d3d3d3",
-"SCUP"="#d3d3d3",
-"SETTLE"="#d3d3d3",
-"SIPT"="#d3d3d3",
-"SYNS"="#d3d3d3",
-"TALL"="red",
-"TALLKMT2A"="red",
-"THFO"="#11c598",
-"THPA"="#11c598",
-"TLL"="#d3d3d3",
-"TTC"="yellow",
-"TTNOS"="yellow",
-"UESL"="#ffa500",
-"WT"="#29a20b",
-"WTB"="#7cfc00",
-"YSTNOS"="yellow"
-)
 
 cat("Plotting...\n", file = stderr())
 # Create plot data objects

@@ -117,6 +117,12 @@ def get_args():
       "--tissue-type",
       type=str,
       help="Tumor tissue type")
+  parser.add_argument(
+      "--gene-list",
+      type=str,
+      default=None,
+      help="Gene list to use. Otherwise the top-n most differentially expressed genes will be used."
+  )
 
   args = parser.parse_args()
   if args.debug_rscript:
@@ -239,6 +245,11 @@ if __name__ == "__main__":
     if (args.save_data):
       command += " --save-data"
 
+    if (args.gene_list):
+      command += " --gene-list {list}".format(**{
+          "list": args.gene_list
+      })
+
     logger.debug("  [+] '{}'".format(command))
     result = sh(command, check=not args.debug_rscript)
     if args.debug_rscript:
@@ -263,15 +274,17 @@ if __name__ == "__main__":
   trust_file.close()
 
   # Write gene list
-  matrix = pd.read_csv("matrix.txt")
-  genes = pd.read_table("genes.txt")
-  matrix.drop(columns=['Sample', 'Diagnosis','DiagnosisName','Color','Projects','Covariates','Preservative'], inplace=True)
-  df2 = (genes.iloc[:,0])
+  if (not args.gene_list):
+    matrix = pd.read_csv("matrix.txt")
+    genes = pd.read_table("genes.txt")
+    matrix.drop(columns=['Sample', 'Diagnosis','DiagnosisName','Color','Projects','Covariates','Preservative'], inplace=True)
+    df2 = (genes.iloc[:,0])
 
-  gene_list = list(matrix[matrix.columns[df2]].columns)
-  with open('gene_list.txt', 'w') as filehandle:
-    for listitem in gene_list:
-      filehandle.write('%s\n' % listitem)
+
+    gene_list = list(matrix[matrix.columns[df2]].columns)
+    with open('gene_list.txt', 'w') as filehandle:
+      for listitem in gene_list:
+        filehandle.write('%s\n' % listitem)
 
   logger.info("  [+] Finished. Took {:.2f} seconds.".format(time.time() -
                                                             start_time))
