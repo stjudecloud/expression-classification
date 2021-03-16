@@ -145,7 +145,8 @@ if (!opt$`disable-variance-stabilization`) {
 
 if (!opt$`disable-batch-correction`) {
   cat("Performing batch correction\n", file = stderr())
-  dataMatrix <- ComBat(dataMatrix, covariates, mean.only = FALSE)
+  dataMatrix <- ComBat_seq(dataMatrix, batch=covariates, group=diagnosis)
+  #dataMatrix <- ComBat(dataMatrix, covariates, mean.only = FALSE)#, prior.plots=TRUE)
   write.table(dataMatrix, file="batch_corrected.txt", sep="\t",quote=FALSE,row.names=FALSE)
 
 } else {

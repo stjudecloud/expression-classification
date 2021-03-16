@@ -16,104 +16,148 @@
 # to modify this file.
 
 main() {
-    #echo "Value of input_sample: '${input_sample[@]}'"
-    echo "Value of tissue_type: '${tumor_type}'"
-    echo "Value of all_strandedness: '${all_strandedness}'"
-    echo "Value of all_library_type: '${all_library_type}'"
-    echo "Value of all_read_length: '${all_read_length}'"
-    echo "Value of all_pairing: '${all_pairing}'"
-    echo "Value of output_name: '${output_name}'"
-    echo "Value of intermediate file: '${intermediate}'"
-    echo "Value of gene list: '${gene_list}'"
+   echo "Value of tissue_type: '${tumor_type}'"
+   echo "Value of all_strandedness: '${all_strandedness}'"
+   echo "Value of all_library_type: '${all_library_type}'"
+   echo "Value of all_read_length: '${all_read_length}'"
+   echo "Value of all_pairing: '${all_pairing}'"
+   echo "Value of include_pdx: '${include_pdx}'"
+   echo "Value of intermediate file: '${intermediate}'"
+   echo "Value of gene list: '${gene_list}'"
 
-    local_data_dir=$HOME/in
-    local_reference_dir=$HOME/reference
-    local_output_dir=$HOME/out
-    container_data_dir=/data
-    container_reference_dir=/reference
-    container_output_dir=/results
-    metadata_file=/stjude/metadata/combined.csv 
-    lookup_file=/stjude/metadata/paper_vs_database_diagnosis_v4_normalized_AlexUpdatesV2_LOOKUP_tSNE.csv
-    mkdir $local_reference_dir
-    mkdir $local_output_dir
+   local_data_dir=$HOME/in
+   local_reference_dir=$HOME/reference
+   local_output_dir=$HOME/out
+   container_data_dir=/data
+   container_reference_dir=/reference
+   container_output_dir=/results
+   metadata_file=/stjude/metadata/combined.csv
+   lookup_file=/stjude/metadata/paper_vs_database_diagnosis_v4_normalized_AlexUpdatesV2_LOOKUP_tSNE.csv
+   mkdir $local_reference_dir
+   mkdir $local_output_dir
 
-    # Fetch input counts data
-    echo ""
-    echo "=== Setup ==="
-    echo "  [*] Check for duplicate files ..."
-    file_names=()
-    for ((i = 0; i < ${#reference_counts_name[@]}; i++)) 
-    do
-        #id=${reference_counts[$i]}
-        #clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
-        #name=$(dx describe --json $clip | jq -r '.name')
-        name=${reference_counts_name[$i]}
-        file_names+=( $name )
-    done
-    echo "   Getting unique file count"
-    uniqueNum=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
-    duplicateFiles=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];next} 1' | xargs echo)
-    echo "   Checking unique file count"
-    (( $uniqueNum != ${#file_names[@]} )) && echo "Found duplicates" && \
-    echo $duplicateFiles && \
-    echo "Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py" && \
-    echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Duplicate file names found. $duplicateFiles. Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py.\"}}" > job_error.json && \
-    exit 1
+   # Fetch input counts data
+   echo ""
+   echo "=== Setup ==="
+   echo "  [*] Check for duplicate files ..."
 
+   # Get file names for reference count files
+   file_names=()
+   for ((i = 0; i < ${#reference_counts_name[@]}; i++))
+   do
+      name=${reference_counts_name[$i]}
+      file_names+=( $name )
+   done
+   echo "   Getting unique file count"
+   uniqueNum=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
+   duplicateFiles=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];next} 1' | xargs echo)
+   echo "   Checking unique file count"
+   (( $uniqueNum != ${#file_names[@]} )) && echo "Found duplicates" && \
+   echo $duplicateFiles && \
+   echo "Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py" && \
+   echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Duplicate file names found. $duplicateFiles. Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py.\"}}" > job_error.json && \
+   exit 1
 
-    echo "  [*] Downloading input files ..."
-    #dx-download-all-inputs --parallel
-    # Get the file ids of the reference count data
-    ids=""
-    for ((i = 0; i < ${#reference_counts[@]}; i++)) 
-    do
-        id=${reference_counts[$i]}
-        clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
-        ids="$ids $clip"
-    done
- 
-    # Setup the download location for reference counts and create the download commands
-    # Download with GNU parallel
-    mkdir -p $HOME/in/reference_counts/
-    echo $ids | xargs -n 1 | sed "s#^#dx download -f -o $HOME/in/reference_counts/ --no-progress #" > download_all.sh
-    parallel --retries 20 --results download_outputs --joblog download.log < download_all.sh > download.stdout 
+   echo "  [*] Downloading input files ..."
+   # Get the file ids of the reference count data
+   ids=""
+   for ((i = 0; i < ${#reference_counts[@]}; i++))
+   do
+      id=${reference_counts[$i]}
+      clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
+      ids="$ids $clip"
+   done
 
-    # Loop over the inputs, if any, store IDs and download in parallel
-    input_ids=""
-    if [ ${#input_counts[@]} -gt 0 ]
-    then 
-       for ((i = 0; i < ${#input_counts[@]}; i++)) 
-       do
-           id=${input_counts[$i]}
-           clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
-           input_ids="$input_ids $clip"
-       done
-    
-       mkdir -p $HOME/in/input_counts/
-       echo $input_ids | xargs -n 100 | sed "s#^#dx download -o $HOME/in/input_counts/ --no-progress #" > download_inputs.sh
-       parallel --joblog download.log < download_inputs.sh
-    fi
+   # Setup the download location for reference counts and create the download commands
+   # Download with GNU parallel
+   mkdir -p $HOME/in/reference_counts/
+   echo $ids | xargs -n 1 | sed "s#^#dx download -f -o $HOME/in/reference_counts/ --no-progress #" > download_all.sh
+   parallel --retries 20 --results download_outputs --joblog download.log < download_all.sh > download.stdout
 
-    echo ""
-    echo "  [*] Retrieving covariates for reference data ..."
-    covariates_file=$local_data_dir/covariates.txt
-    echo -e "Sample\tProtocol\tDiagnosis\tDiagnosisName\tColor\tProjects" > ${covariates_file}
-    
-    # Get metadata in parallel for reference data
-    echo "Getting metadata for all samples" 
-    json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
-    echo $json > metadata.json
+   # Loop over the inputs, if any, store IDs and download in parallel
+   input_ids=""
+   if [ ${#input_counts[@]} -gt 0 ]
+   then
+      for ((i = 0; i < ${#input_counts[@]}; i++))
+      do
+         id=${input_counts[$i]}
+         clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
+         input_ids="$input_ids $clip"
+      done
 
-    echo "Parsing metadata for each sample"
-    echo $json | jq -c '.[] | {name: .name, sample_name: .properties.sample_name, disease: .properties.sj_diseases, type: .properties.sample_type, library: .properties.attr_library_selection_protocol, readlength: .properties.attr_read_length, strandedness: .properties.attr_lab_strandedness, pairing: .properties.attr_read_type, category: .properties.attr_diagnosis_group, platform: .properties.attr_sequencing_platform, preservative: .properties.attr_tissue_preservative, projects: .properties.sj_datasets}' | while read j
-    do
-      sample_name=$(echo $j | jq -r '.sample_name')
+      mkdir -p $HOME/in/input_counts/
+      echo $input_ids | xargs -n 100 | sed "s#^#dx download -o $HOME/in/input_counts/ --no-progress #" > download_inputs.sh
+      parallel --joblog download.log < download_inputs.sh
+   fi
 
-      disease_code=$(echo $j | jq -r '.disease')
+   # Metadata functions
+   function get_property(){
+      local prop=$(echo $1 | jq -r ".properties.$2")
+      echo ${prop}
+   }
+   function get_sample_name() {
+      echo $(get_property "$1" 'sample_name')
+   }
+   function get_disease_code() {
+      echo $(get_property "$1" 'sj_diseases')
+   }
+   function get_project() {
+      echo $(get_property "$1" 'sj_datasets')
+   }
+   function get_strandedness(){
+      echo $(get_property "$1" 'attr_lab_strandedness')
+   }
+   function get_library(){
+      echo $(get_property "$1" 'attr_library_selection_protocol')
+   }
+   function get_readlen(){
+      echo $(get_property "$1" 'attr_read_length')
+   }
+   function get_pairing(){
+      echo $(get_property "$1" 'attr_read_type')
+   }
+   function get_platform(){
+      echo $(get_property "$1" 'attr_sequencing_platform')
+   }
+   function get_type(){
+      echo $(get_property "$1" 'sample_type')
+   }
+   function get_preservative(){
+      echo $(get_property "$1" 'attr_tissue_preservative')
+   }
+   function get_category(){
+      echo $(get_property "$1" 'attr_diagnosis_group')
+   }
 
-      projects=$(echo $j | jq -r '.projects')
+   echo ""
+   echo "  [*] Retrieving covariates for reference data ..."
+   covariates_file=$local_data_dir/covariates.txt
+   echo -e "Sample\tProtocol\tDiagnosis\tDiagnosisName\tColor" > ${covariates_file}
 
-      strandedness=$(echo $j | jq -r '.strandedness')
+   # Get metadata in parallel for reference data
+   echo "Getting metadata for all samples"
+   json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
+   echo $json > metadata.json
+
+   # Prepare filters
+   excluded_types='germline|cell line'
+   if [ "include_pdx" != "true" ]
+   then
+      excluded_types="${excluded_types}|xenograft"
+   fi
+
+   # Parse metadata for reference files
+   echo "Parsing metadata for each sample"
+   echo $json | jq -c '.[]' | while read j
+   do
+      sample_name=$(get_sample_name "$j")
+
+      disease_code=$(get_disease_code "$j")
+
+      projects=$(get_project "$j")
+
+      # Strandedness: [Unstranded, Stranded-Forward, Stranded-Reverse]
+      strandedness=$(get_strandedness "$j")
       if [[ "$strandedness" == "Not Available" ]]
       then 
          strandedness="Stranded-Reverse"
@@ -208,27 +252,73 @@ main() {
 
       if [[ "$tumor_type" == "All" ]]  || [[ "$tumor_type" == "$category" ]]
       then
-         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}" | sed 's/"//g' >> ${covariates_file}
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}" | sed 's/"//g' >> ${covariates_file}
       else
          echo "Rejecting sample: ${sample_name} [category]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
          rm $HOME/in/reference_counts/${file_name}
       fi
-    done
+   done
 
-    if [ ${#input_counts[@]} -gt 0 ]
-    then 
-       echo "Getting metadata for input samples" 
-       input_json=$(echo $input_ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
-       echo $input_json > input_metadata.json
-          
-       infile_arg="$container_data_dir/input_counts/*.txt"
-       in_arg=""
-       echo "Parsing metadata for each input sample"
-       set +m
-       shopt -s lastpipe
-       for ((i = 0; i < ${#input_counts[@]}; i++)) 
-       do
+   # Handle Dana Farber PDX samples
+   if [ "${include_pdx}" == "true" ]
+   then
+      # Get the file ids of the reference count data
+      dfci_ids=""
+      for file in $(dx ls "project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/RNA-Seq Expression Classification/dana_farber_pdx/")
+      do
+         json=$(dx describe --json "project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/RNA-Seq Expression Classification/dana_farber_pdx/${file}")
+         id=$(echo $json | jq -r '.id')
+         # Download HTSeq count file
+         dx download -f -o $HOME/in/reference_counts/ --no-progress project-F5444K89PZxXjBqVJ3Pp79B4:${id}
+         dfci_ids="${dfci_ids} ${id}"
+
+         # Get metadata entries
+         sample_name=$(get_sample_name "$json")
+         disease_code=$(get_disease_code "$json")
+         projects=$(get_project "$json")
+         strandedness=$(get_strandedness "$json")
+         librarytype=$(get_library "$json")
+         readlength=$(get_readlen "$json")
+         pairing=$(get_pairing "$json")
+
+         # look up color and disease name values
+         color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -)
+         if [[ "$color" == "Color" ]] || [[ "$color" == "<NA>" ]]
+         then
+            color='#aba9a9'
+         fi
+         disease_name=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file | tail -n 1 | csvcut -c 2 - | sed 's/"//g')
+
+         # build protocol string and write covariates to file
+         protocol="${strandedness}_${librarytype}_${pairing}_${readlength}_${projects}"
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}" | sed 's/"//g' >> ${covariates_file}
+      done
+
+      # Get metadata for DFCI files
+      dfci_metadata=$(echo ${dfci_ids} | xargs python3 /stjude/bin/bulk_describe.py -p project-F5444K89PZxXjBqVJ3Pp79B4 --ids)
+      echo ${dfci_metadata} > dfci_metadata.json
+   fi
+
+   # Combine reference data with DFCI metadata
+   # The "-s" argument to jq takes the input files and puts the objects in an array.
+   # so .[0] + .[1] concatenates the first and second elements together, in this case,
+   # both elements are arrays. So the output is a concatentated array.
+   jq -s add metadata.json dfci_metadata.json  > combined_metadata.json
+
+   if [ ${#input_counts[@]} -gt 0 ]
+   then
+      echo "Getting metadata for input samples"
+      input_json=$(echo $input_ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
+      echo $input_json > input_metadata.json
+
+      infile_arg="$container_data_dir/input_counts/*.txt"
+      in_arg=""
+      echo "Parsing metadata for each input sample"
+      set +m
+      shopt -s lastpipe
+      for ((i = 0; i < ${#input_counts[@]}; i++))
+      do
          id=${input_counts[$i]}
          id=$(echo $id | jq -r '.["$dnanexus_link"]')
 
@@ -268,7 +358,7 @@ main() {
             pairing="${all_pairing}"
          fi
          disease_code=$sample_name
-         protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
+         protocol="${strandedness}_${librarytype}_${pairing}_${readlength}_input"
 
          # Check for missing properties on input file
          if [[ $protocol == "null_null_null_null" ]]
@@ -297,8 +387,7 @@ main() {
             exit 1
          fi
 
-
-         echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t\t" | sed 's/"//g' >> ${covariates_file}
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t" | sed 's/"//g' >> ${covariates_file}
          in_arg="$in_arg --input-sample $sample_name"
          echo "Adding input sample: $sample_name, $protocol, $disease_code"
        done
@@ -336,36 +425,36 @@ main() {
       gene_list_arg="--gene-list ${container_reference_dir}/gene_list.txt"
    fi
 
-    # Run interactive t-SNE
-    echo ""
-    echo "  [*] Running t-SNE ..."
-    tissue_arg=
-    if [[ "$tumor_type" != "All" ]]
-    then
-       tissue_arg="--tissue-type \"${tumor_type}\""
-    fi
-    echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.4.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
 
-    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.4.0 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
+   echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:add_dfci_pdx bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
 
-    cp metadata.json $local_output_dir
-    cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
-    docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin stjudecloud/interactive-tsne:0.4.0 bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+   docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:add_dfci_pdx bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
 
-    # Upload output  
-    mv $local_output_dir/tsne_pp.html $local_output_dir/${output_name}
-    tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)
-    dx-jobutil-add-output tsne_plot "$tsne_plot" --class=file
-    tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
-    dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
-    dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
-    if [ -e $local_output_dir/gene_list.txt ]
-    then
-       gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
-       dx-jobutil-add-output gene_list "$gene_list" --class=file
-    fi
-    if [ ${intermediate} ]
-    then
+   cp combined_metadata.json $local_output_dir
+   cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
+   docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin stjudecloud/interactive-tsne:add_dfci_pdx bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+
+   if [ ${#input_counts[@]} -gt 0 ]
+   then
+      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin stjudecloud/interactive-tsne:add_dfci_pdx bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
+      neighbors_file=$(dx upload $local_output_dir/neighbors.tsv --brief)
+      dx-jobutil-add-output neighbors "$neighbors_file" --class=file
+   fi
+
+   # Upload output
+   mv $local_output_dir/tsne_pp.html $local_output_dir/${output_name}
+   tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)
+   dx-jobutil-add-output tsne_plot "$tsne_plot" --class=file
+   tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
+   dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
+   dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
+   if [ -e $local_output_dir/gene_list.txt ]
+   then
+      gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
+      dx-jobutil-add-output gene_list "$gene_list" --class=file
+   fi
+   if [ ${intermediate} ]
+   then
       intermediate_file=$(dx upload $local_output_dir/${intermediate}.txt --brief)
       dx-jobutil-add-output intermediate_output "$intermediate_file" --class=file
     fi
