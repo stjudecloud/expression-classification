@@ -277,8 +277,9 @@ if __name__ == "__main__":
   if (not args.gene_list):
     matrix = pd.read_csv("matrix.txt")
     genes = pd.read_table("genes.txt")
-    matrix.drop(columns=['Sample', 'Diagnosis','DiagnosisName','Color','Projects','Covariates'], inplace=True)
+    matrix.drop(columns=['Sample', 'Diagnosis','DiagnosisName','Color','Projects','Covariates','Preservative'], inplace=True)
     df2 = (genes.iloc[:,0])
+
 
     gene_list = list(matrix[matrix.columns[df2]].columns)
     with open('gene_list.txt', 'w') as filehandle:

@@ -12,6 +12,15 @@
   ],
   "inputSpec": [
     {
+      "name": "preservatives",
+      "label": "FFPE and/or Fresh/Frozen",
+      "class": "string",
+      "choices": ["FFPE", "Fresh/Frozen", "all"],
+      "optional": false,
+      "help": "Specify read pairing. This option will apply to any input samples without a specification.",
+      "default": "Fresh/Frozen"
+    },
+    {
       "name": "reference_counts",
       "label": "Reference counts to compare",
       "class": "array:file",
