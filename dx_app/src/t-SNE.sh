@@ -16,6 +16,7 @@
 # to modify this file.
 
 main() {
+   echo "Value of output_name: '${output_name}'"
    echo "Value of tissue_type: '${tumor_type}'"
    echo "Value of all_strandedness: '${all_strandedness}'"
    echo "Value of all_library_type: '${all_library_type}'"
