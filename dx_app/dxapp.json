@@ -12,15 +12,6 @@
   ],
   "inputSpec": [
     {
-      "name": "preservatives",
-      "label": "FFPE and/or Fresh/Frozen",
-      "class": "string",
-      "choices": ["FFPE", "Fresh/Frozen", "all"],
-      "optional": false,
-      "help": "Specify read pairing. This option will apply to any input samples without a specification.",
-      "default": "Fresh/Frozen"
-    },
-    {
       "name": "reference_counts",
       "label": "Reference counts to compare",
       "class": "array:file",
@@ -48,6 +39,15 @@
       "class": "string", 
       "choices": ["All", "Brain Tumor", "Blood Cancer", "Solid Tumor"],
       "default": "All"
+    },
+    {
+      "name": "preservatives",
+      "label": "FFPE and/or Fresh/Frozen",
+      "class": "string",
+      "choices": ["FFPE", "Fresh/Frozen", "all"],
+      "optional": false,
+      "help": "Specify preservative(s) to include in analysis.",
+      "default": "Fresh/Frozen"
     },
     { 
       "name": "all_strandedness",

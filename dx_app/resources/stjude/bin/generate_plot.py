@@ -197,6 +197,15 @@ runproteinpaint({
         },
         attr_subtype_biomarkers:{
           label: 'Subtype Biomarkers'
+        },
+        attr_tissue_preservative: {
+          label: 'Preservative'
+        },
+        sj_datasets: {
+          label: 'Source'
+        },
+        sample_type: {
+          label: 'Sample Type'
         }
 			}"""
 
