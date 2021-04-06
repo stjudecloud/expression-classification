@@ -22,6 +22,7 @@ main() {
    echo "Value of all_read_length: '${all_read_length}'"
    echo "Value of all_pairing: '${all_pairing}'"
    echo "Value of include_pdx: '${include_pdx}'"
+   echo "Value of output_name: '${output_name}'"
    echo "Value of intermediate file: '${intermediate}'"
    echo "Value of gene list: '${gene_list}'"
 
@@ -132,7 +133,7 @@ main() {
    echo ""
    echo "  [*] Retrieving covariates for reference data ..."
    covariates_file=$local_data_dir/covariates.txt
-   echo -e "Sample\tProtocol\tDiagnosis\tDiagnosisName\tColor\tProjects" > ${covariates_file}
+   echo -e "Sample\tProtocol\tDiagnosis\tDiagnosisName\tColor\tProjects\tPreservative" > ${covariates_file}
 
    # Get metadata in parallel for reference data
    echo "Getting metadata for all samples"
@@ -146,6 +147,16 @@ main() {
       excluded_types="${excluded_types}|xenograft"
    fi
 
+   # retrieve and set excluded_preservatives varaible (from preservative selected in dxapp.json file
+   excluded_preservatives="Not Available"
+   if [ "$preservatives" == "Fresh/Frozen" ]
+   then
+   excluded_preservatives="${excluded_preservatives}|FFPE"
+   elif [ "$preservatives" == "FFPE" ]
+   then
+   excluded_preservatives="${excluded_preservatives}|Fresh/Frozen"
+   fi 
+
    # Parse metadata for reference files
    echo "Parsing metadata for each sample"
    echo $json | jq -c '.[]' | while read j
@@ -158,6 +169,7 @@ main() {
 
       # Strandedness: [Unstranded, Stranded-Forward, Stranded-Reverse]
       strandedness=$(get_strandedness "$j")
+
       if [[ "$strandedness" == "Not Available" ]]
       then 
          strandedness="Stranded-Reverse"
@@ -225,9 +237,9 @@ main() {
          continue
       fi
 
-      # Remove FFPE and unknown
+      # Remove user defined samples with selected preservatives
       preservative=$(get_preservative "$j")
-      if [ $(echo $preservative | grep -cE 'FFPE|Not Available') -gt 0 ]
+      if [ $(echo $preservative | grep -cE "${excluded_preservatives}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [preservative]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
@@ -254,7 +266,7 @@ main() {
 
       if [[ "$tumor_type" == "All" ]]  || [[ "$tumor_type" == "$category" ]]
       then
-         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}" | sed 's/"//g' >> ${covariates_file}
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}\t${preservative}" | sed 's/"//g' >> ${covariates_file}
       else
          echo "Rejecting sample: ${sample_name} [category]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
@@ -294,7 +306,7 @@ main() {
 
          # build protocol string and write covariates to file
          protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
-         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}" | sed 's/"//g' >> ${covariates_file}
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}\tFresh/Frozen" | sed 's/"//g' >> ${covariates_file}
       done
 
       # Get metadata for DFCI files
@@ -386,7 +398,7 @@ main() {
             exit 1
          fi
 
-         echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t\tinput" | sed 's/"//g' >> ${covariates_file}
+         echo -e "${sample_name}\t${protocol}\t${disease_code}\t\t\tinput\t" | sed 's/"//g' >> ${covariates_file}
          in_arg="$in_arg --input-sample $sample_name"
          echo "Adding input sample: $sample_name, $protocol, $disease_code"
       done
@@ -433,7 +445,6 @@ main() {
       gene_list_arg="--gene-list ${container_reference_dir}/gene_list.txt"
    fi
 
-
    echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.4.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
 
    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.4.0 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
@@ -456,8 +467,6 @@ main() {
    tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
    dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
    dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
-   gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
-   dx-jobutil-add-output gene_list "$gene_list" --class=file
    if [ -e $local_output_dir/gene_list.txt ]
    then
       gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
