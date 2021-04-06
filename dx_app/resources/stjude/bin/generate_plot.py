@@ -195,7 +195,10 @@ runproteinpaint({
         },
         attr_subtype_biomarkers:{
           label: 'Subtype Biomarkers'
-        }
+        },
+        attr_tissue_preservative:{
+          label: 'Preservative'
+        },
 			}"""
 
   # Fill in disease types in sample attributes
