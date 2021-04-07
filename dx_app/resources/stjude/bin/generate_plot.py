@@ -46,7 +46,7 @@ def get_args():
   return args
 
 def label_samples (row):
-  if pd.isna(row['projects']):
+  if pd.isna(row['projects']) or row['projects'] == 'input':
       return 'user'
   else:
       return None
@@ -58,7 +58,7 @@ if __name__ == "__main__":
   matrix = pd.read_table(args.tsne_file)
   # Trim precision on x/y coordinates
   matrix = matrix.round({'t1': 2, 't2': 2})
-  # Read the metadata file 
+  # Read the metadata file
   metadata = pd.read_json(args.metadata_file)
 
   # Convert metadata JSON column 'properties' into a table. 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
   combined = combined.drop(columns=["id", "name", "folder", "sj_ega_accessions", "sj_access_unit", "data_access_level", "sj_dataset_accessions", "vendable", "file_state", "released", "sj_pmid_accessions", "file_type", "sj_embargo_date", "sj_pipeline_name", "sj_pipeline_version", "sj_pub_accessions", "sj_publication_titles", "projects"])
   combined = combined.drop(columns=["sj_disease","sj_long_disease_name_y","diagnosis_group"])
 
-  # Copy user submitted sample names to the standard 'sample_name' column 
+  # Copy user submitted sample names to the standard 'sample_name' column
   combined['sample_name'] = combined['sample_name'].fillna(combined['samples'])
 
   # Rename duplicated column from merge
@@ -90,6 +90,8 @@ if __name__ == "__main__":
 
   # Drop unneeded columns
   combined = combined.drop(columns=["samples", "classes", "diagnosisNames"])
+
+  combined = combined.fillna("unknown")
 
   # Split user samples from reference samples
   user_samples = combined.loc[combined.highlight=='user']
@@ -195,6 +197,15 @@ runproteinpaint({
         },
         attr_subtype_biomarkers:{
           label: 'Subtype Biomarkers'
+        },
+        attr_tissue_preservative: {
+          label: 'Preservative'
+        },
+        sj_datasets: {
+          label: 'Source'
+        },
+        sample_type: {
+          label: 'Sample Type'
         }
 			}"""
 
