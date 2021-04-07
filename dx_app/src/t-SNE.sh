@@ -456,7 +456,7 @@ main() {
 
    if [ ${#input_counts[@]} -gt 0 ]
    then
-      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin adthrasher/interactive-tsne:add_dfci_pdx bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
+      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin stjudecloud/interactive-tsne:add_dfci_pdx bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
       neighbors_file=$(dx upload $local_output_dir/neighbors.tsv --brief)
       dx-jobutil-add-output neighbors "$neighbors_file" --class=file
    fi
