@@ -25,10 +25,10 @@ def get_args():
       "counts", type=str, nargs="+", help="List of RNA-seq count files.")
   parser.add_argument(
       "-b",
-      "--gene-blacklist",
+      "--gene-excludelist",
       type=str,
       default=None,
-      help="Gene blacklist, if it exists.")
+      help="Gene excludelist, if it exists.")
   parser.add_argument(
       "-c",
       "--covariates-file",
@@ -153,7 +153,7 @@ if __name__ == "__main__":
       args.gene_model,
       feature_type="gene",
       filters={args.gene_type_key: args.protein_coding_value},
-      gene_blacklist=args.gene_blacklist)
+      gene_excludelist=args.gene_excludelist)
   logger.info("  [+] Finished. {} features were processed.".format(
       len(gene_model.entries)))
   logger.info("  [+] Reading covariates file.")
@@ -179,8 +179,8 @@ if __name__ == "__main__":
   # Apply various filters
   logger.info("== Applying filters ==")
   logger.info("  [+] Filtering non-protein coding genes.")
-  if args.gene_blacklist:
-    logger.info("  [+] Applying gene blacklist.")
+  if args.gene_excludelist:
+    logger.info("  [+] Applying gene excludelist.")
   valid_gene_ids = set([e["attr_"+args.feature_id].split(".")[0] for e in gene_model])
   df = df[df.index.isin(valid_gene_ids)]
   logger.info("  [+] Finished. Matrix dimensions at this point: {}.".format(

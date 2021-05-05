@@ -58,7 +58,7 @@ And try out the script:
 
 ```bash
 itsne-main counts/* \
-           -b reference/gene.blacklist.tsv \
+           -b reference/gene.excludelist.tsv \
            -c reference/covariates.tsv \
            -g gencode.v31.annotation.gtf.gz \
            -o tsne.html
