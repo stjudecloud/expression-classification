@@ -27,18 +27,22 @@
       "help": "Provide sample(s) to compare. File must have the following properties: sample_name, library_type, read_length, strandedness, and pairing.",
       "patterns": [ "*.feature-counts.txt" ]
     },
+    { 
+      "name": "tumor_type",
+      "label": "Referene tumor type(s)", 
+      "class": "string", 
+      "choices": ["All", "Brain Tumor", "Blood Cancer", "Solid Tumor"],
+      "default": "All",
+      "help": "Select which tumor types will be retained from the reference cohort. A filtered set of feature counts can be supplied or this filter can be used to select categories of tumor types to plot from the reference data.",
+      "group": "Analysis Settings"
+    },
     {
       "name": "output_name",
       "label": "Output file name", 
       "class": "string",
-      "default": "samples.html"
-    },
-    { 
-      "name": "tumor_type",
-      "label": "Tumor type", 
-      "class": "string", 
-      "choices": ["All", "Brain Tumor", "Blood Cancer", "Solid Tumor"],
-      "default": "All"
+      "default": "samples.html",
+      "help": "Specify a filename for the output HTML plot. Name should be a valid unix file name (e.g. no space or reserved characters).",
+      "group": "Analysis Settings"
     },
     {
       "name": "preservatives",
@@ -47,7 +51,8 @@
       "choices": ["FFPE", "Fresh/Frozen", "all"],
       "optional": false,
       "help": "Specify preservative(s) to include in analysis.",
-      "default": "Fresh/Frozen"
+      "default": "Fresh/Frozen",
+      "group": "Analysis Settings"
     },
     { 
       "name": "all_strandedness",
@@ -55,7 +60,8 @@
       "class": "string", 
       "choices": ["Stranded-Forward", "Stranded-Reverse", "Unstranded"],
       "optional": true,
-      "help": "Specify whether library was stranded. This option will apply to any input samples without a specification."
+      "help": "Specify whether library was stranded. This option will apply to any input samples without a specification.",
+      "group": "Input sample parameters"
     },
     { 
       "name": "all_library_type",
@@ -63,7 +69,8 @@
       "class": "string", 
       "choices": ["PolyA", "Total"],
       "optional": true,
-      "help": "Specify library type. This option will apply to any input samples without a specification."
+      "help": "Specify library type. This option will apply to any input samples without a specification.",
+      "group": "Input sample parameters"
     },
     { 
       "name": "all_read_length",
@@ -71,7 +78,8 @@
       "class": "string", 
       "choices": ["101", "126"],
       "optional": true,
-      "help": "Specify read length. This option will apply to any input samples without a specification."
+      "help": "Specify read length. This option will apply to any input samples without a specification.",
+      "group": "Input sample parameters"
     },
     { 
       "name": "all_pairing",
@@ -79,7 +87,8 @@
       "class": "string", 
       "choices": ["Paired-end", "Single-end"],
       "optional": true,
-      "help": "Specify read pairing. This option will apply to any input samples without a specification."
+      "help": "Specify read pairing. This option will apply to any input samples without a specification.",
+      "group": "Input sample parameters"
     },
     {
       "name": "intermediate",
@@ -87,7 +96,8 @@
       "class": "string",
       "optional": true,
       "choices": ["original_matrix", "variance_stabilized", "batch_corrected", "tsne_output", "matrix"],
-      "help": "If desired, return data from an intermediate point in the analysis. 'original_matrix' is the matrix of counts. 'variance_stabilized' is the matrix after running varianceStabilizingTransformation. 'batch_corrected' is the matrix after ComBat batch correction. 'tsne_output' is the matrix after Rtsne has been run. 'matrix' is the file input to the R script for plotting."
+      "help": "If desired, return data from an intermediate point in the analysis. 'original_matrix' is the matrix of counts. 'variance_stabilized' is the matrix after running varianceStabilizingTransformation. 'batch_corrected' is the matrix after ComBat batch correction. 'tsne_output' is the matrix after Rtsne has been run. 'matrix' is the file input to the R script for plotting.",
+      "group": "Analysis Settings"
     },
     {
       "name": "gene_list",
@@ -101,7 +111,8 @@
       "label": "Include PDX samples",
       "class": "boolean",
       "default": true,
-      "help": "If true, PDX samples will be included in the t-SNE to facilitate model selection"
+      "help": "If true, PDX samples will be included in the t-SNE to facilitate model selection",
+      "group": "Analysis Settings"
     }
   ],
   "outputSpec": [
