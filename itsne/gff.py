@@ -8,11 +8,11 @@ class GFF:
                filename,
                feature_type=None,
                filters=None,
-               gene_blacklist=None):
-    self.gene_blacklist = None
-    if gene_blacklist:
-      self.gene_blacklist = set(
-          [item.strip() for item in open(gene_blacklist, 'r').readlines()])
+               gene_excludelist=None):
+    self.gene_excludelist = None
+    if gene_excludelist:
+      self.gene_excludelist = set(
+          [item.strip() for item in open(gene_excludelist, 'r').readlines()])
 
     if filename.lower().endswith((".gz", ".gzip")):
       self._handle = gzip.open(filename, 'r')
@@ -42,14 +42,14 @@ class GFF:
       if self.feature_type and feature != self.feature_type:
         continue
 
-      entry_passes_gene_blacklist = True
-      if self.gene_blacklist:
-        for bad_gene in self.gene_blacklist:
+      entry_passes_gene_excludelist = True
+      if self.gene_excludelist:
+        for bad_gene in self.gene_excludelist:
           if bad_gene in attribute:
-            entry_passes_gene_blacklist = False
+            entry_passes_gene_excludelist = False
             break
 
-      if not entry_passes_gene_blacklist:
+      if not entry_passes_gene_excludelist:
         continue
 
       result = {

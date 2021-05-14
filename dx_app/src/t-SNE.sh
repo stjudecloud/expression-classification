@@ -419,10 +419,10 @@ main() {
          exit 1
    fi
 
-   # Fetch gene blacklist
+   # Fetch gene excludelist
    echo ""
-   echo "  [*] Downloading gene blacklist ..."
-   dx download -o $local_reference_dir/gene.blacklist.tsv project-F5444K89PZxXjBqVJ3Pp79B4:file-Fk84jFj97xxp1jxP9Zp6JJF4
+   echo "  [*] Downloading gene excludelist ..."
+   dx download -o $local_reference_dir/gene.excludelist.tsv project-F5444K89PZxXjBqVJ3Pp79B4:file-Fk84jFj97xxp1jxP9Zp6JJF4
 
    # Fetch Gencode
    echo ""
@@ -446,9 +446,9 @@ main() {
       gene_list_arg="--gene-list ${container_reference_dir}/gene_list.txt"
    fi
 
-   echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.6.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
+   echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.6.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
 
-   docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.6.0 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.blacklist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
+   docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir stjudecloud/interactive-tsne:0.6.0 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
 
    cp combined_metadata.json $local_output_dir
    cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
