@@ -12,6 +12,8 @@ jobs:
   docker_build_branch:
     runs-on: ubuntu-latest
     steps:
+    - name: Sanitize Repo Name for Tagging
+      run: echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]' | (read; echo REPO_LOWER=$REPLY) >> $GITHUB_ENV
     - name: Log in to the Container registry
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
       with:
