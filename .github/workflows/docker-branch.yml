@@ -19,14 +19,12 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
    - uses: actions/checkout@v2
-   - 
-        name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: |
-            ghcr.io/${{ env.REPO_LOWER }}:branch-${GITHUB_REF##*/}
-          labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }} 
-
+   - name: Build and push
+     id: docker_build
+     uses: docker/build-push-action@v2
+     with:
+       push: true
+       tags: |
+         ghcr.io/${{ env.REPO_LOWER }}:branch-${GITHUB_REF##*/}
+       labels: |
+         org.opencontainers.image.source=https://github.com/${{ github.repository }}
