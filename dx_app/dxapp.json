@@ -3,7 +3,7 @@
   "title": "St. Jude Cloud Interactive t-SNE",
   "summary": "Produce a t-SNE plot that highlights input sample(s) against a cohort of existing samples.",
   "dxapi": "1.0.0",
-  "version": "0.6.1",
+  "version": "EXPRESSION_SHORT_VERSION",
   "developers": [ "user-athrashe" ],
   "authorizedUsers": [
     "user-athrashe",
