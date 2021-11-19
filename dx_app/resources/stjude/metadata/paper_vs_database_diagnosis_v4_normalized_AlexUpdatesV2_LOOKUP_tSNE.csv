@@ -269,3 +269,5 @@ Solid Tumor,Undifferentiated Embryonal Sarcoma of the Liver,UESL,UESL,Liver,#ffa
 Solid Tumor,Wilms,WT,WT,WT,#29a20b
 Solid Tumor,"Wilms, Bilateral",WTB,WT,WTB,#7cfc00
 Germ Cell Tumor,"Yolk Sac Tumor, NOS",YSTNOS,<NA>,<NA>,#aba9a9
+Hematologic Malignancy,Therapy-Related Acute Myeloid Leukemia,TAML,TAML,TAML,#008cff
+Hematologic Malignancy,Therapy-Related Myelodysplastic Syndrome,TMDS,TMDS,TMDS,#aba9a9
