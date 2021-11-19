@@ -12,6 +12,8 @@ jobs:
   docker_build_branch:
     runs-on: ubuntu-latest
     steps:
+    - name: Branch name
+      run: echo running on branch ${GITHUB_REF##*/}
     - name: Sanitize Repo Name for Tagging
       run: echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]' | (read; echo REPO_LOWER=$REPLY) >> $GITHUB_ENV
     - name: Log in to the Container registry
@@ -20,13 +22,22 @@ jobs:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    -
+      name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images:  ghcr.io/stjudecloud/${{ env.REPO_LOWER }}
+        tags: |
+          type=ref,event=branch,prefix=branch-
     - uses: actions/checkout@v2
+    - name: Test
+      run: echo "ghcr.io/${{ env.REPO_LOWER }}:branch-${GITHUB_REF##*/}"
     - name: Build and push
       id: docker_build
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: |
-          ghcr.io/${{ env.REPO_LOWER }}:branch-${GITHUB_REF##*/}
+        tags: ${{ steps.meta.outputs.tags }}
         labels: |
           org.opencontainers.image.source=https://github.com/${{ github.repository }}
