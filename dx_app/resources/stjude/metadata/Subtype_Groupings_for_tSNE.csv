@@ -278,3 +278,5 @@ WLM,Old - Wilms,NA,NA,NA
 WT,Wilms,Solid Tumor,Kidney,"Wilms, Other"
 WTB,"Wilms, Bilateral",Solid Tumor,Kidney,"Wilms, Bilateral"
 YSTNOS,"Yolk Sac Tumor, NOS",Germ Cell Tumor,Germ Cell Tumor,"Yolk Sac Tumor, NOS"
+TAML,Therapy-Related Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Therapy-Related Acute Myeloid Leukemia
+TMDS,Therapy-Related Myelodysplastic Syndrome,Hematologic Malignancy,Rare Hematologic Malignancy,Therapy-Related Myelodysplastic Syndrome
