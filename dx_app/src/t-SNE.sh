@@ -53,11 +53,17 @@ main() {
    echo "   Getting unique file count"
    uniqueNum=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
    duplicateFiles=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];next} 1' | xargs echo)
+
+   (( 0 == ${#file_names[@]} )) && echo "Found no reference files" && \
+   echo "{\"error\": {\"type\": \"AppError\", \"message\": \"No reference files found.\"}}" > job_error.json && \
+   exit 1
+
+
    echo "   Checking unique file count"
    (( $uniqueNum != ${#file_names[@]} )) && echo "Found duplicates" && \
    echo $duplicateFiles && \
-   echo "Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py" && \
-   echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Duplicate file names found. $duplicateFiles. Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/scripts/deduplicate.py.\"}}" > job_error.json && \
+   echo "Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/stjudecloud_utilities/deduplicate_feature_counts.py" && \
+   echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Duplicate file names found. $duplicateFiles. Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/stjudecloud_utilities/deduplicate_feature_counts.py.\"}}" > job_error.json && \
    exit 1
 
    echo "  [*] Downloading input files ..."
