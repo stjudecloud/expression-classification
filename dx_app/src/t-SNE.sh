@@ -27,6 +27,8 @@ main() {
    echo "Value of gene list: '${gene_list}'"
    echo "Value of preservatives: '${preservatives}'"
 
+   output_prefix=$(basename ${output_name} ".html")
+
    local_data_dir=$HOME/in
    local_reference_dir=$HOME/reference
    local_output_dir=$HOME/out
@@ -463,7 +465,8 @@ main() {
    if [ ${#input_counts[@]} -gt 0 ]
    then
       docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
-      neighbors_file=$(dx upload $local_output_dir/neighbors.tsv --brief)
+      mv $local_output_dir/neighbors.tsv $local_output_dir/${output_prefix}.neighbors.tsv
+      neighbors_file=$(dx upload $local_output_dir/${output_prefix}.neighbors.tsv --brief)
       dx-jobutil-add-output neighbors "$neighbors_file" --class=file
    fi
 
@@ -471,17 +474,20 @@ main() {
    mv $local_output_dir/tsne_pp.html $local_output_dir/${output_name}
    tsne_plot=$(dx upload $local_output_dir/${output_name} --brief)
    dx-jobutil-add-output tsne_plot "$tsne_plot" --class=file
-   tsne_matrix=$(dx upload $local_output_dir/tsne.txt --brief)
+   mv $local_output_dir/tsne.txt $local_output_dir/${output_prefix}.tsne.txt
+   tsne_matrix=$(dx upload $local_output_dir/${output_prefix}.tsne.txt --brief)
    dx-jobutil-add-output tsne_matrix "$tsne_matrix" --class=file
    dx-jobutil-add-output trustworthiness_score "$(cat $local_output_dir/trustworthiness.txt)" --class=string
    if [ -e $local_output_dir/gene_list.txt ]
    then
+      mv $local_output_dir/gene_list.txt $local_output_dir/${output_prefix}.gene_list.txt
       gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
       dx-jobutil-add-output gene_list "$gene_list" --class=file
    fi
    if [ ${intermediate} ]
    then
-      intermediate_file=$(dx upload $local_output_dir/${intermediate}.txt --brief)
+     mv $local_output_dir/tsne.txt $local_output_dir/${output_prefix}.${intermediate}.txt
+     intermediate_file=$(dx upload $local_output_dir/${output_prefix}.${intermediate}.txt --brief)
       dx-jobutil-add-output intermediate_output "$intermediate_file" --class=file
    fi
 }
