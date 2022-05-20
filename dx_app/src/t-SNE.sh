@@ -15,6 +15,8 @@
 # See https://wiki.dnanexus.com/Developer-Portal for tutorials on how
 # to modify this file.
 
+set -e -o pipefail
+
 main() {
    echo "Value of tissue_type: '${tumor_type}'"
    echo "Value of all_strandedness: '${all_strandedness}'"
@@ -81,7 +83,7 @@ main() {
    # Setup the download location for reference counts and create the download commands
    # Download with GNU parallel
    mkdir -p $HOME/in/reference_counts/
-   echo $ids | xargs -n 1 | sed "s#^#dx download -f -o $HOME/in/reference_counts/ --no-progress #" > download_all.sh
+   echo $ids | xargs -n 1 | sed "s#^#dx download -f -o $HOME/in/reference_counts/ --no-progress ${DX_PROJECT_CONTEXT_ID}:#" > download_all.sh
    parallel --retries 20 --results download_outputs --joblog download.log < download_all.sh > download.stdout
 
    # Loop over the inputs, if any, store IDs and download in parallel
