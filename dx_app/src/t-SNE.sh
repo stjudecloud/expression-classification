@@ -481,7 +481,7 @@ main() {
    if [ -e $local_output_dir/gene_list.txt ]
    then
       mv $local_output_dir/gene_list.txt $local_output_dir/${output_prefix}.gene_list.txt
-      gene_list=$(dx upload $local_output_dir/gene_list.txt --brief)
+      gene_list=$(dx upload $local_output_dir/${output_prefix}.gene_list.txt --brief)
       dx-jobutil-add-output gene_list "$gene_list" --class=file
    fi
    if [ ${intermediate} ]
