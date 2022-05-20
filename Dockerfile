@@ -1,7 +1,7 @@
 FROM ubuntu:20.04 as builder
 RUN apt-get update \
     && apt-get upgrade -y \ 
-    && apt-get --yes install \
+    && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get --yes install \
         build-essential \
         openjdk-11-jdk-headless \
         unzip \
