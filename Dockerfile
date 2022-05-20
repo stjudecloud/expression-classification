@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as builder
+FROM ubuntu:20.04 as builder
 RUN apt-get update \
     && apt-get upgrade -y \ 
     && apt-get --yes install \
@@ -18,6 +18,9 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda update -n base -c defaults conda -y && \
     conda install \
     -c conda-forge \
+    mamba
+RUN mamba install \
+    -c conda-forge \
     -c bioconda \
              r-base=3.6.1 \
              python=3.8 \
@@ -26,7 +29,7 @@ RUN conda update -n base -c defaults conda -y && \
              bioconductor-sva \
              bioconductor-deseq2 \
              scikit-learn \
-             r-tsne r-getopt r-plotly  \
+             r-tsne r-getopt r-plotly \
              pandoc -y \
     && conda clean --all -y
 
