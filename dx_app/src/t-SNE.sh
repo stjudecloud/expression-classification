@@ -488,8 +488,8 @@ main() {
    fi
    if [ ${intermediate} ]
    then
-     mv $local_output_dir/tsne.txt $local_output_dir/${output_prefix}.${intermediate}.txt
-     intermediate_file=$(dx upload $local_output_dir/${output_prefix}.${intermediate}.txt --brief)
+      mv $local_output_dir/${intermediate}.txt $local_output_dir/${output_prefix}.${intermediate}.txt
+      intermediate_file=$(dx upload $local_output_dir/${output_prefix}.${intermediate}.txt --brief)
       dx-jobutil-add-output intermediate_output "$intermediate_file" --class=file
    fi
 }
