@@ -329,7 +329,13 @@ main() {
    # The "-s" argument to jq takes the input files and puts the objects in an array.
    # so .[0] + .[1] concatenates the first and second elements together, in this case,
    # both elements are arrays. So the output is a concatentated array.
-   jq -s add metadata.json dfci_metadata.json  > combined_metadata.json
+   if [ "${include_pdx}" == "true" ]
+   then
+      jq -s add metadata.json dfci_metadata.json  > combined_metadata.json
+   else
+      cp metadata.json combined_metadata.json
+   fi
+
 
    if [ ${#input_counts[@]} -gt 0 ]
    then
