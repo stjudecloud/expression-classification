@@ -1,4 +1,5 @@
 FROM ubuntu:20.04 as builder
+
 RUN apt-get update \
     && apt-get upgrade -y \ 
     && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get --yes install \
@@ -9,7 +10,7 @@ RUN apt-get update \
         zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" -O miniconda.sh && \ 
+RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh" -O miniconda.sh && \
     /bin/bash miniconda.sh -b -p /opt/conda/ && \
     rm miniconda.sh
 
@@ -18,10 +19,13 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda update -n base -c defaults conda -y && \
     conda install \
     -c conda-forge \
+    conda-libmamba-solver \
     mamba
-RUN mamba install \
+
+RUN conda install \
     -c conda-forge \
     -c bioconda \
+    --experimental-solver=libmamba \
              r-base=3.6.1 \
              python=3.8 \
              pandas=1.1.0 \
