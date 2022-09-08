@@ -33,15 +33,13 @@ RUN conda install \
              bioconductor-sva \
              bioconductor-deseq2 \
              scikit-learn \
-             r-tsne r-getopt r-plotly \
+             r-rtsne r-getopt r-plotly \
+             r-rcppeigen r-hmisc r-optparse \
+             r-pracma \
              pandoc -y \
     && conda clean --all -y
 
-RUN Rscript -e 'install.packages(c("optparse", "Rtsne", "plotly", "sva", "stringr", "pracma"), dependencies=TRUE, repos="http://cran.rstudio.com/")'
-
-RUN Rscript -e 'install.packages("BiocManager", dependencies=TRUE, repos="http://cran.rstudio.com/")' 
-RUN Rscript -e 'BiocManager::install(version = "3.10")'
-RUN Rscript -e 'BiocManager::install("DESeq2", update = TRUE, ask = FALSE)'
+ENV R_LIBS_SITE $R_LIBS_SITE:/usr/local/lib/R/site-library:/usr/lib/R/site-library:/usr/lib/R/library:/opt/conda/lib/R/library/
 
 COPY scripts /opt/tsne/scripts
 COPY itsne /opt/tsne/itsne
@@ -53,3 +51,4 @@ WORKDIR /opt/tsne
 RUN  python3 setup.py install
 
 WORKDIR /
+
