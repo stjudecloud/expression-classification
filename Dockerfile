@@ -18,7 +18,7 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda update -n base -c defaults conda -y && \
     conda install \
     -c conda-forge \
-    mamba
+    mamba==0.1.2
 RUN mamba install \
     -c conda-forge \
     -c bioconda \
