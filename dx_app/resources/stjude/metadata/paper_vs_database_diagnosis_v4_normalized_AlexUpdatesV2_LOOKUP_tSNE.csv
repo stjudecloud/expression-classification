@@ -128,6 +128,7 @@ Solid Tumor,Hepatocellular Carcinoma,HCC,HCC,Liver,#ffa500
 Brain Tumor,High-Grade Calvarium Sarcoma,HGCS,<NA>,HGCS,#aba9a9
 Brain Tumor,"High-Grade Glioma, NOS",HGGNOS,HGGNOS,HGGNOS,#0006c2
 Brain Tumor,High-Grade Neuroepithelial Tumor,HGNET,HGNET,HGNET,#8fb90a
+Solid Tumor,High Grade Sarcoma,HGS,,,
 Hematologic Malignancy,Hodgkin Lymphoma,HL,HL,<NA>,#aba9a9
 Hematologic Malignancy,Hematopoietic Malignancies,HM,CUP,HM,#aba9a9
 Solid Tumor,Infantile Fibrosarcoma,IFS,IFS,Other,#aba9a9
@@ -222,6 +223,7 @@ Solid Tumor,Renal Cell Carcinoma,RCC,RCC,Kidney,#eb1414
 Solid Tumor,"Round Cell Sarcoma, NOS",RCSNOS,RCSNOS,Other,#aba9a9
 Hematologic Malignancy,Rosai-Dorfman Disease,RDD,RDD,RDD,#aba9a9
 Solid Tumor,Rhabdomyosarcoma,RMS,RMS,RMS,#00c0ff
+Solid Tumor,"Rhabdomyosarcoma, NOS",RMSNOS,,,
 Solid Tumor,"Squamous Cell Carcinoma, NOS",SCCNOS,SCCNOS,Other,#aba9a9
 Solid Tumor,Small Cell Osteosarcoma,SCOS,SCOS,<NA>,#aba9a9
 Solid Tumor,Spindle Cell Rhabdomyosarcoma,SCRMS,SCRMS,Other,#aba9a9
@@ -254,6 +256,7 @@ Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, NOS",TALLNOS,TLL,TA
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TAL1",TALLTAL1,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TLX1",TALLTLX1,TLL,,red
 Hematologic Malignancy,"T-cell Acute Lymphoblastic Leukemia, TLX3",TALLTLX3,TLL,,red
+Hematologic Malignancy,Therapy-Related Acute Myeloid Leukemia,TAML,TAML,TAML,#008cff
 Solid Tumor,Telangiectatic Osteosarcoma,TEOS,TEOS,<NA>,#aba9a9
 Solid Tumor,Follicular Thyroid Cancer,THFO,THFO,Thyroid,#11c598
 Solid Tumor,Hurthle Cell Thyroid Cancer,THHC,THHC,THHC,#aba9a9
@@ -263,11 +266,10 @@ Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, LMO1",TLLLMO1,TLL,,red
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, NKX2",TLLNKX2,TLL,,red
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, NOS",TLLNOS,TLL,Other,#aba9a9
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, TAL1",TLLTAL1,TLL,,red
+Hematologic Malignancy,Therapy-Related Myelodysplastic Syndrome,TMDS,TMDS,TMDS,#aba9a9
 Germ Cell Tumor,Teratocarcinoma,TTC,<NA>,<NA>,#aba9a9
 Germ Cell Tumor,"Teratoma, NOS",TTNOS,<NA>,<NA>,#aba9a9
 Solid Tumor,Undifferentiated Embryonal Sarcoma of the Liver,UESL,UESL,Liver,#ffa500
 Solid Tumor,Wilms,WT,WT,WT,#29a20b
 Solid Tumor,"Wilms, Bilateral",WTB,WT,WTB,#7cfc00
 Germ Cell Tumor,"Yolk Sac Tumor, NOS",YSTNOS,<NA>,<NA>,#aba9a9
-Hematologic Malignancy,Therapy-Related Acute Myeloid Leukemia,TAML,TAML,TAML,#008cff
-Hematologic Malignancy,Therapy-Related Myelodysplastic Syndrome,TMDS,TMDS,TMDS,#aba9a9
