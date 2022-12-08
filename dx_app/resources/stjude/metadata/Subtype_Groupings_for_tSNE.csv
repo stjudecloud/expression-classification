@@ -1,4 +1,4 @@
-sj_diseases,sj_long_disease_name,diagnosis_group,t_SNE group,t_SNE_label
+sj_disease,sj_long_disease_name,diagnosis_group,t_SNE group,t_SNE_label
 ABC,Aneurysmal Bone Cyst,Solid Tumor,Bone,Aneurysmal Bone Cyst
 ACC,Adrenocortical Carcinoma,Solid Tumor,Endocrine,Adrenocortical Carcinoma
 ACLG,Adenoid Cystic Carcinoma of the Lacrimal Gland,Solid Tumor,Rare Solid Tumor,Adenoid Cystic Carcinoma of the Lacrimal Gland
