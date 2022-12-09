@@ -1,4 +1,4 @@
-﻿sj_disease,sj_long_disease_name,diagnosis_group,t_SNE group,t_SNE_label
+sj_disease,sj_long_disease_name,diagnosis_group,t_SNE group,t_SNE_label
 ABC,Aneurysmal Bone Cyst,Solid Tumor,Bone,Aneurysmal Bone Cyst
 ACC,Adrenocortical Carcinoma,Solid Tumor,Endocrine,Adrenocortical Carcinoma
 ACLG,Adenoid Cystic Carcinoma of the Lacrimal Gland,Solid Tumor,Rare Solid Tumor,Adenoid Cystic Carcinoma of the Lacrimal Gland
@@ -95,7 +95,6 @@ DYS,Dysgerminoma,Germ Cell Tumor,Germ Cell Tumor,Dysgerminoma
 EACNOS,"Endometrioid Adenocarcinoma, NOS",Solid Tumor,Rare Solid Tumor,"Endometrioid Adenocarcinoma, NOS"
 EAML,Renal Epitheloid Angiomyolipoma,Solid Tumor,Kidney,Renal Epitheloid Angiomyolipoma
 EBMT,"Embryonal Tumor, Brain",Brain Tumor,Rare Brain Tumor,"Embryonal Tumor, Brain"
-EBMT,"Embryonal Tumor, Brain",Brain Tumor,Rare Brain Tumor,"Embryonal Tumor, Brain"
 ECNOS,"Embryonal Carcinoma, NOS",Germ Cell Tumor,Germ Cell Tumor,"Embryonal Carcinoma, NOS"
 EHAE,Epithelioid Hemangioendothelioma,Solid Tumor,Rare Solid Tumor,Epithelioid Hemangioendothelioma
 EMALT,Extranodal Marginal Zone Lymphoma of Mucosa-Associated Lymphoid Tissue (MALT lymphoma),Hematologic Malignancy,Rare Hematologic Malignancy,Extranodal Marginal Zone Lymphoma of Mucosa-Associated Lymphoid Tissue (MALT lymphoma)
@@ -108,7 +107,6 @@ EPMTPF,"Ependymomal Tumor, Posterior Fossa",Brain Tumor,Ependymomal Tumor,Poster
 EPMTST,"Ependymomal Tumor, Spinal Tumor",Brain Tumor,Ependymomal Tumor,Spinal Tumor
 EPMTSU,"Ependymomal Tumor, Supratentorial",Brain Tumor,Ependymomal Tumor,Supratentorial
 ERMS,Embryonal Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Embryonal
-ETMR,"Embryonal Tumor with Multilayered Rosettes, Brain",Brain Tumor,Rare Brain Tumor,"Embryonal Tumor with Multilayered Rosettes, Brain"
 ETMR,"Embryonal Tumor with Multilayered Rosettes, Brain",Brain Tumor,Rare Brain Tumor,"Embryonal Tumor with Multilayered Rosettes, Brain"
 EWS,Ewing Sarcoma,Solid Tumor,Bone,Ewing Sarcoma
 FASTR,Fibrillary Astrocytoma,Brain Tumor,Rare Brain Tumor,Fibrillary Astrocytoma
@@ -133,6 +131,7 @@ HGCS,High-Grade Calvarium Sarcoma,Brain Tumor,Rare Brain Tumor,High-Grade Calvar
 HGG,Old - High Grade Glioma,NA,NA,NA
 HGGNOS,"High-Grade Glioma, NOS",Brain Tumor,High-Grade Glioma,High-Grade Glioma
 HGNET,High-Grade Neuroepithelial Tumor,Brain Tumor,Rare Brain Tumor,High-Grade Neuroepithelial Tumor
+HGS,High Grade Sarcoma,Solid Tumor,Rare Solid Tumor,High Grade Sarcoma
 HL,Hodgkin Lymphoma,Hematologic Malignancy,Hodgkin Lymphoma,Hodgkin Lymphoma
 HM,Old - Haem Malignancy,NA,NA,NA
 IFS,Infantile Fibrosarcoma,Solid Tumor,Rare Solid Tumor,Infantile Fibrosarcoma
@@ -229,6 +228,7 @@ RCSNOS,"Round Cell Sarcoma, NOS",Solid Tumor,Rare Solid Tumor,Round Cell Sarcoma
 RDD,Rosai-Dorfman Disease,Hematologic Malignancy,Rare Hematologic Malignancy,Rosai-Dorfman Disease
 RHB,Old - Rhabdomyosarcoma,NA,NA,NA
 RMS,Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Other
+RMSNOS,"Rhabdomyosarcoma, NOS",Solid Tumor,Rhabdomyosarcoma,"Rhabdomyosarcoma, NOS"
 SCCNOS,"Squamous Cell Carcinoma, NOS",Solid Tumor,Rare Solid Tumor,Squamous Cell Carcinoma
 SCOS,Small Cell Osteosarcoma,Solid Tumor,Bone,Small Cell Osteosarcoma
 SCRMS,Spindle Cell Rhabdomyosarcoma,Solid Tumor,Rhabdomyosarcoma,Spindle Cell
@@ -262,6 +262,7 @@ TALLNOS,"T-cell Acute Lymphoblastic Leukemia, NOS",Hematologic Malignancy,T-cell
 TALLTAL1,"T-cell Acute Lymphoblastic Leukemia, TAL1",Hematologic Malignancy,T-cell Acute Lymphoblastic Leukemia,TAL1
 TALLTLX1,"T-cell Acute Lymphoblastic Leukemia, TLX1",Hematologic Malignancy,T-cell Acute Lymphoblastic Leukemia,TLX1
 TALLTLX3,"T-cell Acute Lymphoblastic Leukemia, TLX3",Hematologic Malignancy,T-cell Acute Lymphoblastic Leukemia,TLX3
+TAML,Therapy-Related Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Therapy-Related Acute Myeloid Leukemia
 TEOS,Telangiectatic Osteosarcoma,Solid Tumor,Bone,Telangiectatic Osteosarcoma
 THFO,Follicular Thyroid Cancer,Solid Tumor,Endocrine,Follicular Thyroid Cancer
 THHC,Hurthle Cell Thyroid Cancer,Solid Tumor,Endocrine,Hurthle Cell Thyroid Cancer
@@ -271,6 +272,7 @@ TLLLMO1,"T-cell Lymphoblastic Lymphoma, LMO1",Hematologic Malignancy,T-cell Lymp
 TLLNKX2,"T-cell Lymphoblastic Lymphoma, NKX2",Hematologic Malignancy,T-cell Lymphoblastic Lymphoma,NKX2
 TLLNOS,"T-cell Lymphoblastic Lymphoma, NOS",Hematologic Malignancy,T-cell Lymphoblastic Lymphoma,NOS
 TLLTAL1,"T-cell Lymphoblastic Lymphoma, TAL1",Hematologic Malignancy,T-cell Lymphoblastic Lymphoma,TAL1
+TMDS,Therapy-Related Myelodysplastic Syndrome,Hematologic Malignancy,Rare Hematologic Malignancy,Therapy-Related Myelodysplastic Syndrome
 TTC,Teratocarcinoma,Germ Cell Tumor,Germ Cell Tumor,Teratocarcinoma
 TTNOS,"Teratoma, NOS",Germ Cell Tumor,Germ Cell Tumor,"Teratoma, NOS"
 UESL,Undifferentiated Embryonal Sarcoma of the Liver,Solid Tumor,Liver,Undifferentiated Embryonal Sarcoma of the Liver
@@ -278,5 +280,3 @@ WLM,Old - Wilms,NA,NA,NA
 WT,Wilms,Solid Tumor,Kidney,"Wilms, Other"
 WTB,"Wilms, Bilateral",Solid Tumor,Kidney,"Wilms, Bilateral"
 YSTNOS,"Yolk Sac Tumor, NOS",Germ Cell Tumor,Germ Cell Tumor,"Yolk Sac Tumor, NOS"
-TAML,Therapy-Related Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Therapy-Related Acute Myeloid Leukemia
-TMDS,Therapy-Related Myelodysplastic Syndrome,Hematologic Malignancy,Rare Hematologic Malignancy,Therapy-Related Myelodysplastic Syndrome
