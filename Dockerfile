@@ -1,4 +1,5 @@
 FROM ubuntu:20.04 as builder
+
 RUN apt-get update \
     && apt-get upgrade -y \ 
     && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get --yes install \
@@ -9,7 +10,7 @@ RUN apt-get update \
         zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" -O miniconda.sh && \
+RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh" -O miniconda.sh && \
     /bin/bash miniconda.sh -b -p /opt/conda/ && \
     rm miniconda.sh
 
@@ -18,10 +19,13 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda update -n base -c defaults conda -y && \
     conda install \
     -c conda-forge \
-    mamba -y
-RUN mamba install \
+    conda-libmamba-solver \
+    mamba
+
+RUN conda install \
     -c conda-forge \
     -c bioconda \
+    --experimental-solver=libmamba \
              r-base=3.6.1 \
              python=3.8 \
              pandas=1.1.0 \
@@ -29,15 +33,13 @@ RUN mamba install \
              bioconductor-sva \
              bioconductor-deseq2 \
              scikit-learn \
-             r-tsne r-getopt r-plotly \
+             r-rtsne r-getopt r-plotly \
+             r-rcppeigen r-hmisc r-optparse \
+             r-pracma \
              pandoc -y \
     && conda clean --all -y
 
-RUN Rscript -e 'install.packages(c("optparse", "Rtsne", "plotly", "sva", "stringr", "pracma"), dependencies=TRUE, repos="http://cran.rstudio.com/")'
-
-RUN Rscript -e 'install.packages("BiocManager", dependencies=TRUE, repos="http://cran.rstudio.com/")' 
-RUN Rscript -e 'BiocManager::install(version = "3.10")'
-RUN Rscript -e 'BiocManager::install("DESeq2", update = TRUE, ask = FALSE)'
+ENV R_LIBS_SITE $R_LIBS_SITE:/usr/local/lib/R/site-library:/usr/lib/R/site-library:/usr/lib/R/library:/opt/conda/lib/R/library/
 
 COPY scripts /opt/tsne/scripts
 COPY itsne /opt/tsne/itsne
@@ -49,3 +51,4 @@ WORKDIR /opt/tsne
 RUN  python3 setup.py install
 
 WORKDIR /
+

@@ -167,12 +167,13 @@
       }
     },
     "interpreter": "bash",
-    "release": "16.04",
-    "version": "1",
+    "release": "20.04",
+    "version": "0",
     "distribution": "Ubuntu",
     "file": "src/t-SNE.sh",
     "execDepends": [
        { "name": "parallel"},
+       { "name": "aria2"},
        { "name": "csvkit", "package_manager": "pip"},
        { "name": "pandas", "package_manager": "pip"},
        { "name": "logzero", "package_manager": "pip"}
