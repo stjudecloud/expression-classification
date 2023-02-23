@@ -19,6 +19,8 @@ AMKL,Acute Megakaryoblastic Leukemia,Hematologic Malignancy,Acute Myeloid Leukem
 AMKLKMT2A,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement"
 AML,Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Other
 AMLKMT2A,"Acute Myeloid Leukemia, KMT2A rearrangement",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, KMT2A rearrangement"
+AMLNPM1,"Acute Myeloid Leukemia, NPM1 alteration (AMLNPM1)",Hematologic Malignancy,Acute Myeloid Leukemia,Other
+AMLNUP98,"Acute Myeloid Leukemia, NUP98 rearrangement (AMLNUP98)",Hematologic Malignancy,Acute Myeloid Leukemia,Other
 AMML,Acute Myelomonocytic Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Myelomonocytic Leukemia
 AMMLKMT2A,"Acute Myelomonocytic Leukemia, KMT2A rearrangement",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myelomonocytic Leukemia, KMT2A rearrangement"
 AMNL,Acute Monoblastic Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Monoblastic Leukemia
@@ -87,6 +89,7 @@ CPP,Choroid Plexus Papilloma,Brain Tumor,Rare Brain Tumor,Choroid Plexus Papillo
 DES,Desmoid/Aggressive Fibromatosis,Solid Tumor,Rare Solid Tumor,Desmoid/Aggressive Fibromatosis
 DFSP,Dermatofibrosarcoma Protuberans,Solid Tumor,Skin,Dermatofibrosarcoma Protuberans
 DIA,Desmoplastic Infantile Astrocytoma,Brain Tumor,Rare Brain Tumor,Desmoplastic Infantile Astrocytoma
+DIPG,Diffuse Intrinsic Pontine Glioma (DIPG),Brain Tumor,Rare Brain Tumor,Diffuse Intrinsic Pontine Glioma
 DLBCLNOS,"Diffuse Large B-cell Lymphoma, NOS",Hematologic Malignancy,Non-Hodgkin Lymphoma,Diffuse Large B-cell Lymphoma
 DMBL,Desmoplastic/Nodular Medulloblastoma,Brain Tumor,Rare Brain Tumor,Desmoplastic/Nodular Medulloblastoma
 DNT,Dysembryoplastic Neuroepithelial Tumor,Brain Tumor,Rare Brain Tumor,Dysembryoplastic Neuroepithelial Tumor

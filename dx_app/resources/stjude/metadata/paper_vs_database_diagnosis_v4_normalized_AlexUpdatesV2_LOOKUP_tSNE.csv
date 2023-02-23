@@ -19,6 +19,8 @@ Hematologic Malignancy,Acute Megakaryoblastic Leukemia,AMKL,AMKL,AMKL,#00c0ff
 Hematologic Malignancy,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement",AMKLKMT2A,AMKL,AMKLKMT2A,#00c0ff
 Hematologic Malignancy,Acute Myeloid Leukemia,AML,AML,AML,#008cff
 Hematologic Malignancy,"Acute Myeloid Leukemia, KMT2A rearrangement",AMLKMT2A,AMLRGA,AML,#008cff
+Hematologic Malignancy,"Acute Myeloid Leukemia, NPM1 alteration (AMLNPM1)",AMLNPM1,AMLNPM1,AML,#008cff
+Hematologic Malignancy,"Acute Myeloid Leukemia, NUP98 rearrangement (AMLNUP98)",AMLNUP98,AMLRGA,AML,#008cff
 Hematologic Malignancy,Acute Myelomonocytic Leukemia,AMML,AMML,AMML,#00c0ff
 Hematologic Malignancy,"Acute Myelomonocytic Leukemia, KMT2A rearrangement",AMMLKMT2A,AMML,,#00c0ff
 Hematologic Malignancy,Acute Monoblastic Leukemia,AMNL,AMOL,,#00c0ff
@@ -85,6 +87,7 @@ Brain Tumor,Choroid Plexus Papilloma,CPP,CPP,CPP,#aba9a9
 Solid Tumor,Desmoid/Aggressive Fibromatosis,DES,DES,Desmoid,#8b0000
 Solid Tumor,Dermatofibrosarcoma Protuberans,DFSP,DFSP,Other,#aba9a9
 Brain Tumor,Desmoplastic Infantile Astrocytoma,DIA,DIA,DIA,#aba9a9
+Brain Tumor,Diffuse Intrinsic Pontine Glioma (DIPG),DIPG,DIPG,DIPG,#aba9a9
 Hematologic Malignancy,"Diffuse Large B-cell Lymphoma, NOS",DLBCLNOS,DLBCLNOS,Other,#aba9a9
 Brain Tumor,Desmoplastic/Nodular Medulloblastoma,DMBL,DMBL,<NA>,#aba9a9
 Brain Tumor,Dysembryoplastic Neuroepithelial Tumor,DNT,DNT,<NA>,#aba9a9
@@ -223,7 +226,7 @@ Solid Tumor,Renal Cell Carcinoma,RCC,RCC,Kidney,#eb1414
 Solid Tumor,"Round Cell Sarcoma, NOS",RCSNOS,RCSNOS,Other,#aba9a9
 Hematologic Malignancy,Rosai-Dorfman Disease,RDD,RDD,RDD,#aba9a9
 Solid Tumor,Rhabdomyosarcoma,RMS,RMS,RMS,#00c0ff
-Solid Tumor,"Rhabdomyosarcoma, NOS",RMSNOS,,,
+Solid Tumor,"Rhabdomyosarcoma, NOS",RMSNOS,RMS,RMS,#00c0ff
 Solid Tumor,"Squamous Cell Carcinoma, NOS",SCCNOS,SCCNOS,Other,#aba9a9
 Solid Tumor,Small Cell Osteosarcoma,SCOS,SCOS,<NA>,#aba9a9
 Solid Tumor,Spindle Cell Rhabdomyosarcoma,SCRMS,SCRMS,Other,#aba9a9
