@@ -1,4 +1,4 @@
-name: Package
+name: Expression Classification Package
 on:
   release:
     types: [released, edited]

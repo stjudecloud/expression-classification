@@ -1,4 +1,4 @@
-name: Publish DNAnexus app
+name: Publish DNAnexus Expression Classification App
 on:
   release:
     types: [released, edited]
