@@ -1,8 +1,9 @@
 name: Expression Classification Package
+
 on:
   release:
     types: [released, edited]
-        
+
 jobs:
   push_to_registry:
     name: Push Docker image to GitHub Packages
@@ -44,4 +45,3 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-
