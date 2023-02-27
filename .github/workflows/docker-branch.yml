@@ -14,28 +14,33 @@ jobs:
     steps:
     - name: Branch name
       run: echo running on branch ${GITHUB_REF##*/}
+
     - name: Sanitize Repo Name for Tagging
       run: echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]' | (read; echo REPO_LOWER=$REPLY) >> $GITHUB_ENV
+
     - name: Log in to the Container registry
-      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      uses: docker/login-action@v2
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    -
-      name: Docker meta
+
+    - name: Docker meta
       id: meta
-      uses: docker/metadata-action@v3
+      uses: docker/metadata-action@v4
       with:
         images:  ghcr.io/${{ env.REPO_LOWER }}
         tags: |
           type=ref,event=branch,prefix=branch-
-    - uses: actions/checkout@v2
+
+    - uses: actions/checkout@v3
+
     - name: Test
       run: echo "ghcr.io/${{ env.REPO_LOWER }}:branch-${GITHUB_REF##*/}"
+
     - name: Build and push
       id: docker_build
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v4
       with:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
