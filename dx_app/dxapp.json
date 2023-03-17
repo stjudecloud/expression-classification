@@ -113,7 +113,16 @@
       "default": true,
       "help": "If true, PDX samples will be included in the t-SNE to facilitate model selection",
       "group": "Analysis Settings"
+    },
+    {
+      "name": "include_dfci_pdx",
+      "label": "Include DFCI PDX samples",
+      "class": "boolean",
+      "default": true,
+      "help": "If true, DFCI PDX samples will be included in the t-SNE to facilitate model selection",
+      "group": "Analysis Settings"
     }
+
   ],
   "outputSpec": [
     {

@@ -24,6 +24,7 @@ main() {
    echo "Value of all_read_length: '${all_read_length}'"
    echo "Value of all_pairing: '${all_pairing}'"
    echo "Value of include_pdx: '${include_pdx}'"
+   echo "Value of include_dfci_pdx: '${include_dfci_pdx}'"
    echo "Value of output_name: '${output_name}'"
    echo "Value of intermediate file: '${intermediate}'"
    echo "Value of gene list: '${gene_list}'"
@@ -286,7 +287,7 @@ main() {
    done
 
    # Handle Dana Farber PDX samples
-   if [ "${include_pdx}" == "true" ]
+   if [ "${include_dfci_pdx}" == "true" ]
    then
       # Get the file ids of the reference count data
       dfci_ids=""
@@ -329,7 +330,7 @@ main() {
    # The "-s" argument to jq takes the input files and puts the objects in an array.
    # so .[0] + .[1] concatenates the first and second elements together, in this case,
    # both elements are arrays. So the output is a concatentated array.
-   if [ "${include_pdx}" == "true" ]
+   if [ "${include_dfci_pdx}" == "true" ]
    then
       jq -s add metadata.json dfci_metadata.json  > combined_metadata.json
    else
