@@ -241,7 +241,7 @@ Solid Tumor,Myopericytoma,MPC,MPC,MPC,#aba9a9
 Brain Tumor,Myxopapillary Ependymoma,MPE,MPE,EPMT,#ff2181
 Brain Tumor,"Myxopapillary Ependymoma, Fourth Ventrice",MPEFV,MPE,EPMT,#ff2181
 Brain Tumor,"Myxopapillary Ependymoma, Posterior Fossa",MPEPF,MPE,EPMTPF,#ff00ff
-Solid Tumor,Myeloproliferative Neoplasms,MPN,MPN,MPN,#aba9a9
+Hematologic Malignancy,Myeloproliferative Neoplasms,MPN,MPN,MPN,#aba9a9
 Solid Tumor,Malignant Peripheral Nerve Sheath Tumor,MPNST,MPNST,Other,#f0489c
 Solid Tumor,"Rhabdoid Cancer, Kidney",MRT,MRT,Rhabdoid,#c01111
 Solid Tumor,Malignant Rhabdoid Tumor of the Bladder,MRTB,<NA>,MRTB,#c01111
@@ -359,7 +359,7 @@ Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, NKX2",TLLNKX2,TLL,,#48fa6
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, NOS",TLLNOS,TLL,Other,#48fa6f
 Hematologic Malignancy,"T-cell Lymphoblastic Lymphoma, TAL1",TLLTAL1,TLL,,#48fa6f
 Hematologic Malignancy,Therapy-Related Myelodysplastic Syndrome,TMDS,TMDS,TMDS,#aba9a9
-Solid Tumor,Therapy-Related Myeloid Neoplasm,TMN,TMN,<NA>,#aba9a9
+Hematologic Malignancy,Therapy-Related Myeloid Neoplasm,TMN,TMN,<NA>,#aba9a9
 Germ Cell Tumor,Teratocarcinoma,TTC,<NA>,<NA>,#aba9a9
 Germ Cell Tumor,"Teratoma, NOS",TTNOS,<NA>,<NA>,#aba9a9
 Germ Cell Tumor,"Yolk Sac Tumor, Testis",TYST,,,#aba9a9
