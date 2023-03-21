@@ -189,7 +189,7 @@ HFNH,Hepatic Focal Nodular Hyperplasia,Solid Tumor,Liver,Hepatic Focal Nodular H
 HGBCL,"High-Grade B-Cell Lymphoma, NOS",Hematologic Malignancy,Non-Hodgkin Lymphoma,"High-Grade B-Cell Lymphoma, NOS"
 HGCS,High-Grade Calvarium Sarcoma,Brain Tumor,Other Brain Tumor,High-Grade Calvarium Sarcoma
 HGG,Old - High Grade Glioma,NA,NA,NA
-HGGNOS,"High-Grade Glioma, NOS",Brain Tumor,Diffuse Glioma,High-Grade Glioma
+HGGNOS,"High-Grade Glioma, NOS",Brain Tumor,Diffuse Glioma,"High-Grade Glioma, NOS"
 HGGT,High-Grade Glioneuronal Tumor,Brain Tumor,Neuroepithelial/Glioneuronal Tumor,High-Grade Glioneuronal Tumor
 HGNET,High-Grade Neuroepithelial Tumor,Brain Tumor,Neuroepithelial/Glioneuronal Tumor,High-Grade Neuroepithelial Tumor
 HGS,High Grade Sarcoma,Solid Tumor,Rare Solid Tumor,High Grade Sarcoma
@@ -207,7 +207,7 @@ LBL,Lipoblastoma,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Lipoblastoma
 LCH,Langerhans Cell Histiocytosis,Hematologic Malignancy,Other Hematologic Malignancy,Langerhans Cell Histiocytosis
 LDCHL,Lymphocyte-Depleted Classical Hodgkin Lymphoma,Hematologic Malignancy,Hodgkin Lymphoma,Lymphocyte-Depleted Classical
 LFBR,Lipofibromatosis,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Lipofibromatosis
-LGGNOS,"Low-Grade Glioma, NOS",Brain Tumor,Encapsulated Glioma,Low-Grade Glioma
+LGGNOS,"Low-Grade Glioma, NOS",Brain Tumor,Encapsulated Glioma,"Low-Grade Glioma, NOS"
 LGGNT,Low-Grade Glioneuronal Tumor,Brain Tumor,Neuroepithelial/Glioneuronal Tumor,Low-Grade Glioneuronal Tumor
 LGMN,Low-Grade Mesenchymal Neoplasm,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Low-Grade Mesenchymal Neoplasm
 LGNET,Low-Grade Neuroepithelial Tumor,Brain Tumor,Neuroepithelial/Glioneuronal Tumor,Low-Grade Neuroepithelial Tumor
