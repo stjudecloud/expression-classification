@@ -298,15 +298,15 @@ Brain Tumor,"Papillary Ependymoma, NOS",PEPNOS,EPMT,<NA>,#aba9a9
 Solid Tumor,Paraganglioma,PGNG,PGNG,<NA>,#aba9a9
 Solid Tumor,Pheochromocytoma,PHC,PHC,PHC,#aba9a9
 Brain Tumor,Pineocytoma,PINC,PINC,PINC,#780826
-Solid Tumor,Pineal Tumor,PINT,PINT,<NA>,#780826
+Brain Tumor,Pineal Tumor,PINT,PINT,<NA>,#780826
 Brain Tumor,Pilomyxoid Astrocytoma,PMA,PMA,PMA,#aba9a9
 Brain Tumor,Primitive Neuroectodermal Tumor,PNET,PNET,<NA>,#aba9a9
 Solid Tumor,Pleuropulmonary Blastoma,PPB,PPB,<NA>,#aba9a9
 Brain Tumor,Peripheral Primitive Neuroectodermal Tumor,PPNET,PNET,<NA>,#aba9a9
-Solid Tumor,Pineal Parenchymal Tumor,PPT,PPTID,<NA>,#780826
+Brain Tumor,Pineal Parenchymal Tumor,PPT,PPTID,<NA>,#780826
 Brain Tumor,Pineal Parenchymal Tumor of Intermediate Differentiation,PPTID,PPTID,PPTID,#780826   
 Solid Tumor,Papillary Renal Cell Carcinoma,PRCC,PRCC,Kidney,#eb1414
-Solid Tumor,Papillary Tumor of the Pineal Region,PTPR,PTPR,<NA>,#780826
+Brain Tumor,Papillary Tumor of the Pineal Region,PTPR,PTPR,<NA>,#780826
 Brain Tumor,Pleomorphic Xanthoastrocytoma,PXA,PXA,<NA>,#aba9a9
 Solid Tumor,Retinoblastoma,RBL,RBL,RBL,#ffd700
 Solid Tumor,Renal Cell Carcinoma,RCC,RCC,Kidney,#eb1414

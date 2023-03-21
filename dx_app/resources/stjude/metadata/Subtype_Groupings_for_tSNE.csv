@@ -302,15 +302,15 @@ PEPNOS,"Papillary Ependymoma, NOS",Brain Tumor,Rare Brain Tumor,"Papillary Epend
 PGNG,Paraganglioma,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Paraganglioma
 PHC,Pheochromocytoma,Solid Tumor,Adrenal Gland,Pheochromocytoma
 PINC,Pineocytoma,Brain Tumor,Pineal,Pineocytoma
-PINT,Pineal Tumor,Solid Tumor,Pineal,Pineal Tumor
+PINT,Pineal Tumor,Brain Tumor,Pineal,Pineal Tumor
 PMA,Pilomyxoid Astrocytoma,Brain Tumor,Encapsulated Glioma,Pilomyxoid Astrocytoma
 PNET,Primitive Neuroectodermal Tumor,Brain Tumor,Embryonal Tumor,Primitive Neuroectodermal Tumor
 PPB,Pleuropulmonary Blastoma,Solid Tumor,Rare Solid Tumor,Pleuropulmonary Blastoma
 PPNET,Peripheral Primitive Neuroectodermal Tumor,Brain Tumor,Rare Brain Tumor,Peripheral Primitive Neuroectodermal Tumor
-PPT,Pineal Parenchymal Tumor,Solid Tumor,Pineal,Pineal Parenchymal Tumor
+PPT,Pineal Parenchymal Tumor,Brain Tumor,Pineal,Pineal Parenchymal Tumor
 PPTID,Pineal Parenchymal Tumor of Intermediate Differentiation,Brain Tumor,Pineal,Pineal Parenchymal Tumor of Intermediate Differentiation
 PRCC,Papillary Renal Cell Carcinoma,Solid Tumor,Kidney,Papillary Renal Cell Carcinoma
-PTPR,Papillary Tumor of the Pineal Region,Solid Tumor,Pineal,Papillary Tumor of the Pineal Region
+PTPR,Papillary Tumor of the Pineal Region,Brain Tumor,Pineal,Papillary Tumor of the Pineal Region
 PXA,Pleomorphic Xanthoastrocytoma,Brain Tumor,Encapsulated Glioma,Pleomorphic Xanthoastrocytoma
 RBL,Retinoblastoma,Solid Tumor,Head and Neck,Retinoblastoma
 RCC,Renal Cell Carcinoma,Solid Tumor,Kidney,Renal Cell Carcinoma
