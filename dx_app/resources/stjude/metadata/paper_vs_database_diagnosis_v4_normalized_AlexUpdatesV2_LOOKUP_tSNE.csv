@@ -25,13 +25,17 @@ Brain Tumor,"Anaplastic Medulloblastoma, Group 3",AMBLNWSG3,,,#5f9e36
 Brain Tumor,"Anaplastic Medulloblastoma, Group 4",AMBLNWSG4,,,#54ccbc
 Brain Tumor,"Large Cell/Anaplastic Medulloblastoma, SHH subtype",AMBLSHH,,,#34cc0e
 Hematologic Malignancy,Acute Megakaryoblastic Leukemia,AMKL,AMKL,AMKL,#00c0ff
+Hematologic Malignancy,"Acute Megakaryoblastic Leukemia, CBFA2T3-GLIS2",AMKLCBFA2T3GLIS2,,,#f258f5
 Hematologic Malignancy,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement",AMKLKMT2A,AMKL,AMKLKMT2A,#00c0ff
 Hematologic Malignancy,Acute Myeloid Leukemia,AML,AML,AML,#008cff
+Hematologic Malignancy,"Acute Myeloid Leukemia, CBFA2T3-GLIS2",AMLCBFA2T3GLIS2,,,#f258f5
 Hematologic Malignancy,"Acute Myeloid Leukemia, CBFB-MYH11",AMLCBFBMYH11,,,#d389f5
 Hematologic Malignancy,"Acute Myeloid Leukemia, biallelic CEBPA alteration",AMLCEBPA,,,#008cff
 Hematologic Malignancy,"Acute Myeloid Leukemia, KMT2A rearrangement",AMLKMT2A,AMLRGA,AML,#8e08d1
+Hematologic Malignancy,Acute Myeloid Leukemia,AMLNOS,AML,AML,#008cff
 Hematologic Malignancy,"Acute Myeloid Leukemia, NPM1 alteration (AMLNPM1)",AMLNPM1,AMLNPM1,AML,#008cff
 Hematologic Malignancy,"Acute Myeloid Leukemia, NUP98 rearrangement (AMLNUP98)",AMLNUP98,AMLRGA,AML,#008cff
+Hematologic Malignancy,"Acute Myeloid Leukemia, RUNX1-CBFA2T2",AMLRUNX1CBFA2T2,,,#93fadb
 Hematologic Malignancy,"Acute Myeloid Leukemia, RUNX1-CBFA2T3",AMLRUNX1CBFA2T3,,,#93fadb
 Hematologic Malignancy,"Acute Myeloid Leukemia, RUNX1-RUNX1T1",AMLRUNX1RUNX1T1,,,#66C2A6
 Hematologic Malignancy,Acute Myelomonocytic Leukemia,AMML,AMML,AMML,#008cff
@@ -89,6 +93,7 @@ Germ Cell Tumor,"Germ Cell Tumor, Brain",BGCT,BGCT,<NA>,#aba9a9
 Hematologic Malignancy,Burkitt Lymphoma,BL,BL,BL,#8d8dfc
 Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, BCR-ABL1 like",BLLBCRABL1L,BLLBCRABL1L,BLLBCRABL1L,#aba9a9
 Hematologic Malignancy,"B-cell lymphoblastic lymphoma, NOS",BLLNOS,<NA>,<NA>,#aba9a9
+Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, TCF3-HLF",BLLTCF3HLF,,,#aba9a9
 Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1",BLLTCF3PBX1,BLLTCF3PBX1,BLLTCF3PBX1,#aba9a9
 Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain",BMGCT,BMGCT,<NA>,#aba9a9
 Brain Tumor,Mature Teratoma,BMT,BMT,<NA>,#aba9a9
@@ -158,11 +163,13 @@ Solid Tumor,"Fibrosarcoma, NOS",FIBS,FIBS,Other,#aba9a9
 Solid Tumor,Fibroblastic Osteosarcoma,FIOS,FIOS,<NA>,#aba9a9
 Hematologic Malignancy,Follicular Lymphoma,FL,FL,<NA>,#aba9a9
 Solid Tumor,Fibromyxoid Sarcoma,FMS,<NA>,Other,#aba9a9
+Solid Tumor,Fibroblastic/Myofibroblastic Tumor,FMT,,,#aba9a9
 Solid Tumor,Fibrous Umbilical Polyp,FUP,<NA>,<NA>,#aba9a9
 Brain Tumor,Glioblastoma,GB,GB,<NA>,#0006c2
 Solid Tumor,Giant Cell Fibroblastoma,GCFIB,<NA>,<NA>,#aba9a9
 Germ Cell Tumor,"Germ Cell Tumor, NOS",GCT,<NA>,<NA>,#aba9a9
 Solid Tumor,Giant Cell Tumor of Bone,GCTB,,,#ffccff
+Germ Cell Tumor,"Germ Cell Tumor, NOS",GCTNOS,,,#aba9a9
 Solid Tumor,"Giant Cell Tumor, NOS",GICT,GCTB,<NA>,#ffccff
 Solid Tumor,Gastrointestinal Neuroendocrine Tumor,GINET,GINET,GINET,#aba9a9
 Solid Tumor,Gastrointestinal Stromal Tumor,GIST,GIST,Other,brown
@@ -172,6 +179,7 @@ Solid Tumor,Ganglioneuroblastoma,GNBL,GNBL,<NA>,#f5b5c8
 Brain Tumor,Gangliocytoma,GNG,GNG,<NA>,#aba9a9
 Brain Tumor,"Glioma, NOS",GNOS,GNOS,<NA>,#a2d7fa
 Solid Tumor,Granulosa Cell Tumor,GRCT,GRCT,<NA>,#aba9a9
+Solid Tumor,"Head and Neck Tumor, NOS",HAN,,,#aba9a9
 Solid Tumor,Hepatoblastoma,HB,LIHB,Hepatoblastoma,#e76836
 Solid Tumor,Hepatocellular Carcinoma,HCC,HCC,Liver,#ffa500
 Solid Tumor,"Head and Neck Tumor, NOS",HEAD_AND_NECK,,,#aba9a9
@@ -203,6 +211,7 @@ Brain Tumor,Low-Grade Neuroepithelial Tumor,LGNET,LGNET,LGNET,#00c0ff
 Solid Tumor,Low-Grade Oncocytic Renal Tumor,LGORT,<NA>,<NA>,#aba9a9
 Solid Tumor,Low Grade Peripheral Nerve Sheath Tumor,LGPNST,,,#f0489c
 Solid Tumor,Liposarcoma,LIPO,LIPO,<NA>,#aba9a9
+Solid Tumor,"Liver, NOS",LIV,<NA>,<NA>,#aba9a9
 Solid Tumor,"Liver, NOS",LIVER,<NA>,<NA>,#aba9a9
 Solid Tumor,"Liver Malignancy, NOS",LMNOS,<NA>,<NA>,#aba9a9
 Solid Tumor,"Leiomyosarcoma, NOS",LMS,LMS,<NA>,#aba9a9
@@ -236,6 +245,7 @@ Solid Tumor,Malignant Mesenchymoma of the Liver,MMEL,<NA>,<NA>,#aba9a9
 Brain Tumor,Meningioma,MNG,MNG,MNG,#8b0000
 Hematologic Malignancy,Myeloid Neoplasm,MNM,MNM,<NA>,#aba9a9
 Solid Tumor,Myositis Ossificans,MO,<NA>,MO,#aba9a9
+Solid Tumor,Mucinous Ovarian Cancer,MOV,,,#aba9a9
 Hematologic Malignancy,"Mixed Phenotype Acute Leukemia, T/Myeloid, NOS",MPALTNOS,,,#aba9a9
 Solid Tumor,Myopericytoma,MPC,MPC,MPC,#aba9a9
 Brain Tumor,Myxopapillary Ependymoma,MPE,MPE,EPMT,#ff2181
@@ -252,6 +262,7 @@ Solid Tumor,Malignant Thymoma,MTHYM,THYM,MTHYM,#aba9a9
 Solid Tumor,Mucoepidermoid Carcinoma,MUCC,MUCC,Other,#cfbe2d
 Hematologic Malignancy,Mycosis Fungoides,MYCF,MYCF,<NA>,#aba9a9
 Solid Tumor,Myoepithelial Carcinoma,MYEC,MYEC,<NA>,#aba9a9
+Hematologic Malignancy,Myeloid Neoplasm,MYEL,,,#aba9a9
 Solid Tumor,Neuroblastoma,NBL,NBL,NBL,#f9779d
 Brain Tumor,Neuroepithelioma,NEP,<NA>,<NA>,#aba9a9
 Solid Tumor,Neurofibroma,NFIB,NFIB,Other,#f0489c

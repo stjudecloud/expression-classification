@@ -25,13 +25,17 @@ AMBLNWSG3,"Anaplastic Medulloblastoma, Group 3",Brain Tumor,Medulloblastoma,"Ana
 AMBLNWSG4,"Anaplastic Medulloblastoma, Group 4",Brain Tumor,Medulloblastoma,"Anaplastic Medulloblastoma, Group 4"
 AMBLSHH,"Large Cell/Anaplastic Medulloblastoma, SHH subtype",Brain Tumor,Medulloblastoma,"Large Cell/Anaplastic Medulloblastoma, SHH subtype"
 AMKL,Acute Megakaryoblastic Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Megakaryoblastic Leukemia
+AMKLCBFA2T3GLIS2,"Acute Megakaryoblastic Leukemia, CBFA2T3-GLIS2",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Megakaryoblastic Leukemia, CBFA2T3-GLIS2"
 AMKLKMT2A,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement"
-AML,Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Other
+AML,Acute Myeloid Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Myeloid Leukemia
+AMLCBFA2T3GLIS2,"Acute Myeloid Leukemia, CBFA2T3-GLIS2",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, CBFA2T3-GLIS2"
 AMLCBFBMYH11,"Acute Myeloid Leukemia, CBFB-MYH11",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, CBFB-MYH11"
 AMLCEBPA,"Acute Myeloid Leukemia, biallelic CEBPA alteration",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, biallelic CEBPA alteration"
 AMLKMT2A,"Acute Myeloid Leukemia, KMT2A rearrangement",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, KMT2A rearrangement"
+AMLNOS,"Acute Myeloid Leukemia, NOS",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, NOS"
 AMLNPM1,"Acute Myeloid Leukemia, NPM1 alteration",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, NPM1 alteration"
 AMLNUP98,"Acute Myeloid Leukemia, NUP98 rearrangement",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, NUP98 rearrangement"
+AMLRUNX1CBFA2T2,"Acute Myeloid Leukemia, RUNX1-CBFA2T2",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, RUNX1-CBFA2T2"
 AMLRUNX1CBFA2T3,"Acute Myeloid Leukemia, RUNX1-CBFA2T3",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, RUNX1-CBFA2T3"
 AMLRUNX1RUNX1T1,"Acute Myeloid Leukemia, RUNX1-RUNX1T1",Hematologic Malignancy,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, RUNX1-RUNX1T1"
 AMML,Acute Myelomonocytic Leukemia,Hematologic Malignancy,Acute Myeloid Leukemia,Acute Myelomonocytic Leukemia
@@ -90,6 +94,7 @@ BGCT,"Germ Cell Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Germ Cell Tumor, 
 BL,Burkitt Lymphoma,Hematologic Malignancy,Non-Hodgkin Lymphoma,Burkitt Lymphoma
 BLLBCRABL1L,"B-cell Lymphoblastic Lymphoma, BCR-ABL1 like",Hematologic Malignancy,Non-Hodgkin Lymphoma,"B-cell Lymphoblastic Lymphoma, BCR-ABL1 like"
 BLLNOS,"B-Lymphoblastic Lymphoma, NOS",Hematologic Malignancy,Non-Hodgkin Lymphoma,"B-Lymphoblastic Lymphoma, NOS"
+BLLTCF3HLF,"B-cell Lymphoblastic Lymphoma, TCF3-HLF",Hematologic Malignancy,Non-Hodgkin Lymphoma,"B-cell Lymphoblastic Lymphoma, TCF3-HLF"
 BLLTCF3PBX1,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1",Hematologic Malignancy,Non-Hodgkin Lymphoma,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1"
 BMGCT,"Mixed Germ Cell Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain"
 BMT,Mature Teratoma,Brain Tumor,Germ Cell Tumor,Mature Teratoma
@@ -160,11 +165,13 @@ FIBS,"Fibrosarcoma, NOS",Solid Tumor,Rare Solid Tumor,Fibrosarcoma
 FIOS,Fibroblastic Osteosarcoma,Solid Tumor,Bone,Fibroblastic Osteosarcoma
 FL,Follicular Lymphoma,Hematologic Malignancy,Non-Hodgkin Lymphoma,Follicular Lymphoma
 FMS,Fibromyxoid Sarcoma,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Fibromyxoid Sarcoma
+FMT,Fibroblastic/Myofibroblastic Tumor,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Fibroblastic/Myofibroblastic Tumor
 FUP,Fibrous Umbilical Polyp,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Fibrous Umbilical Polyp
 GB,Glioblastoma,Brain Tumor,Diffuse Glioma,Glioblastoma
 GCFIB,Giant Cell Fibroblastoma,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Giant Cell Fibroblastoma
 GCT,Germ Cell Tumor,Germ Cell Tumor,Germ Cell Tumor,Germ Cell Tumor
 GCTB,Giant Cell Tumor of Bone,Solid Tumor,Bone,Giant Cell Tumor of Bone
+GCTNOS,Germ Cell Tumor,Germ Cell Tumor,Germ Cell Tumor,Germ Cell Tumor
 GICT,"Giant Cell Tumor, NOS",Solid Tumor,Bone,"Giant Cell Tumor, NOS"
 GINET,Gastrointestinal Neuroendocrine Tumor,Solid Tumor,Bowel,Gastrointestinal Neuroendocrine Tumor
 GIST,Gastrointestinal Stromal Tumor,Solid Tumor,Bowel,Gastrointestinal Stromal Tumor
@@ -174,6 +181,7 @@ GNBL,Ganglioneuroblastoma,Solid Tumor,Peripheral Nervous System,Ganglioneuroblas
 GNG,Ganglioglioma,Brain Tumor,Encapsulated Glioma,Ganglioglioma
 GNOS,"Glioma, NOS",Brain Tumor,Other Brain Tumor,"Glioma, NOS"
 GRCT,Granulosa Cell Tumor,Solid Tumor,Rare Solid Tumor,Granulosa Cell Tumor
+HAN,"Head and Neck Tumor, NOS",Solid Tumor,Other Solid Tumor,"Head and Neck Tumor, NOS"
 HB,Hepatoblastoma,Solid Tumor,Liver,Hepatoblastoma
 HCC,Hepatocellular Carcinoma,Solid Tumor,Liver,Hepatocellular Carcinoma
 HEAD_AND_NECK,"Head and Neck Tumor, NOS",Solid Tumor,Other Solid Tumor,"Head and Neck Tumor, NOS"
@@ -206,6 +214,7 @@ LGNET,Low-Grade Neuroepithelial Tumor,Brain Tumor,Neuroepithelial/Glioneuronal T
 LGORT,Low-Grade Oncocytic Renal Tumor,Solid Tumor,Kidney,Low-Grade Oncocytic Renal Tumor
 LGPNST,Low Grade Peripheral Nerve Sheath Tumor,Solid Tumor,Peripheral Nervous System,Low Grade Peripheral Nerve Sheath Tumor
 LIPO,Liposarcoma,Solid Tumor,Rare Solid Tumor,Liposarcoma
+LIV,"Liver, NOS",Solid Tumor,Liver,"Liver, NOS"
 LIVER,"Liver, NOS",Solid Tumor,Liver,"Liver, NOS"
 LMNOS,"Liver Malignancy, NOS",Solid Tumor,Liver,"Liver Malignancy, NOS"
 LMS,"Leiomyosarcoma, NOS",Solid Tumor,Rare Solid Tumor,"Leiomyosarcoma, NOS"
@@ -240,6 +249,7 @@ MMEL,Malignant Mesenchymoma of the Liver,Solid Tumor,Liver,Malignant Mesenchymom
 MNG,Meningioma,Brain Tumor,Meningothelial Tumor,Meningioma
 MNM,Myeloid Neoplasm,Hematologic Malignancy,Other Hematologic Malignancy,Myeloid Neoplasm
 MO,Myositis Ossificans,Solid Tumor,Bone,Myositis Ossificans
+MOV,Mucinous Ovarian Cancer,Solid Tumor,Ovary/Fallopian Tube,Mucinous Ovarian Cancer
 MPALTNOS,"Mixed Phenotype Acute Leukemia, T/Myeloid, NOS",Hematologic Malignancy,Other Hematologic Malignancy,"Mixed Phenotype Acute Leukemia, T/Myeloid, NOS"
 MPC,Myopericytoma,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Myopericytoma
 MPE,Myxopapillary Ependymoma,Brain Tumor,Ependymomal Tumor,Myxopapillary
@@ -256,6 +266,7 @@ MTHYM,Malignant Thymoma,Solid Tumor,Thymus,Malignant Thymoma
 MUCC,Mucoepidermoid Carcinoma,Solid Tumor,Head and Neck,Mucoepidermoid Carcinoma
 MYCF,Mycosis Fungoides,Hematologic Malignancy,Rare Hematologic Malignancy,Mycosis Fungoides
 MYEC,Myoepithelial Carcinoma,Solid Tumor,Head and Neck,Myoepithelial Carcinoma
+MYEL,Myeloid Neoplasm,Hematologic Malignancy,Other Hematologic Malignancy,Myeloid Neoplasm
 NBL,Neuroblastoma,Solid Tumor,Peripheral Nervous System,Neuroblastoma
 NEP,Neuroepithelioma,Brain Tumor,Rare Brain Tumor,Neuroepithelioma
 NFIB,Neurofibroma,Solid Tumor,Peripheral Nervous System,Neurofibroma
