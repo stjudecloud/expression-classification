@@ -97,7 +97,7 @@ BLLNOS,"B-Lymphoblastic Lymphoma, NOS",Hematologic Malignancy,Non-Hodgkin Lympho
 BLLTCF3HLF,"B-cell Lymphoblastic Lymphoma, TCF3-HLF",Hematologic Malignancy,Non-Hodgkin Lymphoma,"B-cell Lymphoblastic Lymphoma, TCF3-HLF"
 BLLTCF3PBX1,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1",Hematologic Malignancy,Non-Hodgkin Lymphoma,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1"
 BMGCT,"Mixed Germ Cell Tumor, Brain",Germ Cell Tumor,Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain"
-BMT,Mature Teratoma,Brain Tumor,Germ Cell Tumor,Mature Teratoma
+BMT,Mature Teratoma,Germ Cell Tumor,Germ Cell Tumor,Mature Teratoma
 BPDCN,Blastic Plasmacytoid Dendritic Cell Neoplasm,Hematologic Malignancy,Rare Hematologic Malignancy,Blastic Plasmacytoid Dendritic Cell Neoplasm
 BT,Old - Brain Tumor,NA,NA,NA
 BTNOS,"Brain Tumor, NOS",Brain Tumor,Other Brain Tumor,"Brain Tumor, NOS"
@@ -224,11 +224,11 @@ MACR,Mucinous Adenocarcinoma of the Colon and Rectum,Solid Tumor,Rare Solid Tumo
 MAO,"Mucinous Adenocarcinoma, Ovarian",Solid Tumor,Ovary/Fallopian Tube,"Mucinous Adenocarcinoma, Ovarian"
 MB,Old - Medulloblastoma,NA,NA,NA
 MBENSHH,"Medulloblastoma with Extensive Nodularity, SHH subtype",Brain Tumor,Medulloblastoma,"Medulloblastoma with Extensive Nodularity, SHH subtype"
-MBL,Medulloblastoma,Brain Tumor,Medulloblastoma,Other
-MBLG3,"Medulloblastoma, Group 3",Brain Tumor,Medulloblastoma,Group 3
-MBLG4,"Medulloblastoma, Group 4",Brain Tumor,Medulloblastoma,Group 4
-MBLSHH,"Medulloblastoma, SHH subtype",Brain Tumor,Medulloblastoma,SHH-activated
-MBLWNT,"Medulloblastoma, WNT subtype",Brain Tumor,Medulloblastoma,WNT-activated
+MBL,"Medulloblastoma, NOS",Brain Tumor,Medulloblastoma,"Medulloblastoma, NOS"
+MBLG3,"Medulloblastoma, Group 3",Brain Tumor,Medulloblastoma,"Medulloblastoma, Group 3"
+MBLG4,"Medulloblastoma, Group 4",Brain Tumor,Medulloblastoma,"Medulloblastoma, Group 4"
+MBLSHH,"Medulloblastoma, SHH subtype",Brain Tumor,Medulloblastoma,"Medulloblastoma, SHH subtype"
+MBLWNT,"Medulloblastoma, WNT subtype",Brain Tumor,Medulloblastoma,"Medulloblastoma, WNT subtype"
 MBN,Mature B-Cell Neoplasms,Hematologic Malignancy,Non-Hodgkin Lymphoma,Mature B-Cell Neoplasms
 MBT,Miscellaneous Brain Tumor,Brain Tumor,Other Brain Tumor,Miscellaneous Brain Tumor
 MCC,Merkel Cell Carcinoma,Solid Tumor,Rare Solid Tumor,Merkel Cell Carcinoma

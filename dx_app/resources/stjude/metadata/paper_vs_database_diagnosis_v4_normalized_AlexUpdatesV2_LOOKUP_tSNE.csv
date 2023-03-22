@@ -96,7 +96,7 @@ Hematologic Malignancy,"B-cell lymphoblastic lymphoma, NOS",BLLNOS,<NA>,<NA>,#ab
 Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, TCF3-HLF",BLLTCF3HLF,,,#aba9a9
 Hematologic Malignancy,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1",BLLTCF3PBX1,BLLTCF3PBX1,BLLTCF3PBX1,#aba9a9
 Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain",BMGCT,BMGCT,<NA>,#aba9a9
-Brain Tumor,Mature Teratoma,BMT,BMT,<NA>,#aba9a9
+Germ Cell Tumor,Mature Teratoma,BMT,BMT,<NA>,#aba9a9
 Hematologic Malignancy,Blastic Plasmacytoid Dendritic Cell Neoplasm,BPDCN,BPDCN,<NA>,#aba9a9
 Brain Tumor,"Brain Tumor, NOS",BTNOS,,,#aba9a9
 Germ Cell Tumor,"Yolk Sac Tumor, Brain",BYST,BYST,<NA>,#aba9a9
@@ -151,7 +151,7 @@ Brain Tumor,Ependymomal Tumor,EPMT,EPMT,EPMT,#ffccff
 Brain Tumor,"Ependymomal Tumor, Anaplastic",EPMTA,EPMT,,#c894e3
 Brain Tumor,"Ependymomal Tumor, Posterior Fossa",EPMTPF,EPMT,EPMTPF,#ff00ff
 Brain Tumor,"Ependymomal Tumor, Spinal Tumor",EPMTST,EPMT,EPMT,#ffccff
-Brain Tumor,"Ependymomal Tumor, Supratentorial",EPMTSU,EPMT,EPMTSU,#c042ff  
+Brain Tumor,"Ependymomal Tumor, Supratentorial",EPMTSU,EPMT,EPMTSU,#c042ff
 Solid Tumor,Embryonal Rhabdomyosarcoma,ERMS,ERMS,ERMS,#0000ff
 Hematologic Malignancy,"Eosinophilia, NOS",ESOP,<NA>,<NA>,#aba9a9
 Solid Tumor,Ewing Sarcoma of Soft Tissue,ESST,,,#aba9a9
@@ -304,7 +304,7 @@ Brain Tumor,Primitive Neuroectodermal Tumor,PNET,PNET,<NA>,#aba9a9
 Solid Tumor,Pleuropulmonary Blastoma,PPB,PPB,<NA>,#aba9a9
 Brain Tumor,Peripheral Primitive Neuroectodermal Tumor,PPNET,PNET,<NA>,#aba9a9
 Brain Tumor,Pineal Parenchymal Tumor,PPT,PPTID,<NA>,#780826
-Brain Tumor,Pineal Parenchymal Tumor of Intermediate Differentiation,PPTID,PPTID,PPTID,#780826   
+Brain Tumor,Pineal Parenchymal Tumor of Intermediate Differentiation,PPTID,PPTID,PPTID,#780826
 Solid Tumor,Papillary Renal Cell Carcinoma,PRCC,PRCC,Kidney,#eb1414
 Brain Tumor,Papillary Tumor of the Pineal Region,PTPR,PTPR,<NA>,#780826
 Brain Tumor,Pleomorphic Xanthoastrocytoma,PXA,PXA,<NA>,#aba9a9
