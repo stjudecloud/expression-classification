@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v
+        uses: actions/checkout@v3
 
       - name: Sanitize Version for Tagging
         run: echo ${{ github.event.release.tag_name }} | sed 's/^v//' | (read; echo SHORT_VERSION=$REPLY) >> $GITHUB_ENV
