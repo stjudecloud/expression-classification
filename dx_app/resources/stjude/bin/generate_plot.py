@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import pandas as pd
-from pandas.io.json import json_normalize
 import json
 import argparse
 import logzero
@@ -63,7 +62,7 @@ if __name__ == "__main__":
 
   # Convert metadata JSON column 'properties' into a table. 
   # Then combined with the rest of the metadata in a single dataframe.
-  prop = json_normalize(metadata['properties'])
+  prop = pd.json_normalize(metadata['properties'])
   metadata = metadata.drop(columns=['properties'])
   metadata = pd.concat([metadata, prop], axis=1, sort=False)
   combined = matrix.merge(metadata, left_on=['samples','projects'], right_on=['sample_name', 'sj_datasets'], how='left')
