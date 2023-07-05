@@ -23,7 +23,3 @@ dependencies:
     - numpy>=1.17.3
     - pandas>=0.25.3
 prefix: /opt/conda
-
-
-#numpy 1.24.4
-#pandas 2.0.3
