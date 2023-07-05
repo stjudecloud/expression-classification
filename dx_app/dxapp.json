@@ -76,7 +76,7 @@
       "name": "all_read_length",
       "label": "Read length", 
       "class": "string", 
-      "choices": ["101", "126"],
+      "choices": ["101", "126", "150"],
       "optional": true,
       "help": "Specify read length. This option will apply to any input samples without a specification.",
       "group": "Input sample parameters"
@@ -113,7 +113,16 @@
       "default": true,
       "help": "If true, PDX samples will be included in the t-SNE to facilitate model selection",
       "group": "Analysis Settings"
+    },
+    {
+      "name": "include_dfci_pdx",
+      "label": "Include DFCI PDX samples",
+      "class": "boolean",
+      "default": true,
+      "help": "If true, DFCI PDX samples will be included in the t-SNE to facilitate model selection",
+      "group": "Analysis Settings"
     }
+
   ],
   "outputSpec": [
     {
