@@ -26,11 +26,11 @@ RUN conda install \
     -c conda-forge \
     -c bioconda \
     --experimental-solver=libmamba \
-             r-base=3.6.1 \
+             r-base \
              python=3.8 \
-             pandas=1.1.0 \
+             pandas \
              bioconductor-biocinstaller \
-             bioconductor-sva \
+             bioconductor-sva>3.35.2 \
              bioconductor-deseq2 \
              scikit-learn \
              r-rtsne r-getopt r-plotly \

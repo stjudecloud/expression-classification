@@ -20,6 +20,6 @@ dependencies:
   - r-rtsne=0.15
   - scikit-learn=1.1.2
   - pip:
-    - numpy==1.17.3
-    - pandas==0.25.3
+    - numpy>=1.17.3
+    - pandas>=0.25.3
 prefix: /opt/conda
