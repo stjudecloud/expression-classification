@@ -295,9 +295,6 @@ main() {
       do
          json=$(dx describe --json "project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/RNA-Seq Expression Classification/dana_farber_pdx/${file}")
          id=$(echo $json | jq -r '.id')
-         # Download HTSeq count file
-         dx download -f -o $HOME/in/reference_counts/ --no-progress project-F5444K89PZxXjBqVJ3Pp79B4:${id}
-         dfci_ids="${dfci_ids} ${id}"
 
          # Get metadata entries
          sample_name=$(get_sample_name "$json")
@@ -307,6 +304,23 @@ main() {
          librarytype=$(get_library "$json")
          readlength=$(get_readlen "$json")
          pairing=$(get_pairing "$json")
+
+         # Check category
+         category=$(get_category "$json")
+         if [[ "$category" == "Hematologic Malignancy" ]]
+         then
+            category="Blood Cancer"
+         fi
+
+         if ! [[ "$tumor_type" == "All" ]]  || [[ "$tumor_type" == "$category" ]]
+         then
+            echo "Rejecting sample: ${sample_name} [category]"
+            continue
+         fi
+
+         # Download HTSeq count file
+         dx download -f -o $HOME/in/reference_counts/ --no-progress project-F5444K89PZxXjBqVJ3Pp79B4:${id}
+         dfci_ids="${dfci_ids} ${id}"
 
          # look up color and disease name values
          color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -)
@@ -463,17 +477,17 @@ main() {
       gene_list_arg="--gene-list ${container_reference_dir}/gene_list.txt"
    fi
 
-   echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
+   echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:branch-dfci_type_check bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
 
-   docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
+   docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:branch-dfci_type_check bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
 
    cp combined_metadata.json $local_output_dir
    cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
-   docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+   docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:branch-dfci_type_check bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
 
    if [ ${#input_counts[@]} -gt 0 ]
    then
-      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
+      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:branch-dfci_type_check bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
       mv $local_output_dir/neighbors.tsv $local_output_dir/${output_prefix}.neighbors.tsv
       neighbors_file=$(dx upload $local_output_dir/${output_prefix}.neighbors.tsv --brief)
       dx-jobutil-add-output neighbors "$neighbors_file" --class=file
