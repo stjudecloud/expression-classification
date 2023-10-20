@@ -312,7 +312,7 @@ main() {
             category="Blood Cancer"
          fi
 
-         if ! [[ "$tumor_type" == "All" ]]  || [[ "$tumor_type" == "$category" ]]
+         if ! [ "$tumor_type" == "All" ] && ! [ "$tumor_type" == "$category" ]
          then
             echo "Rejecting sample: ${sample_name} [category]"
             continue
@@ -336,8 +336,13 @@ main() {
       done
 
       # Get metadata for DFCI files
-      dfci_metadata=$(echo ${dfci_ids} | xargs python3 /stjude/bin/bulk_describe.py -p project-F5444K89PZxXjBqVJ3Pp79B4 --ids)
-      echo ${dfci_metadata} > dfci_metadata.json
+      if [ ${#dfci_ids} -gt 0 ]
+      then
+         dfci_metadata=$(echo ${dfci_ids} | xargs python3 /stjude/bin/bulk_describe.py -p project-F5444K89PZxXjBqVJ3Pp79B4 --ids)
+         echo ${dfci_metadata} > dfci_metadata.json
+      else
+         echo '' > dfci_metadata.json
+      fi
    fi
 
    # Combine reference data with DFCI metadata
