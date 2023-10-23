@@ -19,7 +19,7 @@ jobs:
         run: echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]' | (read; echo REPO_LOWER=$REPLY) >> $GITHUB_ENV
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
