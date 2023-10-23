@@ -10,7 +10,7 @@ RUN apt-get update \
         zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh" -O miniconda.sh && \
+RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py38_23.5.2-0-Linux-x86_64.sh" -O miniconda.sh && \
     /bin/bash miniconda.sh -b -p /opt/conda/ && \
     rm miniconda.sh
 
@@ -18,14 +18,14 @@ ENV PATH /opt/conda/bin:$PATH
 
 RUN conda update -n base -c defaults conda -y && \
     conda install \
+    -n base \
     -c conda-forge \
-    conda-libmamba-solver \
-    mamba
+    conda-libmamba-solver && \
+    conda config --set solver libmamba
 
 RUN conda install \
     -c conda-forge \
     -c bioconda \
-    --experimental-solver=libmamba \
              r-base \
              python=3.8 \
              pandas \

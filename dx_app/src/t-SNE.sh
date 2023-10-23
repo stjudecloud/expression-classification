@@ -295,9 +295,6 @@ main() {
       do
          json=$(dx describe --json "project-F5444K89PZxXjBqVJ3Pp79B4:/pipeline/RNA-Seq Expression Classification/dana_farber_pdx/${file}")
          id=$(echo $json | jq -r '.id')
-         # Download HTSeq count file
-         dx download -f -o $HOME/in/reference_counts/ --no-progress project-F5444K89PZxXjBqVJ3Pp79B4:${id}
-         dfci_ids="${dfci_ids} ${id}"
 
          # Get metadata entries
          sample_name=$(get_sample_name "$json")
@@ -307,6 +304,23 @@ main() {
          librarytype=$(get_library "$json")
          readlength=$(get_readlen "$json")
          pairing=$(get_pairing "$json")
+
+         # Check category
+         category=$(get_category "$json")
+         if [[ "$category" == "Hematologic Malignancy" ]]
+         then
+            category="Blood Cancer"
+         fi
+
+         if ! [ "$tumor_type" == "All" ] && ! [ "$tumor_type" == "$category" ]
+         then
+            echo "Rejecting sample: ${sample_name} [category]"
+            continue
+         fi
+
+         # Download HTSeq count file
+         dx download -f -o $HOME/in/reference_counts/ --no-progress project-F5444K89PZxXjBqVJ3Pp79B4:${id}
+         dfci_ids="${dfci_ids} ${id}"
 
          # look up color and disease name values
          color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -)
@@ -322,8 +336,13 @@ main() {
       done
 
       # Get metadata for DFCI files
-      dfci_metadata=$(echo ${dfci_ids} | xargs python3 /stjude/bin/bulk_describe.py -p project-F5444K89PZxXjBqVJ3Pp79B4 --ids)
-      echo ${dfci_metadata} > dfci_metadata.json
+      if [ ${#dfci_ids} -gt 0 ]
+      then
+         dfci_metadata=$(echo ${dfci_ids} | xargs python3 /stjude/bin/bulk_describe.py -p project-F5444K89PZxXjBqVJ3Pp79B4 --ids)
+         echo ${dfci_metadata} > dfci_metadata.json
+      else
+         echo '' > dfci_metadata.json
+      fi
    fi
 
    # Combine reference data with DFCI metadata
