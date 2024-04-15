@@ -29,7 +29,7 @@
     },
     { 
       "name": "tumor_type",
-      "label": "Referene tumor type(s)", 
+      "label": "Reference tumor type(s)",
       "class": "string", 
       "choices": ["All", "Brain Tumor", "Blood Cancer", "Solid Tumor"],
       "default": "All",

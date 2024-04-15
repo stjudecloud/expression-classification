@@ -353,7 +353,7 @@ main() {
    then
       jq -s add metadata.json dfci_metadata.json  > combined_metadata.json
    else
-      cp metadata.json combined_metadata.json
+      jq -s add metadata.json > combined_metadata.json
    fi
 
 
