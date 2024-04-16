@@ -48,7 +48,7 @@ COPY requirements.txt /opt/tsne
 COPY environment.yml /opt/tsne
 
 WORKDIR /opt/tsne
-RUN pip install
+RUN pip install .
 
 WORKDIR /
 

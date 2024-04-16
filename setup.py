@@ -13,4 +13,4 @@ setup(name='itsne',
       scripts=['scripts/itsne-main', 'scripts/itsne-normalize-matrix.R'],
       packages=find_packages(),
       install_requires=requirements,
-      python_requires='>=3.0, <3.8')
+      python_requires='>=3.0, <3.9')
