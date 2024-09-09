@@ -16,7 +16,7 @@ def bulk_describe_with_id(file_links: List[str], proj_id: str) -> List:
         file_links: list of file ids (strings)
         proj_id: project id where described items is found
     Returns:
-        list of dictionary containing file infomation
+        list of dictionary containing file information
     """
 
     payload = {
