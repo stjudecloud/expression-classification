@@ -150,7 +150,8 @@ main() {
    # Get metadata in parallel for reference data
    echo "Getting metadata for all samples"
    json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
-   echo $json > metadata.json
+   # Pass through jq because bulk_describe can produce multiple json arrays.
+   echo $json | jq --slurp "flatten" > metadata.json
 
    # Prepare filters
    excluded_types='germline|cell line'
