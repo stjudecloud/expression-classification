@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 as builder
+FROM ubuntu:20.04 AS builder
 
 RUN apt-get update \
     && apt-get upgrade -y \ 
@@ -14,7 +14,7 @@ RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py38_23.5.2-0-Linux-x86
     /bin/bash miniconda.sh -b -p /opt/conda/ && \
     rm miniconda.sh
 
-ENV PATH /opt/conda/bin:$PATH
+ENV PATH=/opt/conda/bin:$PATH
 
 RUN conda update -n base -c defaults conda -y && \
     conda install \
@@ -39,7 +39,7 @@ RUN conda install \
              pandoc -y \
     && conda clean --all -y
 
-ENV R_LIBS_SITE $R_LIBS_SITE:/usr/local/lib/R/site-library:/usr/lib/R/site-library:/usr/lib/R/library:/opt/conda/lib/R/library/
+ENV R_LIBS_SITE=/usr/local/lib/R/site-library:/usr/lib/R/site-library:/usr/lib/R/library:/opt/conda/lib/R/library/
 
 COPY scripts /opt/tsne/scripts
 COPY itsne /opt/tsne/itsne

@@ -39,7 +39,7 @@ main() {
    container_reference_dir=/reference
    container_output_dir=/results
    metadata_file=/stjude/metadata/combined.csv
-   lookup_file=/stjude/metadata/paper_vs_database_diagnosis_v4_normalized_AlexUpdatesV2_LOOKUP_tSNE.csv
+   lookup_file=/stjude/metadata/metadata.csv
    mkdir $local_reference_dir
    mkdir $local_output_dir
 
@@ -242,7 +242,7 @@ main() {
 
       # Check for sample type. Remove germline, cell line, xenograft
       type=$(get_type "$j")
-      if [ $(echo $type | grep -cE "${excluded_types}") -gt 0 ]
+      if [ $(echo $type | grep -icE "${excluded_types}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [sample type]"
          file_name=$(echo $j | jq '.name' | sed 's/\"//g')
@@ -261,13 +261,13 @@ main() {
       fi
 
       # Lookup color code by disease code
-      color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -) 
+      color=$(csvgrep -c 1 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 7 -)
       if [[ "$color" == "Color" ]] || [[ "$color" == "<NA>" ]]
       then
          color='#aba9a9'
       fi
       # Lookup normalized long disease name by disease code
-      disease_name=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file | tail -n 1 | csvcut -c 2 - | sed 's/"//g') 
+      disease_name=$(csvgrep -c 1 -r "^${disease_code}$" $lookup_file | tail -n 1 | csvcut -c 2 - | sed 's/"//g')
 
       category=$(get_category "$j")
       if [[ "$category" == "Hematologic Malignancy" ]]
@@ -324,12 +324,12 @@ main() {
          dfci_ids="${dfci_ids} ${id}"
 
          # look up color and disease name values
-         color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -)
+         color=$(csvgrep -c 1 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 7 -)
          if [[ "$color" == "Color" ]] || [[ "$color" == "<NA>" ]]
          then
             color='#aba9a9'
          fi
-         disease_name=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file | tail -n 1 | csvcut -c 2 - | sed 's/"//g')
+         disease_name=$(csvgrep -c 1 -r "^${disease_code}$" $lookup_file | tail -n 1 | csvcut -c 2 - | sed 's/"//g')
 
          # build protocol string and write covariates to file
          protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
@@ -488,8 +488,8 @@ main() {
    docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
 
    cp combined_metadata.json $local_output_dir
-   cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
-   docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+   cp /stjude/metadata/metadata.csv $local_output_dir
+   docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/metadata.csv $tissue_arg"
 
    if [ ${#input_counts[@]} -gt 0 ]
    then
