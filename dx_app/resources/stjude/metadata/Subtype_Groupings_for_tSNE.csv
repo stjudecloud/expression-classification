@@ -357,7 +357,7 @@ SCST,Sex Cord Stromal Tumor,Solid Tumor,Ovary/Fallopian Tube,Sex Cord Stromal Tu
 SCUP,Solid Cancer of Unknown Primary,Solid Tumor,Other Solid Tumor,Miscelaneous Solid Tumor
 SCY,Serous cystadenoma,Solid Tumor,Non-Rhab. Soft Tissue Tumor,Serous cystadenoma
 SEGA,Subependymal Giant Cell Astrocytoma,Brain Tumor,Rare Brain Tumor,Subependymal Giant Cell Astrocytoma
-SEM,Seminoma,Brain Tumor,Rare Brain Tumor,Seminoma
+SEM,Seminoma,Germ Cell Tumor,Germ Cell Tumor,Seminoma
 SETTLE,Spindle Epithelial Tumor with Thymus-Like Differentiation,Solid Tumor,Thyroid,Spindle Epithelial Tumor with Thymus-Like Differentiation
 SFT,Solitary Fibrous Tumor/Hemangiopericytoma,Solid Tumor,Rare Solid Tumor,Solitary Fibrous Tumor/Hemangiopericytoma
 SGAT,Salivary gland anlage tumor,Solid Tumor,Head and Neck,Salivary gland anlage tumor
