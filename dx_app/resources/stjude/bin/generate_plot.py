@@ -90,6 +90,13 @@ if __name__ == "__main__":
   # Drop unneeded columns
   combined = combined.drop(columns=["samples", "classes", "diagnosisNames"])
 
+  # Fill group in a way to avoid duplicates
+  combined['group'] = combined['group'].fillna('unknown ' + combined['attr_diagnosis_group'])
+  # Fill unknown label values with sj_diseases
+  combined['label'] = combined['label'].fillna(combined['sj_diseases'])
+  # Fill unknown colors with black
+  combined['color'] = combined['color'].replace('Classification_tSNE_color (Manuscript)', 'black')
+  # Fill remaining missing metadata values with 'unknown'
   combined = combined.fillna("unknown")
 
   # Split user samples from reference samples
