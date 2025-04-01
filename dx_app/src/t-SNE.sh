@@ -17,6 +17,29 @@
 
 set -e -o pipefail
 
+# Function to fetch all colors from API
+function fetch_all_colors_from_api() {
+   local api_url="https://pecan.stjude.cloud/api/diseases/tsne_disease_colors"
+   local colors=$(curl -s "$api_url")
+   echo ${colors}
+}
+
+# Get color for a specific disease code
+function get_color_for_disease() {
+   local disease_code=$1
+   local colors_json=$2
+   local color=$(echo "$colors_json" | jq -r --arg code "$disease_code" '.data[] | select(.disease_code == $code) | .tsne_color')
+   echo ${color}
+}
+
+# Get disease name for a specific disease code
+function get_disease_name_for_disease() {
+   local disease_code=$1
+   local colors_json=$2
+   local disease_name=$(echo "$colors_json" | jq -r --arg code "$disease_code" '.data[] | select(.disease_code == $code) | .long_disease_name')
+   echo ${disease_name}
+}
+
 main() {
    echo "Value of tissue_type: '${tumor_type}'"
    echo "Value of all_strandedness: '${all_strandedness}'"
@@ -39,7 +62,6 @@ main() {
    container_reference_dir=/reference
    container_output_dir=/results
    metadata_file=/stjude/metadata/combined.csv
-   lookup_file=/stjude/metadata/paper_vs_database_diagnosis_v4_normalized_AlexUpdatesV2_LOOKUP_tSNE.csv
    mkdir $local_reference_dir
    mkdir $local_output_dir
 
@@ -141,6 +163,10 @@ main() {
    function get_category(){
       echo $(get_property "$1" 'attr_diagnosis_group')
    }
+
+   # Fetch all colors once
+   echo "Fetching all colors from API..."
+   all_colors=$(fetch_all_colors_from_api)
 
    echo ""
    echo "  [*] Retrieving covariates for reference data ..."
@@ -261,13 +287,13 @@ main() {
       fi
 
       # Lookup color code by disease code
-      color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -) 
-      if [[ "$color" == "Color" ]] || [[ "$color" == "<NA>" ]]
+      color=$(get_color_for_disease "$disease_code" "$all_colors")
+      if [[ "$color" == "null" ]] || [[ -z "$color" ]]
       then
          color='#aba9a9'
       fi
       # Lookup normalized long disease name by disease code
-      disease_name=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file | tail -n 1 | csvcut -c 2 - | sed 's/"//g') 
+      disease_name=$(get_disease_name_for_disease "$disease_code" "$all_colors")
 
       category=$(get_category "$j")
       if [[ "$category" == "Hematologic Malignancy" ]]
@@ -324,12 +350,12 @@ main() {
          dfci_ids="${dfci_ids} ${id}"
 
          # look up color and disease name values
-         color=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file |tail -n 1|  csvcut -c 6 -)
-         if [[ "$color" == "Color" ]] || [[ "$color" == "<NA>" ]]
+         color=$(get_color_for_disease "$disease_code" "$all_colors")
+         if [[ "$color" == "null" ]] || [[ -z "$color" ]]
          then
             color='#aba9a9'
          fi
-         disease_name=$(csvgrep -c 3 -r "^${disease_code}$" $lookup_file | tail -n 1 | csvcut -c 2 - | sed 's/"//g')
+         disease_name=$(get_disease_name_for_disease "$disease_code" "$all_colors")
 
          # build protocol string and write covariates to file
          protocol="${strandedness}_${librarytype}_${pairing}_${readlength}"
