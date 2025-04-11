@@ -29,20 +29,20 @@ AMKL,Acute Myeloid Leukemia,Acute Megakaryoblastic Leukemia
 AMKLCBFA2T3GLIS2,Acute Myeloid Leukemia,"Acute Megakaryoblastic Leukemia, CBFA2T3-GLIS2"
 AMKLKMT2A,Acute Myeloid Leukemia,"Acute Megakaryoblastic Leukemia, KMT2A rearrangement"
 AML,Acute Myeloid Leukemia,Acute Myeloid Leukemia
-AMLCBFA2T3GLIS2,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, CBFA2T3-GLIS2"
-AMLCBFBMYH11,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, CBFB-MYH11"
-AMLCBFNOS,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, Core Binding Factor, NOS"
-AMLCEBPA,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, biallelic CEBPA alteration"
-AMLETS,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, ETS family rearrangement"
-AMLKMT2A,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, KMT2A rearrangement"
-AMLNOS,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, NOS"
-AMLNPM1,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, NPM1 alteration"
-AMLNUP98,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, NUP98 rearrangement"
-AMLPICALMMLLT10,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, PICALM-MLLT10"
-AMLRUNX1CBFA2T2,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, RUNX1-CBFA2T2"
-AMLRUNX1CBFA2T3,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, RUNX1-CBFA2T3"
-AMLRUNX1RUNX1T1,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, RUNX1-RUNX1T1"
-AMLRUNX1RUNX1T1L,Acute Myeloid Leukemia,"Acute Myeloid Leukemia, RUNX1-RUNX1T1 like"
+AMLCBFA2T3GLIS2,Acute Myeloid Leukemia,CBFA2T3-GLIS2
+AMLCBFBMYH11,Acute Myeloid Leukemia,CBFB-MYH11
+AMLCBFNOS,Acute Myeloid Leukemia,"Core Binding Factor, NOS"
+AMLCEBPA,Acute Myeloid Leukemia,biallelic CEBPA alteration
+AMLETS,Acute Myeloid Leukemia,ETS family rearrangement
+AMLKMT2A,Acute Myeloid Leukemia,KMT2A rearrangement
+AMLNOS,Acute Myeloid Leukemia,NOS
+AMLNPM1,Acute Myeloid Leukemia,NPM1 alteration
+AMLNUP98,Acute Myeloid Leukemia,NUP98 rearrangement
+AMLPICALMMLLT10,Acute Myeloid Leukemia,PICALM-MLLT10
+AMLRUNX1CBFA2T2,Acute Myeloid Leukemia,RUNX1-CBFA2T2
+AMLRUNX1CBFA2T3,Acute Myeloid Leukemia,RUNX1-CBFA2T3
+AMLRUNX1RUNX1T1,Acute Myeloid Leukemia,RUNX1-RUNX1T1
+AMLRUNX1RUNX1T1L,Acute Myeloid Leukemia,RUNX1-RUNX1T1 like
 AMML,Acute Myeloid Leukemia,Acute Myelomonocytic Leukemia
 AMMLKMT2A,Acute Myeloid Leukemia,"Acute Myelomonocytic Leukemia, KMT2A rearrangement"
 AMMLNPM1,Acute Myeloid Leukemia,"Acute Myelomonocytic Leukemia, NPM1 alteration"
@@ -111,6 +111,7 @@ BLLTCF3PBX1,Non-Hodgkin Lymphoma,"B-cell Lymphoblastic Lymphoma, TCF3-PBX1"
 BMGCT,Germ Cell Tumor,"Mixed Germ Cell Tumor, Brain"
 BMT,Germ Cell Tumor,Mature Teratoma
 BPDCN,Rare Hematologic Malignancy,Blastic Plasmacytoid Dendritic Cell Neoplasm
+BSARC,Other Brain Tumor,Brain Sarcoma
 BT,NA,NA
 BTNOS,Other Brain Tumor,"Brain Tumor, NOS"
 BYST,Germ Cell Tumor,"Yolk Sac Tumor, Brain"
@@ -244,11 +245,11 @@ MACR,Rare Solid Tumor,Mucinous Adenocarcinoma of the Colon and Rectum
 MAO,Ovary/Fallopian Tube,"Mucinous Adenocarcinoma, Ovarian"
 MB,NA,NA
 MBENSHH,Medulloblastoma,"Medulloblastoma with Extensive Nodularity, SHH subtype"
-MBL,Medulloblastoma,"Medulloblastoma, NOS"
-MBLG3,Medulloblastoma,"Medulloblastoma, Group 3"
-MBLG4,Medulloblastoma,"Medulloblastoma, Group 4"
-MBLSHH,Medulloblastoma,"Medulloblastoma, SHH subtype"
-MBLWNT,Medulloblastoma,"Medulloblastoma, WNT subtype"
+MBL,Medulloblastoma,NOS
+MBLG3,Medulloblastoma,Group 3
+MBLG4,Medulloblastoma,Group 4
+MBLSHH,Medulloblastoma,SHH subtype
+MBLWNT,Medulloblastoma,WNT subtype
 MBN,Non-Hodgkin Lymphoma,Mature B-Cell Neoplasms
 MBOV,Rare Solid Tumor,Mucinous Borderline Ovarian Tumor
 MBT,Other Brain Tumor,Miscellaneous Brain Tumor
@@ -381,16 +382,16 @@ STP,Rare Solid Tumor,Soft Tissue Perineuroma
 STSNOS,Rare Solid Tumor,"Soft Tissue Sarcoma, NOS"
 SYNS,Non-Rhab. Soft Tissue Tumor,Synovial Sarcoma
 TALL,T-cell Lymphoblastic Leukemia,Other
-TALLBCL11B,T-cell Lymphoblastic Leukemia,"T-Cell Acute Lymphoblastic Leukemia, BCL11B rearrangement"
-TALLHOXA,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, HOXA rearrangement"
-TALLKMT2A,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, KMT2A rearrangement"
-TALLLMO1,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, LMO1 rearrangement"
-TALLLMO2,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, LMO2 rearrangement"
-TALLNKX2,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, NKX2 rearrangement"
-TALLNOS,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, NOS"
-TALLTAL1,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, TAL1 rearrangement"
-TALLTLX1,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, TLX1 rearrangement"
-TALLTLX3,T-cell Lymphoblastic Leukemia,"T-cell Acute Lymphoblastic Leukemia, TLX3 rearrangement"
+TALLBCL11B,T-cell Lymphoblastic Leukemia,BCL11B rearrangement
+TALLHOXA,T-cell Lymphoblastic Leukemia,HOXA rearrangement
+TALLKMT2A,T-cell Lymphoblastic Leukemia,KMT2A rearrangement
+TALLLMO1,T-cell Lymphoblastic Leukemia,LMO1 rearrangement
+TALLLMO2,T-cell Lymphoblastic Leukemia,LMO2 rearrangement
+TALLNKX2,T-cell Lymphoblastic Leukemia,NKX2 rearrangement
+TALLNOS,T-cell Lymphoblastic Leukemia,NOS
+TALLTAL1,T-cell Lymphoblastic Leukemia,TAL1 rearrangement
+TALLTLX1,T-cell Lymphoblastic Leukemia,TLX1 rearrangement
+TALLTLX3,T-cell Lymphoblastic Leukemia,TLX3 rearrangement
 TAML,Other Hematologic Malignancy,Therapy-Related Acute Myeloid Leukemia
 TEOS,Bone,Telangiectatic Osteosarcoma
 TFAPH,Thyroid,Thyroid Gland Follicular Adenoma with Papillary Hyperplasia
