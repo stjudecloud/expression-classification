@@ -15,7 +15,7 @@
 # See https://wiki.dnanexus.com/Developer-Portal for tutorials on how
 # to modify this file.
 
-set -e -o pipefail #-o xtrace
+set -e -o pipefail
 
 # Function to fetch all colors from API
 function fetch_all_colors_from_api() {
@@ -58,7 +58,6 @@ function get_disease_name_for_disease() {
 }
 
 main() {
-   set -o xtrace
    echo "Value of tissue_type: '${tumor_type}'"
    echo "Value of all_strandedness: '${all_strandedness}'"
    echo "Value of all_library_type: '${all_library_type}'"
@@ -88,13 +87,6 @@ main() {
    echo "=== Setup ==="
    echo "  [*] Check for duplicate files ..."
 
-   # Get file names for reference count files
-   # file_names=()
-   # for ((i = 0; i < ${#reference_counts_name[@]}; i++))
-   # do
-   #    name=${reference_counts_name[$i]}
-   #    file_names+=( $name )
-   # done
    echo "   Getting unique file count"
    uniqueNum=$(printf '%s\n' "${reference_counts_name[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
    duplicateFiles=$(printf '%s\n' "${reference_counts_name[@]}"|awk '!($0 in seen){seen[$0];next} 1' | xargs echo)
@@ -120,18 +112,11 @@ main() {
    mkdir -p $HOME/in/reference_counts/
    echo $ids | xargs -n 1 | sed "s#^#dx download -f -o $HOME/in/reference_counts/ --no-progress ${DX_PROJECT_CONTEXT_ID}:#" > download_all.sh
    time parallel --retries 20 --results download_outputs --joblog download.log --jobs 200% < download_all.sh > download.stdout
-   # --jobs 200% may be triggering a kill in the DNAnexus space. maybe it was the `time` command?. Nope the error was below.
 
    # Loop over the inputs, if any, store IDs and download in parallel
    input_ids=""
    if [ ${#input_counts[@]} -gt 0 ]
    then
-      # for ((i = 0; i < ${#input_counts[@]}; i++))
-      # do
-      #    id=${input_counts[$i]}
-      #    clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
-      #    input_ids="$input_ids $clip"
-      # done
       input_ids=$(jq -r ".input_counts | map(.["$dnanexus_link"]) | join(\" \")" job_input.json)
 
       mkdir -p $HOME/in/input_counts/
@@ -189,11 +174,7 @@ main() {
 
    # Get metadata in parallel for reference data
    echo "Getting metadata for all samples"
-   # json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
-   set +o xtrace
    fetch_sample_metadata_from_api > metadata.json
-   # Pass through jq because bulk_describe can produce multiple json arrays.
-   # echo $json | jq --slurp "flatten" > metadata.json
 
    # Prepare filters
    excluded_types='germline|cell line'
@@ -215,22 +196,11 @@ main() {
 
    for id in $(echo ${reference_counts[@]} | jq -r ".[$dnanexus_link]")
    do
-      # id=${reference_counts[$i]}
-      # clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
-
       j=$(jq -c ".[] | select(.file_id == \"$id\")" metadata.json)
       IFS=$'\t' read -r sample_name disease_code projects strandedness librarytype readlength pairing platform type preservative category file_path < <(echo $j | jq -r  "select(.file_id == \"$id\") | [.sample_name, .sj_diseases, .sj_datasets, .attr_lab_strandedness, .attr_library_selection_protocol, .attr_read_length, .attr_read_type, .attr_sequencing_platform, .sample_type, .attr_tissue_preservative, .attr_diagnosis_group, .file_path] | @tsv")
 
       file_name=$(basename $file_path)
-      # sample_name=$(get_sample_name "$j")
-
-      # disease_code=$(get_disease_code "$j")
-
-      # projects=$(get_project "$j")
-
-      # Strandedness: [Unstranded, Stranded-Forward, Stranded-Reverse]
-      # strandedness=$(get_strandedness "$j")
-
+     
       if [[ "$strandedness" == "Not Available" ]]
       then 
          strandedness="Stranded-Reverse" 
@@ -240,68 +210,55 @@ main() {
       elif [[ "$strandedness" == "undetermined" ]] || [[ "$strandedness" == "Undetermined" ]]
       then 
          echo "Rejecting sample: ${sample_name} [strandedness]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Library type: [total, polyA]
-      # librarytype=$(get_library "$j")
       if [[ "$librarytype" == "Not Available" ]]
       then
          echo "Rejecting sample: ${sample_name} [library type]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Read length in base pairs
-      # readlength=$(get_readlen "$j")
       if [[ "$readlength" == "Not Available" ]] || [ $(echo $readlength | grep -c "and") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [read length]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Read pairing: [Paired-end, Single-end]
-      # pairing=$(get_pairing "$j")
       if [[ "$pairing" == "Not Available" ]]
       then
          echo "Rejecting sample: ${sample_name} [read pairing]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Remove machines: MiSeq, SOLEXA, or unknown
       # 2020-11-09: AG - keep mixed machines
-      # platform=$(get_platform "$j")
       if [ $(echo $platform | grep -cE 'MiSeq|SOLEXA|Not Available') -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [platform]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Check for sample type. Remove germline, cell line, xenograft
-      # type=$(get_type "$j")
       if [ $(echo $type | grep -cE "${excluded_types}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [sample type]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Remove user defined samples with selected preservatives
-      # preservative=$(get_preservative "$j")
       if [ $(echo $preservative | grep -cE "${excluded_preservatives}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [preservative]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
@@ -329,7 +286,6 @@ main() {
          echo "$j" >> tmp_metadata.json
       else
          echo "Rejecting sample: ${sample_name} [category]"
-         # file_name=$(basename $(echo $j | jq '.properties.file_path'))
          rm -f $HOME/in/reference_counts/${file_name}
       fi
    done
@@ -337,7 +293,6 @@ main() {
    # Turn the metadata entries into and array, then nest everything under the "properties" key
    jq --slurp "flatten" tmp_metadata.json | jq '[.[] | {"properties": .}]' > filtered_metadata.json
 
-   set -o xtrace
    # Handle Dana Farber PDX samples
    if [ "${include_dfci_pdx}" == "true" ]
    then
@@ -494,7 +449,6 @@ main() {
       echo ${in_arg}
    fi
 
-   set -o xtrace
    # Check covariates for single sample batch
    covariate_counts=$(cut -f 2 ${covariates_file} | sort |grep -v "Protocol" | awk '{a[$1]++}END{for (i in a) print i,a[i] | "sort"}' OFS="\t")
    echo "Covariates:"
@@ -535,17 +489,17 @@ main() {
       gene_list_arg="--gene-list ${container_reference_dir}/gene_list.txt"
    fi
 
-   echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:v0.9.0 bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
+   echo "docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c \"cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}\""
 
-   docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:v0.9.0 bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
+   docker run -v $local_data_dir:$container_data_dir -v $local_reference_dir:$container_reference_dir -v $local_output_dir:$container_output_dir ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && itsne-main --debug-rscript -b $container_reference_dir/gene.excludelist.tsv -g $container_reference_dir/gencode.v31.annotation.gtf.gz -c $container_data_dir/covariates.txt -o $container_output_dir/${output_name} ${in_arg} ${infile_arg} $container_data_dir/reference_counts/*.txt --save-data ${tissue_arg} ${gene_list_arg}"
 
    cp combined_metadata.json $local_output_dir
    cp /stjude/metadata/Subtype_Groupings_for_tSNE.csv $local_output_dir
-   docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:v0.9.0 bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
+   docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && python /stjude/bin/generate_plot.py --tsne-file $container_output_dir/tsne.txt --metadata-file $container_output_dir/combined_metadata.json --subtype-file $container_output_dir/Subtype_Groupings_for_tSNE.csv $tissue_arg"
 
    if [ ${#input_counts[@]} -gt 0 ]
    then
-      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:v0.9.0 bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
+      docker run -v $local_output_dir:$container_output_dir -v /stjude/bin:/stjude/bin ghcr.io/stjudecloud/expression-classification:EXPRESSION_VERSION bash -c "cd $container_output_dir && python /stjude/bin/neighbors.py tsne.txt neighbors.tsv"
       mv $local_output_dir/neighbors.tsv $local_output_dir/${output_prefix}.neighbors.tsv
       neighbors_file=$(dx upload $local_output_dir/${output_prefix}.neighbors.tsv --brief)
       dx-jobutil-add-output neighbors "$neighbors_file" --class=file
