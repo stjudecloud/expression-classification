@@ -24,6 +24,23 @@ function fetch_all_colors_from_api() {
    echo ${colors}
 }
 
+# Fetch sample metadata from API
+function fetch_sample_metadata_from_api() {
+   (
+      local api_url="https://platform.stjude.cloud/api/v1/manifest?limit=10000"
+      local metadata=$(curl -s "$api_url")
+      echo $metadata | jq -c '.result'
+      local next_url=$(echo $metadata | jq -r .links.next)
+      while [ -n $next_url ] && [ "$next_url" != "null" ];
+      do
+         metadata=$(curl -s "$next_url")
+         echo $metadata | jq -c '.result'
+         next_url=$(echo $metadata | jq -r .links.next)
+      done
+   ) | jq -s 'add' | jq 'map(select(.file_type == "FEATURE_COUNTS"))'
+   echo ${result}
+}
+
 # Get color for a specific disease code
 function get_color_for_disease() {
    local disease_code=$1
@@ -70,24 +87,17 @@ main() {
    echo "=== Setup ==="
    echo "  [*] Check for duplicate files ..."
 
-   # Get file names for reference count files
-   file_names=()
-   for ((i = 0; i < ${#reference_counts_name[@]}; i++))
-   do
-      name=${reference_counts_name[$i]}
-      file_names+=( $name )
-   done
    echo "   Getting unique file count"
-   uniqueNum=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
-   duplicateFiles=$(printf '%s\n' "${file_names[@]}"|awk '!($0 in seen){seen[$0];next} 1' | xargs echo)
+   uniqueNum=$(printf '%s\n' "${reference_counts_name[@]}"|awk '!($0 in seen){seen[$0];c++} END {print c}')
+   duplicateFiles=$(printf '%s\n' "${reference_counts_name[@]}"|awk '!($0 in seen){seen[$0];next} 1' | xargs echo)
 
-   (( 0 == ${#file_names[@]} )) && echo "Found no reference files" && \
+   (( 0 == ${#reference_counts_name[@]} )) && echo "Found no reference files" && \
    echo "{\"error\": {\"type\": \"AppError\", \"message\": \"No reference files found.\"}}" > job_error.json && \
    exit 1
 
 
    echo "   Checking unique file count"
-   (( $uniqueNum != ${#file_names[@]} )) && echo "Found duplicates" && \
+   (( $uniqueNum != ${#reference_counts_name[@]} )) && echo "Found duplicates" && \
    echo $duplicateFiles && \
    echo "Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/stjudecloud_utilities/deduplicate_feature_counts.py" && \
    echo "{\"error\": {\"type\": \"AppError\", \"message\": \"Duplicate file names found. $duplicateFiles. Consider deduplicating with https://github.com/stjudecloud/utilities/blob/master/stjudecloud_utilities/deduplicate_feature_counts.py.\"}}" > job_error.json && \
@@ -95,30 +105,19 @@ main() {
 
    echo "  [*] Downloading input files ..."
    # Get the file ids of the reference count data
-   ids=""
-   for ((i = 0; i < ${#reference_counts[@]}; i++))
-   do
-      id=${reference_counts[$i]}
-      clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
-      ids="$ids $clip"
-   done
+   ids=$(jq -r ".reference_counts | map(.["$dnanexus_link"]) | join(\" \")" job_input.json)
 
    # Setup the download location for reference counts and create the download commands
    # Download with GNU parallel
    mkdir -p $HOME/in/reference_counts/
    echo $ids | xargs -n 1 | sed "s#^#dx download -f -o $HOME/in/reference_counts/ --no-progress ${DX_PROJECT_CONTEXT_ID}:#" > download_all.sh
-   parallel --retries 20 --results download_outputs --joblog download.log < download_all.sh > download.stdout
+   time parallel --retries 20 --results download_outputs --joblog download.log --jobs 200% < download_all.sh > download.stdout
 
    # Loop over the inputs, if any, store IDs and download in parallel
    input_ids=""
    if [ ${#input_counts[@]} -gt 0 ]
    then
-      for ((i = 0; i < ${#input_counts[@]}; i++))
-      do
-         id=${input_counts[$i]}
-         clip=$(echo $id | jq '.["$dnanexus_link"]' | sed s'/"//g')
-         input_ids="$input_ids $clip"
-      done
+      input_ids=$(jq -r ".input_counts | map(.["$dnanexus_link"]) | join(\" \")" job_input.json)
 
       mkdir -p $HOME/in/input_counts/
       echo $input_ids | xargs -n 100 | sed "s#^#dx download -o $HOME/in/input_counts/ --no-progress #" > download_inputs.sh
@@ -175,9 +174,7 @@ main() {
 
    # Get metadata in parallel for reference data
    echo "Getting metadata for all samples"
-   json=$(echo $ids | xargs python3 /stjude/bin/bulk_describe.py -p $DX_PROJECT_CONTEXT_ID --ids )
-   # Pass through jq because bulk_describe can produce multiple json arrays.
-   echo $json | jq --slurp "flatten" > metadata.json
+   fetch_sample_metadata_from_api > metadata.json
 
    # Prepare filters
    excluded_types='germline|cell line'
@@ -196,93 +193,73 @@ main() {
       excluded_preservatives="${excluded_preservatives}|Fresh/Frozen"
    fi 
 
-   # Parse metadata for reference files
-   echo "Parsing metadata for each sample"
-   echo $json | jq -c '.[]' | while read j
+
+   for id in $(echo ${reference_counts[@]} | jq -r ".[$dnanexus_link]")
    do
-      sample_name=$(get_sample_name "$j")
+      j=$(jq -c ".[] | select(.file_id == \"$id\")" metadata.json)
+      IFS=$'\t' read -r sample_name disease_code projects strandedness librarytype readlength pairing platform type preservative category file_path < <(echo $j | jq -r  "select(.file_id == \"$id\") | [.sample_name, .sj_diseases, .sj_datasets, .attr_lab_strandedness, .attr_library_selection_protocol, .attr_read_length, .attr_read_type, .attr_sequencing_platform, .sample_type, .attr_tissue_preservative, .attr_diagnosis_group, .file_path] | @tsv")
 
-      disease_code=$(get_disease_code "$j")
-
-      projects=$(get_project "$j")
-
-      # Strandedness: [Unstranded, Stranded-Forward, Stranded-Reverse]
-      strandedness=$(get_strandedness "$j")
-
+      file_name=$(basename $file_path)
+     
       if [[ "$strandedness" == "Not Available" ]]
       then 
-         strandedness="Stranded-Reverse"
-      fi 
-      if [[ "$strandedness" == "Strandedness unclear" ]]
+         strandedness="Stranded-Reverse" 
+      elif [[ "$strandedness" == "Strandedness unclear" ]]
       then 
-         strandedness="Stranded-Reverse"
-      fi 
-      if [[ "$strandedness" == "undetermined" ]] || [[ "$strandedness" == "Undetermined" ]]
+         strandedness="Stranded-Reverse" 
+      elif [[ "$strandedness" == "undetermined" ]] || [[ "$strandedness" == "Undetermined" ]]
       then 
          echo "Rejecting sample: ${sample_name} [strandedness]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Library type: [total, polyA]
-      librarytype=$(get_library "$j")
       if [[ "$librarytype" == "Not Available" ]]
       then
          echo "Rejecting sample: ${sample_name} [library type]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Read length in base pairs
-      readlength=$(get_readlen "$j")
       if [[ "$readlength" == "Not Available" ]] || [ $(echo $readlength | grep -c "and") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [read length]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Read pairing: [Paired-end, Single-end]
-      pairing=$(get_pairing "$j")
       if [[ "$pairing" == "Not Available" ]]
       then
          echo "Rejecting sample: ${sample_name} [read pairing]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Remove machines: MiSeq, SOLEXA, or unknown
       # 2020-11-09: AG - keep mixed machines
-      platform=$(get_platform "$j")
       if [ $(echo $platform | grep -cE 'MiSeq|SOLEXA|Not Available') -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [platform]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Check for sample type. Remove germline, cell line, xenograft
-      type=$(get_type "$j")
       if [ $(echo $type | grep -cE "${excluded_types}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [sample type]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
       # Remove user defined samples with selected preservatives
-      preservative=$(get_preservative "$j")
       if [ $(echo $preservative | grep -cE "${excluded_preservatives}") -gt 0 ]
       then
          echo "Rejecting sample: ${sample_name} [preservative]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
          continue
       fi
 
@@ -306,12 +283,15 @@ main() {
       if [[ "$tumor_type" == "All" ]]  || [[ "$tumor_type" == "$category" ]]
       then
          echo -e "${sample_name}\t${protocol}\t${disease_code}\t${disease_name}\t${color}\t${projects}\t${preservative}" | sed 's/"//g' >> ${covariates_file}
+         echo "$j" >> tmp_metadata.json
       else
          echo "Rejecting sample: ${sample_name} [category]"
-         file_name=$(echo $j | jq '.name' | sed 's/\"//g')
-         rm $HOME/in/reference_counts/${file_name}
+         rm -f $HOME/in/reference_counts/${file_name}
       fi
    done
+
+   # Turn the metadata entries into and array, then nest everything under the "properties" key
+   jq --slurp "flatten" tmp_metadata.json | jq '[.[] | {"properties": .}]' > filtered_metadata.json
 
    # Handle Dana Farber PDX samples
    if [ "${include_dfci_pdx}" == "true" ]
@@ -378,9 +358,9 @@ main() {
    # both elements are arrays. So the output is a concatentated array.
    if [ "${include_dfci_pdx}" == "true" ]
    then
-      jq -s add metadata.json dfci_metadata.json  > combined_metadata.json
+      jq -s add filtered_metadata.json dfci_metadata.json  > combined_metadata.json
    else
-      jq -s add metadata.json > combined_metadata.json
+      jq -s add filtered_metadata.json > combined_metadata.json
    fi
 
 
