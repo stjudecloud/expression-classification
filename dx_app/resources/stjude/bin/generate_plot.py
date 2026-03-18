@@ -78,8 +78,8 @@ if __name__ == "__main__":
   combined['highlight'] = combined.apply(lambda row: label_samples(row), axis=1)
 
   # Drop unneeded columns
-  combined = combined.drop(columns=["id", "name", "folder",  "sj_access_unit", "sj_dataset_accessions", "sj_pmid_accessions", "file_type", "sj_embargo_date", "sj_pipeline_name", "sj_pipeline_version", "sj_pub_accessions", "sj_publication_titles", "projects"])
-  combined = combined.drop(columns=["sj_disease"])
+  combined = combined.drop(columns=["id", "name", "folder",  "sj_access_unit", "sj_dataset_accessions", "sj_pmid_accessions", "file_type", "sj_embargo_date", "sj_pipeline_name", "sj_pipeline_version", "sj_pub_accessions", "sj_publication_titles", "projects"], errors="ignore")
+  combined = combined.drop(columns=["sj_disease"], errors="ignore")
 
   # Copy user submitted sample names to the standard 'sample_name' column
   combined['sample_name'] = combined['sample_name'].fillna(combined['samples'])
@@ -88,7 +88,7 @@ if __name__ == "__main__":
   #combined = combined.rename(columns={"sj_long_disease_name_x": "sj_long_disease_name"})
 
   # Drop unneeded columns
-  combined = combined.drop(columns=["samples", "classes", "diagnosisNames"])
+  combined = combined.drop(columns=["samples", "classes", "diagnosisNames"], errors="ignore")
 
   # Fill group in a way to avoid duplicates
   combined['group'] = combined['group'].fillna('Other ' + combined['attr_diagnosis_group'])
