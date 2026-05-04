@@ -272,7 +272,6 @@ main() {
       # Lookup normalized long disease name by disease code
       disease_name=$(get_disease_name_for_disease "$disease_code" "$all_colors")
 
-      category=$(get_category "$j")
       if [[ "$category" == "Hematologic Malignancy" ]]
       then
          category="Blood Cancer"
