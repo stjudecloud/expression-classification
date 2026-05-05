@@ -272,7 +272,6 @@ main() {
       # Lookup normalized long disease name by disease code
       disease_name=$(get_disease_name_for_disease "$disease_code" "$all_colors")
 
-      category=$(get_category "$j")
       if [[ "$category" == "Hematologic Malignancy" ]]
       then
          category="Blood Cancer"
@@ -290,7 +289,13 @@ main() {
       fi
    done
 
-   # Turn the metadata entries into and array, then nest everything under the "properties" key
+   if [ ! -e "tmp_metadata.json" ]
+   then
+      echo "{\"error\": {\"type\": \"AppError\", \"message\": \"No reference samples passed filtering criteria.\"}}" > job_error.json
+      exit 1
+   fi
+
+   # Turn the metadata entries into an array, then nest everything under the "properties" key
    jq --slurp "flatten" tmp_metadata.json | jq '[.[] | {"properties": .}]' > filtered_metadata.json
 
    # Handle Dana Farber PDX samples

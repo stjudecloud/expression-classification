@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 AS builder
+FROM ubuntu:24.04 AS builder
 
 RUN apt-get update \
     && apt-get upgrade -y \ 
