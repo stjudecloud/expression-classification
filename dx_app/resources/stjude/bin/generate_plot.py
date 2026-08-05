@@ -58,6 +58,8 @@ if __name__ == "__main__":
   # Trim precision on x/y coordinates
   matrix = matrix.round({'t1': 2, 't2': 2})
   # Read the metadata file
+  print("Metadata file")
+  print(args.metadata_file)
   metadata = pd.read_json(args.metadata_file)
 
   # Convert metadata JSON column 'properties' into a table. 

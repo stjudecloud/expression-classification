@@ -179,7 +179,7 @@ distMat <- dist(t(dataMatrixTop))
 
 set.seed(opt$seed)
 cat("Running Rtsne\n", file = stderr())
-tsne_out <- Rtsne(distMat, dims = 2, perplexity = opt$`tsne-perplexity`,
+tsne_out <- Rtsne(distMat, dims = 3, perplexity = opt$`tsne-perplexity`,
                   theta = opt$`tsne-theta`, max_iter = opt$`tsne-max-iterations`, check_duplicates = F,
                   num_threads = 0 )
 cat("Saving Rtsne output\n", file = stderr())
@@ -188,9 +188,10 @@ write.table(data.frame(tsne_out$Y), file="tsne_output.txt", sep="\t",quote=FALSE
 cat("Plotting...\n", file = stderr())
 # Create plot data objects
 toPlot <- data.frame(tsne_out$Y)
-colnames(toPlot) <- c("t1", "t2")
+colnames(toPlot) <- c("t1", "t2", "t3")
 unknownX<-toPlot[nrow(toPlot),1]
 unknownY<-toPlot[nrow(toPlot),2]
+unknownZ<-toPlot[nrow(toPlot),3]
 toPlot$classes   <- diagnosis
 toPlot$samples <- samples
 toPlot$color <- colors
