@@ -1,10 +1,12 @@
 {
-  "name": "stjude_tsne",
-  "title": "St. Jude Cloud Interactive t-SNE",
+  "name": "stjude_tsne_test",
+  "title": "St. Jude Cloud Interactive t-SNE (TEST)",
   "summary": "Produce a t-SNE plot that highlights input sample(s) against a cohort of existing samples.",
   "dxapi": "1.0.0",
-  "version": "EXPRESSION_SHORT_VERSION",
-  "developers": [ "user-athrashe" ],
+  "version": "0.8.2",
+  "developers": [
+    "user-athrashe"
+  ],
   "authorizedUsers": [
     "user-athrashe",
     "org-stjude_cloud_app_runners",
@@ -17,7 +19,9 @@
       "class": "array:file",
       "optional": true,
       "help": "Provide a cohort of samples to use as reference data",
-      "patterns": [ "*.feature-counts.txt" ]
+      "patterns": [
+        "*.feature-counts.txt"
+      ]
     },
     {
       "name": "input_counts",
@@ -25,9 +29,11 @@
       "class": "array:file",
       "optional": true,
       "help": "Provide sample(s) to compare. File must have the following properties: sample_name, library_type, read_length, strandedness, and pairing.",
-      "patterns": [ "*.feature-counts.txt" ]
+      "patterns": [
+        "*.feature-counts.txt"
+      ]
     },
-    { 
+    {
       "name": "tumor_type",
       "label": "Reference tumor type(s)",
       "class": "string", 
@@ -38,7 +44,7 @@
     },
     {
       "name": "output_name",
-      "label": "Output file name", 
+      "label": "Output file name",
       "class": "string",
       "default": "samples.html",
       "help": "Specify a filename for the output HTML plot. Name should be a valid unix file name (e.g. no space or reserved characters).",
@@ -48,44 +54,62 @@
       "name": "preservatives",
       "label": "FFPE and/or Fresh/Frozen",
       "class": "string",
-      "choices": ["FFPE", "Fresh/Frozen", "all"],
+      "choices": [
+        "FFPE",
+        "Fresh/Frozen",
+        "all"
+      ],
       "optional": false,
       "help": "Specify preservative(s) to include in analysis.",
       "default": "Fresh/Frozen",
       "group": "Analysis Settings"
     },
-    { 
+    {
       "name": "all_strandedness",
-      "label": "Strandedness", 
-      "class": "string", 
-      "choices": ["Stranded-Forward", "Stranded-Reverse", "Unstranded"],
+      "label": "Strandedness",
+      "class": "string",
+      "choices": [
+        "Stranded-Forward",
+        "Stranded-Reverse",
+        "Unstranded"
+      ],
       "optional": true,
       "help": "Specify whether library was stranded. This option will apply to any input samples without a specification.",
       "group": "Input sample parameters"
     },
-    { 
+    {
       "name": "all_library_type",
-      "label": "Library type", 
-      "class": "string", 
-      "choices": ["PolyA", "Total"],
+      "label": "Library type",
+      "class": "string",
+      "choices": [
+        "PolyA",
+        "Total"
+      ],
       "optional": true,
       "help": "Specify library type. This option will apply to any input samples without a specification.",
       "group": "Input sample parameters"
     },
-    { 
+    {
       "name": "all_read_length",
-      "label": "Read length", 
-      "class": "string", 
-      "choices": ["101", "126", "150"],
+      "label": "Read length",
+      "class": "string",
+      "choices": [
+        "101",
+        "126",
+        "150"
+      ],
       "optional": true,
       "help": "Specify read length. This option will apply to any input samples without a specification.",
       "group": "Input sample parameters"
     },
-    { 
+    {
       "name": "all_pairing",
-      "label": "Read pairing", 
-      "class": "string", 
-      "choices": ["Paired-end", "Single-end"],
+      "label": "Read pairing",
+      "class": "string",
+      "choices": [
+        "Paired-end",
+        "Single-end"
+      ],
       "optional": true,
       "help": "Specify read pairing. This option will apply to any input samples without a specification.",
       "group": "Input sample parameters"
@@ -95,7 +119,13 @@
       "label": "Return intermediate file",
       "class": "string",
       "optional": true,
-      "choices": ["original_matrix", "variance_stabilized", "batch_corrected", "tsne_output", "matrix"],
+      "choices": [
+        "original_matrix",
+        "variance_stabilized",
+        "batch_corrected",
+        "tsne_output",
+        "matrix"
+      ],
       "help": "If desired, return data from an intermediate point in the analysis. 'original_matrix' is the matrix of counts. 'variance_stabilized' is the matrix after running varianceStabilizingTransformation. 'batch_corrected' is the matrix after ComBat batch correction. 'tsne_output' is the matrix after Rtsne has been run. 'matrix' is the file input to the R script for plotting.",
       "group": "Analysis Settings"
     },
@@ -122,7 +152,6 @@
       "help": "If true, DFCI PDX samples will be included in the t-SNE to facilitate model selection",
       "group": "Analysis Settings"
     }
-
   ],
   "outputSpec": [
     {
@@ -181,11 +210,24 @@
     "distribution": "Ubuntu",
     "file": "src/t-SNE.sh",
     "execDepends": [
-       { "name": "parallel"},
-       { "name": "aria2"},
-       { "name": "csvkit", "package_manager": "pip"},
-       { "name": "pandas", "package_manager": "pip"},
-       { "name": "logzero", "package_manager": "pip"}
+      {
+        "name": "parallel"
+      },
+      {
+        "name": "aria2"
+      },
+      {
+        "name": "csvkit",
+        "package_manager": "pip"
+      },
+      {
+        "name": "pandas",
+        "package_manager": "pip"
+      },
+      {
+        "name": "logzero",
+        "package_manager": "pip"
+      }
     ]
   },
   "regionalOptions": {
@@ -199,8 +241,8 @@
   },
   "access": {
     "network": [
-      "*" 
+      "*"
     ],
     "allProjects": "VIEW"
-  } 
+  }
 }
